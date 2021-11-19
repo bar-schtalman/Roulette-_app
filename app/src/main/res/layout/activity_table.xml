@@ -4,6 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradiant_backdround"
     tools:context=".Table">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="379dp"
+        android:layout_height="421dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.438"
+        app:srcCompat="@drawable/aaaaaa" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/spin"
+        android:layout_width="158dp"
+        android:layout_height="51dp"
+        android:background="@drawable/costume_button"
+        android:fontFamily="@font/spike_speak_straight"
+
+        android:text="spin"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.936"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.908"
+        app:strokeColor="#F61010" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bet"
+        android:layout_width="158dp"
+        android:layout_height="51dp"
+        android:background="@drawable/costume_button"
+        android:fontFamily="@font/spike_speak_straight"
+
+        android:text="bet"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.908"
+        app:strokeColor="#F61010" />
+
+    <ImageView
+        android:id="@+id/ball"
+        android:layout_width="15dp"
+        android:layout_height="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.278"
+        app:srcCompat="@drawable/_0_502550_07_roulette_ball_thumbnail_onyx" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="228dp"
+        android:layout_height="65dp"
+        android:fontFamily="@font/spike_speak_straight"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.072" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

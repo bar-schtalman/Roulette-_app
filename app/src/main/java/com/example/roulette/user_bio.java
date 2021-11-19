@@ -24,7 +24,7 @@ public class user_bio extends AppCompatActivity {
     private DatabaseReference reference;
     private TextView welcome, first_name, last_name, email;
     private String UserID;
-    private Button button,edit;
+    private Button button,edit,play;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class user_bio extends AppCompatActivity {
                 startActivity(new Intent(user_bio.this,UserLogIn.class));
             }
         });
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         UserID = user.getUid();
@@ -86,12 +87,16 @@ public class user_bio extends AppCompatActivity {
         });
 
 
-
+        play = (Button) findViewById(R.id.play);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(user_bio.this,Table.class));
+            }
+        });
 
 
     }
 
-    public void openDialog() {
 
-    }
 }
