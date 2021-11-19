@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "792521822550",
+    "project_id": "roulette-577fc",
+    "storage_bucket": "roulette-577fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792521822550:android:8089d0e4c7dbd93e9c06f7",
+        "android_client_info": {
+          "package_name": "com.example.roulette"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792521822550-ir8pu9j45clnqi4mb6rma3fd8vkjmilc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIYPW3vnsJe8p3fll18xlj8Tm6iZtrvxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792521822550-ir8pu9j45clnqi4mb6rma3fd8vkjmilc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
