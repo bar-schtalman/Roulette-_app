@@ -27,6 +27,7 @@ public class register extends AppCompatActivity implements View.OnClickListener 
     private Button registerUser;
     private CheckBox box;
     private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +93,7 @@ public class register extends AppCompatActivity implements View.OnClickListener 
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
 
-                            User user = new User(full_name,email,balance);
+                            User user = new User(full_name,email,password);
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -102,7 +103,17 @@ public class register extends AppCompatActivity implements View.OnClickListener 
                                         progressBar.setVisibility(View.VISIBLE);
 
                                         Toast.makeText(register.this,"successfully",Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(register.this, UserLogIn.class));
+                                        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                if(task.isSuccessful()){
+                                                    startActivity(new Intent(register.this,user_bio.class));
+                                                }
+                                                else{
+                                                    Toast.makeText(register.this,"failed to register! please try check your email/password",Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
                                     }
                                     else{
                                         Toast.makeText(register.this,"failed!",Toast.LENGTH_LONG).show();

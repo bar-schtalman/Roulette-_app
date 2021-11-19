@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Roulette">
         <activity
+            android:name=".Table"
+            android:exported="false" />
+        <activity
             android:name=".EditProfile"
             android:exported="false" />
         <activity

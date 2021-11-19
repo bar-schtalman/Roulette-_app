@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -79,6 +80,8 @@ public class deposit extends AppCompatActivity {
                             String user_balance = user1.balance;
                             Long newAmount = Long.parseLong(user_balance) + Long.parseLong(c_amount);
                             reference.child(UserID).child("balance").setValue(String.valueOf(newAmount));
+                            Toast.makeText(deposit.this,"success! "+c_amount+"$ has been added to your account",Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(deposit.this,user_bio.class));
                         }
                     }
 
