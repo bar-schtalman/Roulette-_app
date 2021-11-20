@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class bet extends AppCompatActivity {
     private Button b1 ,b2 ,b3 ,b4 ,b5 ,b6 ,b7 ,b8 ,b9 ,b10 ,b11 ,b0 ,b12 ,b13 ,b14 ,b15 ,b16 ,b17 ,b18 ,b19
             ,b20 ,b21 ,b22 ,b23 ,b24 ,b25 ,b26 ,b27 ,b28 ,b29 ,b30 ,b31 ,b32 ,b33 ,b34 ,b35 ,b36,btn5,btn25,btn100,btn500;
-
 
 
     @Override
@@ -52,7 +52,10 @@ public class bet extends AppCompatActivity {
         b34 = (Button) findViewById(R.id.b34);
         b35 = (Button) findViewById(R.id.b35);
         b36 = (Button) findViewById(R.id.b36);
-
+        btn5 = (Button)findViewById(R.id.bet5);
+        btn25 = (Button)findViewById(R.id.bet25);
+        btn100 = (Button)findViewById(R.id.bet100);
+        btn500 = (Button)findViewById(R.id.bet500);
 
     }
 }

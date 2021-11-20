@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button button;
+    private Button bt;
 
 
 
@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
         Button button = findViewById(R.id.mode_player);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
