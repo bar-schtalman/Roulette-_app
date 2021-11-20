@@ -31,7 +31,6 @@ import java.util.Random;
 public class Table extends AppCompatActivity {
     TextView textView, textView12,user_amount,user_bet;
     Button spin,bet;
-    EditText bet_amount;
     ImageView imageView;
     Random r;
     private int degree, old_degree;
@@ -51,36 +50,33 @@ public class Table extends AppCompatActivity {
     private static final int [] sectorsDegrees = new int [sectors.length];
     private HashMap<Integer,Integer> MAP;
     private  String BET_STRING,UserID;
+    private EditText bet_amount;
     private static  final Random random = new Random();
 //    private static final float FACTOR =4.86f;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
+        imageView = (ImageView)findViewById(R.id.imageView) ;
         BET_STRING = "";
         reference = FirebaseDatabase.getInstance().getReference("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();
+        user_amount = (TextView)findViewById(R.id.user_amount_play);
         reference = FirebaseDatabase.getInstance().getReference("Users");
         UserID = user.getUid();
         MAP = new HashMap<Integer,Integer>();
+        textView = (TextView) findViewById(R.id.textView7) ;
 
         textView12 = (TextView)findViewById(R.id.textView12);
 
         spin = (Button) findViewById(R.id.spin);
-        imageView = (ImageView) findViewById(R.id.imageView);
-        textView = (TextView) findViewById(R.id.textView7);
-        numberPicker = (NumberPicker)findViewById(R.id.numberPicker);
-        numberPicker.setMinValue(0);
-        numberPicker.setMaxValue(36);
-        bet_amount = (EditText)findViewById(R.id.editTextNumber3);
-        user_amount = (TextView) findViewById(R.id.userAmount);
-        user_bet = (TextView) findViewById(R.id.user_bet);
+
         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user1 = snapshot.getValue(User.class);
                 if(user1 != null){
-                    long amount = Long.parseLong(user1.balance);
+
                     user_amount.setText(user1.balance);
                 }
             }
@@ -123,39 +119,31 @@ public class Table extends AppCompatActivity {
                         String number = sectors[sectors.length-(degree +1)];
                         textView.setText(number);
                         NUMBER = numbers[sectors.length-(degree +1)];
-                        if(MAP.containsKey(NUMBER)){
-                            win = true;
-                            int prize = 2*MAP.get(NUMBER);
-                            Toast.makeText(Table.this,"win! your prize is "+prize,Toast.LENGTH_LONG).show();
-                            reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    User user1 = snapshot.getValue(User.class);
-                                    long user_balance = Long.parseLong(user1.balance);
-                                    if(user1 != null){
-                                        if(win){
-                                            long new_amount = user_balance + prize;
-                                            reference.child(UserID).child("balance").setValue(""+new_amount);
-                                            user1.balance = ""+new_amount;
-                                            BET_STRING = "";
-                                            MAP.clear();
-                                            win = false;
-
-                                        }
-                                        else{
-                                            Toast.makeText(Table.this,"try again",Toast.LENGTH_LONG).show();
-
-                                        }
+                        reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                User user1 = snapshot.getValue(User.class);
+                                long user_balance = Long.parseLong(user1.balance);
+                                if(user1 != null)
+                                {
+                                    if(user1.MAP.containsKey(NUMBER)){
+                                        win = true;
+                                        int prize = 2*MAP.get(NUMBER);
+                                        long new_amount = user_balance + prize;
+                                        Toast.makeText(Table.this,"win! your prize is "+prize,Toast.LENGTH_LONG).show();
+                                        reference.child(UserID).child("balance").setValue(""+new_amount);
+                                        user1.MAP.clear();
+                                        win = false;
                                     }
 
                                 }
+                            }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
-                                }
-                            });
-                        }
+                            }
+                        });
 
 
 
@@ -179,36 +167,42 @@ public class Table extends AppCompatActivity {
             bet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                   int number = numberPicker.getValue();
-                   String str = bet_amount.getText().toString().trim();
-                   int amount = Integer.parseInt(str);
-                   MAP.put(number,amount);
-                   BET_STRING += number+" - "+amount+" | ";
-                   user_bet.setText(BET_STRING);
-                   reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
-                       @Override
-                       public void onDataChange(@NonNull DataSnapshot snapshot) {
-                           User user1 = snapshot.getValue(User.class);
-                           if(user1 != null){
-                               long user_balance = Long.parseLong(user1.balance);
-                               user_balance -= amount;
-                               user1.balance = ""+user_balance;
-                               reference.child(UserID).child("balance").setValue(user1.balance);
-                               user_amount.setText(user1.balance);
-                           }
-
-                       }
-
-                       @Override
-                       public void onCancelled(@NonNull DatabaseError error) {
-
-                       }
-                   });
-
-
+                    startActivity(new Intent(Table.this,betTable.class));
                 }
             });
+//            bet.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                   int number = numberPicker.getValue();
+//                   String str = bet_amount.getText().toString().trim();
+//                   int amount = Integer.parseInt(str);
+//                   MAP.put(number,amount);
+//                   BET_STRING += number+" - "+amount+" | ";
+//                   user_bet.setText(BET_STRING);
+//                   reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
+//                       @Override
+//                       public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                           User user1 = snapshot.getValue(User.class);
+//                           if(user1 != null){
+//                               long user_balance = Long.parseLong(user1.balance);
+//                               user_balance -= amount;
+//                               user1.balance = ""+user_balance;
+//                               reference.child(UserID).child("balance").setValue(user1.balance);
+//                               user_amount.setText(user1.balance);
+//                           }
+//
+//                       }
+//
+//                       @Override
+//                       public void onCancelled(@NonNull DatabaseError error) {
+//
+//                       }
+//                   });
+
+
+//                }
+//            });
 
 
 
