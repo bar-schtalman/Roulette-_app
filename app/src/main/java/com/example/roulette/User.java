@@ -3,8 +3,8 @@ package com.example.roulette;
 import java.util.HashMap;
 
 public class User {
-    public String email, full_name, balance, password;
-    HashMap<Integer,Integer> MAP = new HashMap<Integer,Integer>();
+    public String email, full_name, balance, password,random_bet;
+//    public int [] bet;
 
     public User(){}
 
@@ -13,7 +13,9 @@ public class User {
         this.email = email;
         this.password = password;
         this.balance = "0";
+//        bet = new int[37];
     }
+
 
 
 }
