@@ -27,7 +27,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -36,6 +38,7 @@ public class Table extends AppCompatActivity {
     TextView textView, textView12,user_amount;
     Button spin,bet;
     ImageView imageView;
+    FirebaseFirestore db;
     Random r;
     private int degree ;
     private static int NUMBER;
@@ -51,7 +54,7 @@ public class Table extends AppCompatActivity {
     private static final int [] numbers = {32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,
                                             16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26,0};
     private static final int [] sectorsDegrees = new int [sectors.length];
-    private HashMap<Integer,Integer> MAP;
+    private HashMap<Integer,Integer> MAP,M;
     private  String BET_STRING,UserID;
     private EditText bet_amount;
     private static  final Random random = new Random();
@@ -68,22 +71,23 @@ public class Table extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference("Users");
         UserID = user.getUid();
         MAP = new HashMap<Integer,Integer>();
+        M = new HashMap<Integer,Integer>();
         textView = (TextView) findViewById(R.id.textView7) ;
 
         textView12 = (TextView)findViewById(R.id.textView12);
 
         spin = (Button) findViewById(R.id.spin);
 
-        reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user1 = snapshot.getValue(User.class);
-                if(user1 != null){
-
-                    user_amount.setText(user1.balance);
-//                    user_submit.setText(user1.bet_display);
-                }
-            }
+                reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user1 = snapshot.getValue(User.class);
+                        if(user1 != null){
+        //                  user_amount is a Textbox
+                            user_amount.setText(user1.balance);
+        //                    user_submit.setText(user1.bet_display);
+                        }
+                    }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -113,6 +117,8 @@ public class Table extends AppCompatActivity {
                 if(!isSpinning){
                     spin();
                     isSpinning = true;
+
+
                 }
             }
 
@@ -135,8 +141,18 @@ public class Table extends AppCompatActivity {
                         textView.setText(number);
                         NUMBER = numbers[sectors.length - (degree + 1)];
                         //if(win >0)
-                        reference2 = FirebaseDatabase.getInstance().getReference().child("Bets");
-                        reference2.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        reference = FirebaseDatabase.getInstance().getReference().child("Users");
+                        db = FirebaseFirestore.getInstance();
+                        db.collection("Users").document(UserID).get().addOnCompleteListener(task ->{
+                            if(task.isSuccessful() && task.getResult() != null){
+
+                                Toast.makeText(Table.this,"success, not null",Toast.LENGTH_LONG).show();
+
+                                String number_bet = task.getResult().getString("bet");
+                                Toast.makeText(Table.this,number_bet,Toast.LENGTH_LONG).show();
+                            }
+                        } );
+                        reference.child(UserID).child("bet").addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 User user1 = snapshot.getValue(User.class);
@@ -144,29 +160,38 @@ public class Table extends AppCompatActivity {
 
 
                                 if (user1 != null) {
-////                                    Toast.makeText(Table.this, "not null", Toast.LENGTH_LONG).show();
-//                                    MAP.clear();
-//                                    MAP.put(1,Integer.valueOf(user1.a1));
-//                                    MAP.put(0,Integer.valueOf(user1.a0));
-//                                    MAP.put(2,Integer.valueOf(user1.a2));
-//                                    MAP.put(3,Integer.valueOf(user1.a3));
-//                                    MAP.put(4,Integer.valueOf(user1.a4));
-//                                    MAP.put(5,Integer.valueOf(user1.a5));
-//                                    MAP.put(6,Integer.valueOf(user1.a6));
-//                                    MAP.put(7,Integer.valueOf(user1.a7));
-//                                    MAP.put(8,Integer.valueOf(user1.a8));
-//                                    MAP.put(9,Integer.valueOf(user1.a9));
-//                                    MAP.put(10,Integer.valueOf(user1.a10));
-//                                    MAP.put(11,Integer.valueOf(user1.a11));
-//                                    MAP.put(12,Integer.valueOf(user1.a12));
-//                                    MAP.put(13,Integer.valueOf(user1.a13));
-//                                    MAP.put(14,Integer.valueOf(user1.a14));
-//                                    MAP.put(15,Integer.valueOf(user1.a15));
-//                                    MAP.put(16,Integer.valueOf(user1.a16));
-//                                    MAP.put(17,Integer.valueOf(user1.a17));
-//                                    MAP.put(18,Integer.valueOf(user1.a18));
-//                                    MAP.put(19,Integer.valueOf(user1.a19));
-//                                    MAP.put(20,Integer.valueOf(user1.a20));
+
+                                    Toast.makeText(Table.this, "not null", Toast.LENGTH_LONG).show();
+                                    MAP.clear();
+//                                    MAP.put(1,Integer.parseInt((user1.a1)));
+//                                    MAP.put(0,Integer.parseInt(user1.a0));
+//                                    MAP.put(2,Integer.parseInt(user1.a2));
+//                                    MAP.put(3,Integer.parseInt(user1.a3));
+//                                    MAP.put(4,Integer.parseInt(user1.a4));
+//                                    MAP.put(5,Integer.parseInt(user1.a5));
+//                                    MAP.put(6,Integer.parseInt(user1.a6));
+//                                    MAP.put(7,Integer.parseInt(user1.a7));
+//                                    MAP.put(8,Integer.parseInt(user1.a8));
+//                                    MAP.put(9,Integer.parseInt(user1.a9));
+//                                    MAP.put(10,Integer.parseInt(user1.a10));
+//                                    MAP.put(11,Integer.parseInt(user1.a11));
+//                                    MAP.put(12,Integer.parseInt(user1.a12));
+//                                    MAP.put(13,Integer.parseInt(user1.a13));.
+//                                    MAP.put(14,Integer.parseInt(user1.a14));
+//                                    MAP.put(15,Integer.parseInt(user1.a15));
+//                                    MAP.put(16,Integer.parseInt(user1.a16));
+//                                    MAP.put(17,Integer.parseInt(user1.a17));
+//                                    MAP.put(18,Integer.parseInt(user1.a18));
+//                                    MAP.put(19,Integer.parseInt(user1.a19));
+//                                    MAP.put(20,Integer.parseInt(user1.a20));
+//                                    MAP.put(30,Integer.parseInt(user1.a30));
+//                                    MAP.put(31,Integer.parseInt(user1.a31));
+//                                    MAP.put(32,Integer.parseInt(user1.a32));
+//                                    MAP.put(33,Integer.parseInt(user1.a33));
+//                                    MAP.put(34,Integer.parseInt(user1.a34));
+//                                    MAP.put(35,Integer.parseInt(user1.a35));
+//                                    MAP.put(36,Integer.parseInt(user1.a36));
+
 //                                    if(MAP.containsKey(NUMBER)) {
 //                                        int prize = MAP.get(NUMBER) * 2;
 //                                        Toast.makeText(Table.this,""+MAP.get(NUMBER),Toast.LENGTH_LONG).show();

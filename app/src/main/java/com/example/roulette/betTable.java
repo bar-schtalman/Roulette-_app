@@ -44,7 +44,6 @@ public class betTable extends AppCompatActivity {
         ////////////////////////////////////////////////////////////
         reference = FirebaseDatabase.getInstance().getReference("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();
-        reference2 = FirebaseDatabase.getInstance().getReference("Bets");
         user2 = FirebaseAuth.getInstance().getCurrentUser();
         UserID = user.getUid();
         ///////////////////////////////////////////////////////////
@@ -395,7 +394,7 @@ public class betTable extends AppCompatActivity {
                                     User user1 = snapshot.getValue(User.class);
                                     if ( user1 != null){
                                         for(int i = 0 ; i< 37 ; i++){
-                                            reference2.child(UserID).child("a"+i).setValue(MAP[i]);
+                                            reference.child(UserID).child("bet").child(""+i).setValue(MAP[i]);
                                             BET_SUM+=MAP[i];
                                         }
                                         long balance = Long.parseLong(user1.balance) - (long)BET_SUM;
