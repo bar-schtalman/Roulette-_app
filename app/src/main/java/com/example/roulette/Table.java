@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Table extends AppCompatActivity {
-    TextView textView, textView12,user_amount;
+    TextView textView, textView12,user_amount,bet_view;
     Button spin,bet;
     ImageView imageView;
     FirebaseFirestore db;
@@ -46,6 +46,7 @@ public class Table extends AppCompatActivity {
     private boolean isSpinning = false;
     private FirebaseUser user,user2;
     private DatabaseReference reference,reference2;
+    String str_bets;
     // 0 32 15 19 4 21 2 25 17 34 6 27 13 36 11 30 8 23 10 5 24 16 33 1 20 14 31 9 22 18 29 7 28 12 35 3 26
     private static final String [] sectors = {"32 red","15 black","19 red","4 black","21 red","2 black",
             "25 red","17 black","34 red","6 black","27 red","13 black","36 red","11 black","30 red","8 black",
@@ -64,6 +65,7 @@ public class Table extends AppCompatActivity {
         setContentView(R.layout.activity_table);
 //        user_submit = (TextView) findViewById(R.id.usersubmit);
         imageView = (ImageView)findViewById(R.id.imageView) ;
+        bet_view = (TextView)findViewById(R.id.User_bet);
         BET_STRING = "";
         reference = FirebaseDatabase.getInstance().getReference("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -77,16 +79,25 @@ public class Table extends AppCompatActivity {
         textView12 = (TextView)findViewById(R.id.textView12);
 
         spin = (Button) findViewById(R.id.spin);
+         str_bets = "";
 
                 reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user1 = snapshot.getValue(User.class);
-                        if(user1 != null){
+//                        User user1 = snapshot.getValue(User.class);
+//                        if(user1 != null){
         //                  user_amount is a Textbox
-                            user_amount.setText(user1.balance);
+                            user_amount.setText(snapshot.child("balance").getValue().toString());
         //                    user_submit.setText(user1.bet_display);
-                        }
+                        for(int i = 0; i<37; i++){
+
+                            if(Integer.parseInt(snapshot.child("bet").child(""+i).getValue().toString()) > 0) {
+                                str_bets += i +", ";
+                            }
+                            }
+                        bet_view.setText(str_bets);
+
+         //               }
                     }
 
             @Override
@@ -103,17 +114,7 @@ public class Table extends AppCompatActivity {
         spin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user1 = snapshot.getValue(User.class);
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
                 if(!isSpinning){
                     spin();
                     isSpinning = true;
@@ -142,67 +143,61 @@ public class Table extends AppCompatActivity {
                         NUMBER = numbers[sectors.length - (degree + 1)];
                         //if(win >0)
                         reference = FirebaseDatabase.getInstance().getReference().child("Users");
-                        db = FirebaseFirestore.getInstance();
-                        db.collection("Users").document(UserID).get().addOnCompleteListener(task ->{
-                            if(task.isSuccessful() && task.getResult() != null){
-
-                                Toast.makeText(Table.this,"success, not null",Toast.LENGTH_LONG).show();
-
-                                String number_bet = task.getResult().getString("bet");
-                                Toast.makeText(Table.this,number_bet,Toast.LENGTH_LONG).show();
-                            }
-                        } );
-                        reference.child(UserID).child("bet").addListenerForSingleValueEvent(new ValueEventListener() {
+//                        db = FirebaseFirestore.getInstance();
+//                        db.collection("Users").document(UserID).get().addOnCompleteListener(task ->{
+//                            if(task.isSuccessful() && task.getResult() != null){
+//
+//                                Toast.makeText(Table.this,"success, not null",Toast.LENGTH_LONG).show();
+//
+//                                String number_bet = task.getResult().getString("bet");
+//                                Toast.makeText(Table.this,number_bet,Toast.LENGTH_LONG).show();
+//                            }
+//                        } );
+                        reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                User user1 = snapshot.getValue(User.class);
+//                                User user1 = snapshot.getValue(User.class);
 //                                Users_bet user2 = snapshot.getValue(Users_bet.class);
+//                                Toast.makeText(Table.this,""+snapshot.child("bet").child(""+NUMBER).getValue().toString(),Toast.LENGTH_LONG).show();
+
+                                String str2 = snapshot.child("bet").child(""+NUMBER).getValue().toString();
+                                int win = Integer.parseInt(str2);
+                                if(win > 0 ){
+                                    int new_amount = win + Integer.parseInt(snapshot.child("balance").getValue().toString());
+                                    reference.child(UserID).child("balance").setValue(""+new_amount);
+                                    Toast.makeText(Table.this,"win!!!, your prize is "+win+"$",Toast.LENGTH_LONG).show();
+
+                                }
+                                else{
+                                    Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();
+                                }
+                                for(int i = 0; i<37; i++){
+                                    reference.child(UserID).child("bet").child(""+i).setValue("0");
+                                }
 
 
-                                if (user1 != null) {
 
-                                    Toast.makeText(Table.this, "not null", Toast.LENGTH_LONG).show();
-                                    MAP.clear();
-//                                    MAP.put(1,Integer.parseInt((user1.a1)));
-//                                    MAP.put(0,Integer.parseInt(user1.a0));
-//                                    MAP.put(2,Integer.parseInt(user1.a2));
-//                                    MAP.put(3,Integer.parseInt(user1.a3));
-//                                    MAP.put(4,Integer.parseInt(user1.a4));
-//                                    MAP.put(5,Integer.parseInt(user1.a5));
-//                                    MAP.put(6,Integer.parseInt(user1.a6));
-//                                    MAP.put(7,Integer.parseInt(user1.a7));
-//                                    MAP.put(8,Integer.parseInt(user1.a8));
-//                                    MAP.put(9,Integer.parseInt(user1.a9));
-//                                    MAP.put(10,Integer.parseInt(user1.a10));
-//                                    MAP.put(11,Integer.parseInt(user1.a11));
-//                                    MAP.put(12,Integer.parseInt(user1.a12));
-//                                    MAP.put(13,Integer.parseInt(user1.a13));.
-//                                    MAP.put(14,Integer.parseInt(user1.a14));
-//                                    MAP.put(15,Integer.parseInt(user1.a15));
-//                                    MAP.put(16,Integer.parseInt(user1.a16));
-//                                    MAP.put(17,Integer.parseInt(user1.a17));
-//                                    MAP.put(18,Integer.parseInt(user1.a18));
-//                                    MAP.put(19,Integer.parseInt(user1.a19));
-//                                    MAP.put(20,Integer.parseInt(user1.a20));
-//                                    MAP.put(30,Integer.parseInt(user1.a30));
-//                                    MAP.put(31,Integer.parseInt(user1.a31));
-//                                    MAP.put(32,Integer.parseInt(user1.a32));
-//                                    MAP.put(33,Integer.parseInt(user1.a33));
-//                                    MAP.put(34,Integer.parseInt(user1.a34));
-//                                    MAP.put(35,Integer.parseInt(user1.a35));
-//                                    MAP.put(36,Integer.parseInt(user1.a36));
-
-//                                    if(MAP.containsKey(NUMBER)) {
-//                                        int prize = MAP.get(NUMBER) * 2;
-//                                        Toast.makeText(Table.this,""+MAP.get(NUMBER),Toast.LENGTH_LONG).show();
-//                                        int user_balance = Integer.parseInt(user2.balance);
-//                                        reference.child(UserID).child("balance").setValue(user_balance + prize);
+//                                if (user1 != null) {
+//
+//                                    Toast.makeText(Table.this, "not null", Toast.LENGTH_LONG).show();
+//                                    int win = Integer.parseInt(user1.bet.getNumber(NUMBER));
+//
+//                                    if(win > 0){
+//                                        Toast.makeText(Table.this,"win!!!, your prize is "+win+"$",Toast.LENGTH_LONG).show();
+//                                        int new_amount = Integer.parseInt(user1.balance) + win;
+//                                        reference.child("balance").setValue(""+new_amount);
+//
+//                                    }
+//                                    else{
+//                                        Toast.makeText(Table.this,"loser!!!",Toast.LENGTH_LONG).show();
+//
 //                                    }
 
 
 
 
-                                }
+
+//                                }
                             }
 
                             @Override

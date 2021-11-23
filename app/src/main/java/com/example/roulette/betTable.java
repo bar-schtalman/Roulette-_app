@@ -32,6 +32,7 @@ public class betTable extends AppCompatActivity {
     private TextView bet_amount,user_amount,user_bet,selected_chip,test_text;
     String BET_STRING,UserID,test;
     private FirebaseUser user,user2;
+    public long BALANCE;
     private DatabaseReference reference,reference2;
     private static int CHIP = 0,BET_SUM = 0;
     int old_val;
@@ -364,12 +365,11 @@ public class betTable extends AppCompatActivity {
         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user1 = snapshot.getValue(User.class);
-                if(user1 != null){
-                    long amount = Long.parseLong(user1.balance);
-                    user_amount.setText(user1.balance);
+//                User user1 = snapshot.getValue(User.class);
+
+                user_amount.setText(""+snapshot.child("balance").getValue().toString());
                 }
-            }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -384,22 +384,20 @@ public class betTable extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int sum = 0;
-                        User user1 = snapshot.getValue(User.class);
 
-                        if(user1 != null){
 
                             reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    User user1 = snapshot.getValue(User.class);
-                                    if ( user1 != null){
+
                                         for(int i = 0 ; i< 37 ; i++){
                                             reference.child(UserID).child("bet").child(""+i).setValue(MAP[i]);
                                             BET_SUM+=MAP[i];
+
+
                                         }
-                                        long balance = Long.parseLong(user1.balance) - (long)BET_SUM;
-                                        reference.child(UserID).child("balance").setValue(String.valueOf(balance));
-                                    }
+                                    BALANCE = Long.parseLong(snapshot.child("balance").getValue().toString()) - (long)BET_SUM;
+                                    reference.child(UserID).child("balance").setValue(""+BALANCE);
 
                                 }
 
@@ -410,7 +408,7 @@ public class betTable extends AppCompatActivity {
                             });
 
                             startActivity(new Intent(betTable.this,Table.class));
-                        }
+
                     }
 
                     @Override

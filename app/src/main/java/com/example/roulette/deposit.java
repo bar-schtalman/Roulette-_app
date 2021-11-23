@@ -78,7 +78,7 @@ public class deposit extends AppCompatActivity {
                         User user1 = snapshot.getValue(User.class);
                         if(user1 != null){
                             String user_balance = user1.balance;
-                            Long newAmount = Long.parseLong(user_balance) + Long.parseLong(c_amount);
+                            String newAmount = ""+Long.parseLong(user_balance) + Long.parseLong(c_amount);
                             reference.child(UserID).child("balance").setValue(String.valueOf(newAmount));
                             Toast.makeText(deposit.this,"success! "+c_amount+"$ has been added to your account",Toast.LENGTH_LONG).show();
                             startActivity(new Intent(deposit.this,user_bio.class));
@@ -103,4 +103,6 @@ public class deposit extends AppCompatActivity {
 
 
     }
+
+
 }

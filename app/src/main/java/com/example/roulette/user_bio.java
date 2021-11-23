@@ -57,20 +57,24 @@ public class user_bio extends AppCompatActivity {
         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user1 = snapshot.getValue(User.class);
-                if(user1 != null){
-                    String fu_name = user1.full_name;
-                    String email = user1.email;
-                    String balance = user1.balance;
+//                User user1 = snapshot.getValue(User.class);
+//                if(user1 != null){
+                    String fu_name = snapshot.child("full_name").getValue().toString();
+                    String email = snapshot.child("email").getValue().toString();;
+                    String balance = snapshot.child("balance").getValue().toString();
+//                    String test = snapshot.child("bet").child("a5").getValue().toString();
 
                     welcomeMSG.setText("welcome " +fu_name );
                     full_name.setText(fu_name);;
                     email_user.setText(email);
-                    balancee.setText(balance+"$");
+                    balancee.setText(String.valueOf(balance)+"$");
                     Toast.makeText(user_bio.this,"yea!",Toast.LENGTH_LONG).show();
+                    for(int i = 0; i<37; i++){
+                        reference.child(UserID).child("bet").child(""+i).setValue("0");
+                    }
 
                 }
-            }
+//            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
