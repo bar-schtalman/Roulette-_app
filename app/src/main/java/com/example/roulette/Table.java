@@ -161,7 +161,7 @@ public class Table extends AppCompatActivity {
 //                                Toast.makeText(Table.this,""+snapshot.child("bet").child(""+NUMBER).getValue().toString(),Toast.LENGTH_LONG).show();
 
                                 String str2 = snapshot.child("bet").child(""+NUMBER).getValue().toString();
-                                int win = Integer.parseInt(str2);
+                                int win = Integer.parseInt(str2)*2;
                                 if(win > 0 ){
                                     int new_amount = win + Integer.parseInt(snapshot.child("balance").getValue().toString());
                                     reference.child(UserID).child("balance").setValue(""+new_amount);

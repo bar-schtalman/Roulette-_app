@@ -41,16 +41,6 @@
         app:layout_constraintVertical_bias="0.911"
         app:strokeColor="#F61010" />
 
-    <TextView
-        android:id="@+id/user_bet"
-        android:layout_width="210dp"
-        android:layout_height="256dp"
-        android:layout_marginTop="348dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.069"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bet500"
         android:layout_width="43dp"
