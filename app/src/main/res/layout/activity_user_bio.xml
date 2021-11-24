@@ -8,7 +8,10 @@
     tools:context=".user_bio">
 
     <TextView
+
         android:id="@+id/textView"
+        android:textColor="#0E4067"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/spike_speak_straight"
@@ -95,6 +98,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/spike_speak_straight"
+        android:textColor="#0E4067"
+
         android:text="Full Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,6 +111,8 @@
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
+        android:textColor="#0E4067"
+
         android:layout_height="wrap_content"
         android:fontFamily="@font/spike_speak_straight"
         android:text="Email"
@@ -159,6 +166,8 @@
         android:layout_marginStart="24dp"
         android:fontFamily="@font/spike_speak_straight"
         android:text="balance"
+        android:textColor="#0E4067"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

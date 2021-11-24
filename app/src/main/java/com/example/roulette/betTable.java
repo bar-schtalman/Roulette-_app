@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -39,6 +40,8 @@ public class betTable extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_bet_table);
         ////////////////////////////////////////////////////////////
         reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -56,6 +59,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP[0] += CHIP;
+                BET_SUM += CHIP;
 
             }
         });
@@ -64,6 +68,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [1] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b2 = (Button) findViewById(R.id.b2);
@@ -71,6 +76,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [2] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b3 = (Button) findViewById(R.id.b3);
@@ -78,6 +84,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [3] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b4 = (Button) findViewById(R.id.b4);
@@ -85,6 +92,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [4] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b5 = (Button) findViewById(R.id.b5);
@@ -92,6 +100,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [5] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b6 = (Button) findViewById(R.id.b6);
@@ -99,6 +108,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [6] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b7 = (Button) findViewById(R.id.b7);
@@ -106,6 +116,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [7] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b8 = (Button) findViewById(R.id.b8);
@@ -113,6 +124,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [8] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b9 = (Button) findViewById(R.id.b9);
@@ -120,6 +132,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [9] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b10 = (Button) findViewById(R.id.b10);
@@ -127,6 +140,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [10] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b11 = (Button) findViewById(R.id.b11);
@@ -134,6 +148,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [11] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b12 = (Button) findViewById(R.id.b12);
@@ -141,6 +156,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [12] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b13 = (Button) findViewById(R.id.b13);
@@ -148,6 +164,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [13] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b14 = (Button) findViewById(R.id.b14);
@@ -155,6 +172,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [14] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b15 = (Button) findViewById(R.id.b15);
@@ -162,6 +180,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [15] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b16 = (Button) findViewById(R.id.b16);
@@ -169,6 +188,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [16] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b17 = (Button) findViewById(R.id.b17);
@@ -176,6 +196,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [17] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b18 = (Button) findViewById(R.id.b18);
@@ -183,6 +204,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [18] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b19 = (Button) findViewById(R.id.b19);
@@ -190,6 +212,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [19] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b20 = (Button) findViewById(R.id.b20);
@@ -197,6 +220,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [20] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b21 = (Button) findViewById(R.id.b21);
@@ -204,6 +228,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [21] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b22 = (Button) findViewById(R.id.b22);
@@ -211,6 +236,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [22] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b23 = (Button) findViewById(R.id.b23);
@@ -218,6 +244,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [23] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b24 = (Button) findViewById(R.id.b24);
@@ -225,6 +252,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [24] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b25 = (Button) findViewById(R.id.b25);
@@ -232,6 +260,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [25] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b26 = (Button) findViewById(R.id.b26);
@@ -239,6 +268,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [26] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b27 = (Button) findViewById(R.id.b27);
@@ -246,6 +276,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [27] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b28 = (Button) findViewById(R.id.b28);
@@ -253,6 +284,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [28] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b29 = (Button) findViewById(R.id.b29);
@@ -260,6 +292,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [29] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b30 = (Button) findViewById(R.id.b30);
@@ -267,6 +300,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [030] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b31 = (Button) findViewById(R.id.b31);
@@ -274,6 +308,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [31] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b32 = (Button) findViewById(R.id.b32);
@@ -281,6 +316,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [32] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b33 = (Button) findViewById(R.id.b33);
@@ -288,6 +324,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [33] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b34 = (Button) findViewById(R.id.b34);
@@ -295,6 +332,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [34] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b35 = (Button) findViewById(R.id.b35);
@@ -302,6 +340,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [35] += CHIP;
+                BET_SUM += CHIP;
             }
         });
         b36 = (Button) findViewById(R.id.b36);
@@ -309,6 +348,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [36] += CHIP;
+                BET_SUM += CHIP;
             }
         });
 
@@ -380,30 +420,23 @@ public class betTable extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int sum = 0;
-
-
-                            reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                        for(int i = 0 ; i< 37 ; i++){
-                                            reference.child(UserID).child("bet").child(""+i).setValue(MAP[i]);
-                                            BET_SUM+=MAP[i];
-
-
-                                        }
-                                    BALANCE = Long.parseLong(snapshot.child("balance").getValue().toString()) - (long)BET_SUM;
-                                    reference.child(UserID).child("balance").setValue(""+BALANCE);
-
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-
+                        if(BET_SUM > Integer.parseInt(snapshot.child("balance").getValue().toString())){
+                            BET_SUM = 0;
+                            for(int i = 0; i<37; i++){
+                                MAP[i] = 0;
+                                Toast.makeText(betTable.this,"Error, not enough money,enter new bet",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else{
+                            for(int i = 0 ; i< 37 ; i++){
+                                reference.child(UserID).child("bet").child(""+i).setValue(MAP[i]);
+                            }
+                            BALANCE = Long.parseLong(snapshot.child("balance").getValue().toString()) - (long)BET_SUM;
+                            reference.child(UserID).child("balance").setValue(""+BALANCE);
                             startActivity(new Intent(betTable.this,Table.class));
+                        }
+
+
 
                     }
 

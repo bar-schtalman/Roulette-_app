@@ -7,6 +7,7 @@ import android.app.admin.DeviceAdminService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
@@ -57,7 +58,9 @@ public class Table extends AppCompatActivity {
      @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_table);
+         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+         setContentView(R.layout.activity_table);
         roulette_image = findViewById(R.id.imageView) ;
         bet_view = findViewById(R.id.User_bet);
         reference = FirebaseDatabase.getInstance().getReference("Users");

@@ -48,6 +48,7 @@
         android:fontFamily="@font/spike_speak_straight"
         android:text="Welcome"
         android:textSize="70dp"
+        android:textColor="#0E4067"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
