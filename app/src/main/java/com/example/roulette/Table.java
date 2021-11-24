@@ -114,7 +114,7 @@ public class Table extends AppCompatActivity {
                         String number = sectors[sectors.length - (degree + 1)];
                         textView.setText(number);
                         NUMBER = numbers[sectors.length - (degree + 1)];
-                        reference = FirebaseDatabase.getInstance().getReference().child("Users");
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
                         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
