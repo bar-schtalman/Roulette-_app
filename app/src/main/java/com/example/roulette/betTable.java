@@ -22,20 +22,18 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Map;
 
 public class betTable extends AppCompatActivity {
-    int [] objectBet = new int[37];
-
 
     private Button b1 ,b2 ,b3 ,b4 ,b5 ,b6 ,b7 ,b8 ,b9 ,b10 ,b11 ,b0 ,b12 ,b13 ,b14 ,b15 ,b16 ,b17 ,
             b18 ,b19,b20 ,b21 ,b22 ,b23 ,b24 ,b25 ,b26 ,b27 ,b28 ,b29 ,b30 ,b31 ,b32 ,b33 ,b34 ,b35
             ,b36,btn5,btn25,btn100,btn500, btn1000,submit;
     public int [] MAP = new int [37];
-    private TextView bet_amount,user_amount,user_bet,selected_chip,test_text;
-    String BET_STRING,UserID,test;
-    private FirebaseUser user,user2;
+    private TextView bet_amount,user_amount,selected_chip,test_text;
+    String BET_STRING,UserID;
+    private FirebaseUser user;
     public long BALANCE;
-    private DatabaseReference reference,reference2;
+    private DatabaseReference reference;
     private static int CHIP = 0,BET_SUM = 0;
-    int old_val;
+
 
 
     @Override
@@ -45,14 +43,12 @@ public class betTable extends AppCompatActivity {
         ////////////////////////////////////////////////////////////
         reference = FirebaseDatabase.getInstance().getReference("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();
-        user2 = FirebaseAuth.getInstance().getCurrentUser();
         UserID = user.getUid();
         ///////////////////////////////////////////////////////////
         BET_STRING = "";
-        test = "";
+
         submit = (Button)findViewById(R.id.submit_bet);
         selected_chip = (TextView)findViewById(R.id.textView17);
-        user_bet = (TextView)findViewById(R.id.user_bet);
         BET_SUM = 0;
         bet_amount = (TextView)findViewById(R.id.betsumtextview);
         b0 = (Button) findViewById(R.id.b0);
@@ -356,17 +352,17 @@ public class betTable extends AppCompatActivity {
                 selected_chip.setText("1000");
             }
         });
+        /////////////////////////////////////////////////////////////
         user_amount = (TextView) findViewById(R.id.user_amount_bet);
-        ///////////////////////////////////////////////////////////
         test_text = (TextView)findViewById(R.id.user_amount_play);
+
         reference = FirebaseDatabase.getInstance().getReference("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();
         UserID = user.getUid();
+
         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                User user1 = snapshot.getValue(User.class);
-
                 user_amount.setText(""+snapshot.child("balance").getValue().toString());
                 }
 

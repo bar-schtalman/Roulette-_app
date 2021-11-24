@@ -18,30 +18,40 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ktx.Firebase;
 
 public class register extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private EditText user_full_name, user_email, user_password;
     private Button registerUser;
+    private DatabaseReference reference;
     private CheckBox box;
     private ProgressBar progressBar;
+    private String UserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         Button registerUser = findViewById(R.id.button2);
         registerUser.setOnClickListener(this);
-
+        reference = FirebaseDatabase.getInstance().getReference("Users");
         user_full_name = (EditText) findViewById(R.id.register_first_name);
         user_email = (EditText) findViewById(R.id.register_email);
         user_password = (EditText) findViewById(R.id.register_password);
         box = (CheckBox) findViewById(R.id.checkBox);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        UserID = mAuth.getUid();
+
+
 
 
     }
@@ -58,7 +68,6 @@ public class register extends AppCompatActivity implements View.OnClickListener 
         email = user_email.getText().toString().trim();
         password = user_password.getText().toString().trim();
         full_name = user_full_name.getText().toString().trim();
-        balance = "0";
         progressBar.setVisibility(View.GONE);
 
         if(full_name.isEmpty()){
@@ -120,12 +129,10 @@ public class register extends AppCompatActivity implements View.OnClickListener 
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
-                            }); {
-
+                            });
+                            {
 
                             }
-
-
                         }
                         else{
                             Toast.makeText(register.this,"failed!",Toast.LENGTH_LONG).show();
@@ -135,4 +142,5 @@ public class register extends AppCompatActivity implements View.OnClickListener 
                 });
 
     }
+
 }

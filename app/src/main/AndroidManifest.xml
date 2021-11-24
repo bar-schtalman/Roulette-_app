@@ -13,9 +13,6 @@
             android:name=".betTable"
             android:exported="false" />
         <activity
-            android:name=".bet"
-            android:exported="false" />
-        <activity
             android:name=".Table"
             android:exported="false" />
         <activity

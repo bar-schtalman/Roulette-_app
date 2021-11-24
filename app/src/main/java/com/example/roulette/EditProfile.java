@@ -22,11 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class EditProfile extends AppCompatActivity {
-    public static final String TAG = "TAG";
-    Intent intent;
-    private EditText user_full_name, user_email, user_password;
+    private EditText user_full_name, user_email;
     Button button;
-    String U_FullName, U_Mail, UserID;
+    String  UserID;
 
     private FirebaseUser user;
     private DatabaseReference reference;
@@ -36,19 +34,14 @@ public class EditProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        button = (Button) findViewById(R.id.update);
+        button = findViewById(R.id.update);
 
-        // getting input from textBox
-        user_full_name = (EditText) findViewById(R.id.full_name);
-        user_email = (EditText) findViewById(R.id.email);
-
+        user_full_name = findViewById(R.id.full_name);
+        user_email = findViewById(R.id.email);
 
 
-//        Intent data = getIntent();
-//        U_FullName = data.getStringExtra("full_name");
-//        U_Mail = data.getStringExtra("email");
 
-        // get user info
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         UserID = user.getUid();
@@ -57,10 +50,8 @@ public class EditProfile extends AppCompatActivity {
         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user1 = snapshot.getValue(User.class);
-                if(user1 != null){
-                    String fullName = user1.full_name;
-                    String mail = user1.email;
+                    String fullName = snapshot.child("full_name").getValue().toString();
+                    String mail = snapshot.child("email").getValue().toString();
 
 
                     button.setOnClickListener(new View.OnClickListener() {
@@ -74,11 +65,9 @@ public class EditProfile extends AppCompatActivity {
 
                             if( !s_name.equals(fullName) ){
                                 reference.child(UserID).child("full_name").setValue(s_name);
-                                user1.full_name = s_name;
                             }
                             if( !s_mail.equals(mail) && Patterns.EMAIL_ADDRESS.matcher(s_mail).matches()){
                                 reference.child(UserID).child("email").setValue(s_mail);
-                                user1.email = s_mail;
                                 user.updateEmail(s_mail);
 
                             }
@@ -92,12 +81,10 @@ public class EditProfile extends AppCompatActivity {
 
 
                 }
-            }
+
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
 
 

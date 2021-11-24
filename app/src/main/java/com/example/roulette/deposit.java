@@ -31,11 +31,11 @@ public class deposit extends AppCompatActivity {
         setContentView(R.layout.activity_deposit);
 
         reference = FirebaseDatabase.getInstance().getReference("Users");
-        number = (EditText) findViewById(R.id.creditcard);
-        month = (EditText)  findViewById(R.id.month);
-        year = (EditText) findViewById(R.id.year);
-        amount = (EditText) findViewById(R.id.amount);
-        submit = (Button) findViewById(R.id.submit);
+        number = findViewById(R.id.creditcard);
+        month = findViewById(R.id.month);
+        year = findViewById(R.id.year);
+        amount = findViewById(R.id.amount);
+        submit = findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,32 +75,21 @@ public class deposit extends AppCompatActivity {
                 reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user1 = snapshot.getValue(User.class);
-                        if(user1 != null){
-                            String user_balance = user1.balance;
+
+                            String user_balance = snapshot.child("balance").getValue().toString();
                             String newAmount = ""+Long.parseLong(user_balance) + Long.parseLong(c_amount);
                             reference.child(UserID).child("balance").setValue(String.valueOf(newAmount));
                             Toast.makeText(deposit.this,"success! "+c_amount+"$ has been added to your account",Toast.LENGTH_LONG).show();
                             startActivity(new Intent(deposit.this,user_bio.class));
-                        }
+
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
+                    public void onCancelled(@NonNull DatabaseError error) { }
                 });
 
-
             }
-
         });
-
-
-
-
-
-
 
     }
 

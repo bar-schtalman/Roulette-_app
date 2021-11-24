@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,8 +18,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class UserLogIn extends AppCompatActivity implements View.OnClickListener {
-    private Button button;
+public class UserLogIn extends AppCompatActivity  {
+    private Button forgot,regiser,login;
     private EditText user_email, user_password;
     private Button signin;
     private ProgressBar progressBar;
@@ -33,12 +32,28 @@ public class UserLogIn extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_log_in);
 
-        Button button = findViewById(R.id.player_register);
-        button.setOnClickListener(this);
-        Button forgot = findViewById(R.id.forgot);
-        forgot.setOnClickListener(this);
-        signin = (Button) findViewById(R.id.player_login);
-        signin.setOnClickListener(this);
+        regiser  = findViewById(R.id.player_register);
+        regiser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserLogIn.this,register.class));
+            }
+        });
+        login =  findViewById(R.id.player_login);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userLogin();
+            }
+        });
+        forgot =  findViewById(R.id.forgot);
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserLogIn.this,forgot_password.class));
+
+            }
+        });
 
         user_email = (EditText) findViewById(R.id.Email);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
@@ -46,26 +61,6 @@ public class UserLogIn extends AppCompatActivity implements View.OnClickListener
         mAuth = FirebaseAuth.getInstance();
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.player_register:
-                startActivity(new Intent(this,register.class));
-                break;
-            case R.id.player_login:
-                userLogin();
-                break;
-            case R.id.forgot:
-                startActivity(new Intent(UserLogIn.this,forgot_password.class));
-                break;
-        }
-            
-            
-            
-
-
-    }
 
     private void userLogin() {
         progressBar.setVisibility(View.VISIBLE);
@@ -100,7 +95,7 @@ public class UserLogIn extends AppCompatActivity implements View.OnClickListener
                     startActivity(new Intent(UserLogIn.this,user_bio.class));
                 }
                 else{
-                    Toast.makeText(UserLogIn.this,"failed to login! plaese try check your email/assword",Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserLogIn.this,"failed to login! please try check your email/password",Toast.LENGTH_LONG).show();
                     progressBar.setVisibility(View.GONE);
                 }
             }

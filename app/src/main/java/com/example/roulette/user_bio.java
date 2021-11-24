@@ -22,22 +22,22 @@ public class user_bio extends AppCompatActivity {
     private Button logout;
     private FirebaseUser user;
     private DatabaseReference reference;
-    private TextView welcome, first_name, last_name, email;
+    private TextView welcomeMSG, full_name, balancee, email_user;
     private String UserID;
-    private Button button,edit,play;
+    private Button deposit,edit,play;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_bio);
-        button = (Button) findViewById(R.id.depositBTN);
-        button.setOnClickListener(new View.OnClickListener() {
+        deposit = findViewById(R.id.depositBTN);
+        deposit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(user_bio.this,deposit.class));
             }
         });
-        logout = (Button) findViewById(R.id.logout);
+        logout = findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,40 +49,34 @@ public class user_bio extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         UserID = user.getUid();
-        TextView welcomeMSG = (TextView) findViewById(R.id.welcome);
-        TextView full_name = (TextView) findViewById(R.id.first_name_display);
-        TextView email_user = (TextView) findViewById(R.id.email_display);
-        TextView balancee = (TextView) findViewById(R.id.balance);
+        welcomeMSG = findViewById(R.id.welcome);
+        full_name = findViewById(R.id.first_name_display);
+        email_user = findViewById(R.id.email_display);
+        balancee = findViewById(R.id.balance);
 
         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                User user1 = snapshot.getValue(User.class);
-//                if(user1 != null){
-                    String fu_name = snapshot.child("full_name").getValue().toString();
+                    String ful_name = snapshot.child("full_name").getValue().toString();
                     String email = snapshot.child("email").getValue().toString();;
                     String balance = snapshot.child("balance").getValue().toString();
-//                    String test = snapshot.child("bet").child("a5").getValue().toString();
-
-                    welcomeMSG.setText("welcome " +fu_name );
-                    full_name.setText(fu_name);;
+                    welcomeMSG.setText("welcome " +ful_name );
+                    full_name.setText(ful_name);;
                     email_user.setText(email);
                     balancee.setText(String.valueOf(balance)+"$");
-                    Toast.makeText(user_bio.this,"yea!",Toast.LENGTH_LONG).show();
                     for(int i = 0; i<37; i++){
                         reference.child(UserID).child("bet").child(""+i).setValue("0");
                     }
 
                 }
-//            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(user_bio.this,"shit!",Toast.LENGTH_LONG).show();
+
             }
         });
 
-        edit = (Button) findViewById(R.id.editProfile);
+        edit = findViewById(R.id.editProfile);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +85,7 @@ public class user_bio extends AppCompatActivity {
         });
 
 
-        play = (Button) findViewById(R.id.play);
+        play = findViewById(R.id.play);
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
