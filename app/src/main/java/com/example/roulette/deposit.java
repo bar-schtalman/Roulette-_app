@@ -35,8 +35,11 @@ public class deposit extends AppCompatActivity {
 
         reference = FirebaseDatabase.getInstance().getReference("Users");
         number = findViewById(R.id.creditcard);
+        number.requestFocus();
         month = findViewById(R.id.month);
+        month.requestFocus();
         year = findViewById(R.id.year);
+        year.requestFocus();
         amount = findViewById(R.id.amount);
         submit = findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +57,7 @@ public class deposit extends AppCompatActivity {
                     number.requestFocus();
                     return;
                 }
-                if(c_month.length() != 2){
+                if(c_month.length() != 2 ) {
                     month.setError("valid month input required! for example 05");
                     month.requestFocus();
                     return;
@@ -72,16 +75,14 @@ public class deposit extends AppCompatActivity {
                 user = FirebaseAuth.getInstance().getCurrentUser();
                 reference = FirebaseDatabase.getInstance().getReference("Users");
                 UserID = user.getUid();
-                Long sum = Long.parseLong(c_amount);
-                String newSum = String.valueOf(sum);
-
                 reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                             String user_balance = snapshot.child("balance").getValue().toString();
-                            String newAmount = ""+Long.parseLong(user_balance) + Long.parseLong(c_amount);
-                            reference.child(UserID).child("balance").setValue(String.valueOf(newAmount));
+                            long user_new_sum = Long.parseLong(user_balance) + Long.parseLong(c_amount);
+                            String newAmount = ""+user_new_sum;
+                            reference.child(UserID).child("balance").setValue(newAmount);
                             Toast.makeText(deposit.this,"success! "+c_amount+"$ has been added to your account",Toast.LENGTH_LONG).show();
                             startActivity(new Intent(deposit.this,user_bio.class));
 
