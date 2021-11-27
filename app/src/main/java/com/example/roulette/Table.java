@@ -81,7 +81,7 @@ public class Table extends AppCompatActivity {
                         for(int i = 0; i<37; i++){
 
                             if(Integer.parseInt(snapshot.child("bet").child(""+i).getValue().toString()) > 0) {
-                                str_bets += i +", ";
+                                str_bets += i +" ";
                             }
                             }
                         bet_view.setText(str_bets);

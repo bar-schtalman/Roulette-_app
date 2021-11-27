@@ -5,116 +5,117 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradiant_backdround"
-    tools:context=".UserLogIn">
+    tools:context=".withdrawal">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#0E4067"
-
         android:fontFamily="@font/spike_speak_straight"
-        android:text="Sign in"
-        android:textSize="90dp"
+        android:text="withdrawal"
+        android:textSize="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.094" />
+        app:layout_constraintVertical_bias="0.056" />
 
     <EditText
-        android:id="@+id/Email"
+        android:id="@+id/bank_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableTint="#1DE9B6"
         android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:textColor="#000000"
-        android:textCursorDrawable="@color/purple_700"
+        android:hint="bank number"
+        android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.313" />
+        app:layout_constraintVertical_bias="0.275" />
 
     <EditText
-        android:id="@+id/Password"
+        android:id="@+id/branch_nubmer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="280dp"
         android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/Email"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/player_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/costume_button"
-        android:fontFamily="@font/spike_speak_straight"
-        android:text="log in"
-
-        android:textColor="#FFFFFF"
+        android:hint="branch number"
+        android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.69"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
-        app:strokeColor="#F61010" />
+        app:layout_constraintVertical_bias="0.408" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/player_register"
+    <EditText
+        android:id="@+id/account_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/costume_button"
-        android:fontFamily="@font/spike_speak_straight"
-
-
-        android:text="register"
-        android:textColor="#FFFFFF"
+        android:ems="10"
+        android:hint="acount number"
+        android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.281"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.53" />
+
+    <TextView
+        android:id="@+id/user_balance_w"
+        android:fontFamily="@font/spike_speak_straight"
+        android:textSize="30dp"
+        android:layout_width="173dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.184" />
+
+    <TextView
+        android:id="@+id/user_balance_w2"
+        android:layout_width="185dp"
+        android:layout_height="35dp"
+        android:fontFamily="@font/spike_speak_straight"
+        android:text="user balance"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.184" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/forgot"
+        android:id="@+id/submit_w"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/costume_button"
         android:fontFamily="@font/spike_speak_straight"
-        android:text="forgot password?"
+        android:text="submit"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.98" />
+        app:layout_constraintVertical_bias="0.767" />
 
-    <ProgressBar
-        android:id="@+id/progressBar1"
-        style="@android:style/Widget.DeviceDefault.Light.ProgressBar"
-        android:layout_width="80dp"
-        android:layout_height="57dp"
-        android:visibility="invisible"
+    <EditText
+        android:id="@+id/amount_to_w"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="$$$"
+        android:inputType="number"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.608" />
-
+        app:layout_constraintVertical_bias="0.645" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Roulette">
         <activity
+            android:name=".withdrawal"
+            android:exported="false" />
+        <activity
             android:name=".betTable"
             android:exported="false" />
         <activity

@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class user_bio extends AppCompatActivity {
-    private Button logout;
+    private Button logout, withdrawal;
     private FirebaseUser user;
     private DatabaseReference reference;
     private TextView welcomeMSG, full_name, balancee, email_user;
@@ -46,6 +46,14 @@ public class user_bio extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(user_bio.this,UserLogIn.class));
+            }
+        });
+
+        withdrawal = findViewById(R.id.withdrawal);
+        withdrawal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(user_bio.this,withdrawal.class));
             }
         });
 
