@@ -71,7 +71,15 @@ public class user_bio extends AppCompatActivity {
                     String ful_name = snapshot.child("full_name").getValue().toString();
                     String email = snapshot.child("email").getValue().toString();;
                     String balance = snapshot.child("balance").getValue().toString();
-                    welcomeMSG.setText("welcome " +ful_name );
+                    int name = 0;
+                    for(int i = 0 ; i < ful_name.length(); i++){
+                        if(Character.toString(ful_name.charAt(i)).equals(" ") ){
+                            name = i;
+                            break;
+
+                        }
+                    }
+                    welcomeMSG.setText("welcome    " +ful_name.substring(0,name) );
                     full_name.setText(ful_name);;
                     email_user.setText(email);
                     balancee.setText(String.valueOf(balance)+"$");

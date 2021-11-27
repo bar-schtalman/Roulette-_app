@@ -12,7 +12,6 @@
         android:layout_width="249dp"
         android:layout_height="44dp"
         android:ems="10"
-        android:fontFamily="sans-serif"
         android:hint="CREDIT CARD NUMBER"
         android:inputType="numberSigned"
         android:textAlignment="center"
@@ -23,14 +22,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.28" />
 
+
     <EditText
         android:id="@+id/month"
         android:layout_width="53dp"
         android:layout_height="45dp"
         android:ems="10"
         android:hint="MM"
-        android:maxLength="2"
         android:inputType="numberSigned"
+        android:maxLength="2"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.397" />
-
 
     <EditText
         android:id="@+id/year"

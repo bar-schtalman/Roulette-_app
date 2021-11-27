@@ -10,10 +10,11 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bet5"
-        android:layout_width="43dp"
-        android:layout_height="42dp"
+        android:layout_width="49dp"
+        android:layout_height="44dp"
         android:background="@drawable/costume_button"
 
+        android:fontFamily="@font/spike_speak_straight"
         android:text="5"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,10 +27,10 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bet100"
-        android:layout_width="43dp"
+        android:layout_width="50dp"
         android:layout_height="42dp"
         android:background="@drawable/costume_button"
-
+        android:fontFamily="@font/spike_speak_straight"
         android:text="100"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,10 +43,10 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bet1000"
-        android:layout_width="43dp"
-        android:layout_height="42dp"
+        android:layout_width="53dp"
+        android:layout_height="44dp"
         android:background="@drawable/costume_button"
-
+        android:fontFamily="@font/spike_speak_straight"
         android:text="1000"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,10 +59,10 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bet500"
-        android:layout_width="43dp"
-        android:layout_height="42dp"
+        android:layout_width="54dp"
+        android:layout_height="43dp"
         android:background="@drawable/costume_button"
-
+        android:fontFamily="@font/spike_speak_straight"
         android:text="500"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,10 +75,10 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bet25"
-        android:layout_width="43dp"
-        android:layout_height="42dp"
+        android:layout_width="55dp"
+        android:layout_height="41dp"
         android:background="@drawable/costume_button"
-
+        android:fontFamily="@font/spike_speak_straight"
         android:text="25"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
