@@ -44,7 +44,7 @@ public class Table extends AppCompatActivity {
     private static int NUMBER;
     private boolean isSpinning = false;
     private FirebaseUser user;
-    private DatabaseReference reference;
+    private DatabaseReference reference,boss_reference;
     private String UserID,str_bets;
     // 0 32 15 19 4 21 2 25 17 34 6 27 13 36 11 30 8 23 10 5 24 16 33 1 20 14 31 9 22 18 29 7 28 12 35 3 26
     private static final String [] sectors = {"32 red","15 black","19 red","4 black","21 red","2 black",
@@ -61,7 +61,9 @@ public class Table extends AppCompatActivity {
          getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
          setContentView(R.layout.activity_table);
-        roulette_image = findViewById(R.id.imageView) ;
+         boss_reference = FirebaseDatabase.getInstance().getReference("Boss");
+
+         roulette_image = findViewById(R.id.imageView) ;
         bet_view = findViewById(R.id.User_bet);
         reference = FirebaseDatabase.getInstance().getReference("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -128,6 +130,20 @@ public class Table extends AppCompatActivity {
                                     int new_amount = win + Integer.parseInt(snapshot.child("balance").getValue().toString());
                                     reference.child(UserID).child("balance").setValue(""+new_amount);
                                     Toast.makeText(Table.this,"win!!!, your prize is "+win+"$",Toast.LENGTH_LONG).show();
+                                    boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
+                                            long new_sum = bos_balance - win;
+                                            boss_reference.child("balance").setValue(""+new_sum);
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                                 }
                                 else{
                                     Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();

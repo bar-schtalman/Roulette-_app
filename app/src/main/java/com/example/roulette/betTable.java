@@ -32,7 +32,7 @@ public class betTable extends AppCompatActivity {
     String BET_STRING,UserID;
     private FirebaseUser user;
     public long BALANCE;
-    private DatabaseReference reference;
+    private DatabaseReference reference,boss_reference;
     private static int CHIP = 0,BET_SUM = 0;
 
 
@@ -47,6 +47,7 @@ public class betTable extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();
         UserID = user.getUid();
+        boss_reference = FirebaseDatabase.getInstance().getReference("Boss");
         ///////////////////////////////////////////////////////////
         BET_STRING = "";
 
@@ -299,7 +300,7 @@ public class betTable extends AppCompatActivity {
         b30.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MAP [030] += CHIP;
+                MAP [30] += CHIP;
                 BET_SUM += CHIP;
             }
         });
@@ -431,6 +432,20 @@ public class betTable extends AppCompatActivity {
                             for(int i = 0 ; i< 37 ; i++){
                                 reference.child(UserID).child("bet").child(""+i).setValue(MAP[i]);
                             }
+                            boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
+                                    long new_sum = BET_SUM + bos_balance;
+                                    boss_reference.child("balance").setValue(""+new_sum);
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                             BALANCE = Long.parseLong(snapshot.child("balance").getValue().toString()) - (long)BET_SUM;
                             reference.child(UserID).child("balance").setValue(""+BALANCE);
                             startActivity(new Intent(betTable.this,Table.class));
