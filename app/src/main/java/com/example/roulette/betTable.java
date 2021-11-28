@@ -26,9 +26,9 @@ public class betTable extends AppCompatActivity {
 
     private Button b1 ,b2 ,b3 ,b4 ,b5 ,b6 ,b7 ,b8 ,b9 ,b10 ,b11 ,b0 ,b12 ,b13 ,b14 ,b15 ,b16 ,b17 ,
             b18 ,b19,b20 ,b21 ,b22 ,b23 ,b24 ,b25 ,b26 ,b27 ,b28 ,b29 ,b30 ,b31 ,b32 ,b33 ,b34 ,b35
-            ,b36,btn5,btn25,btn100,btn500, btn1000,submit;
+            ,b36,btn5,btn25,btn100,btn500, btn1000,submit,reset_btn,calculator;
     public int [] MAP = new int [37];
-    private TextView bet_amount,user_amount,selected_chip,test_text;
+    private TextView bet_amount,user_amount,selected_chip,test_text,final_bet_txt;
     String BET_STRING,UserID;
     private FirebaseUser user;
     public long BALANCE;
@@ -55,6 +55,104 @@ public class betTable extends AppCompatActivity {
         selected_chip = (TextView)findViewById(R.id.textView17);
         BET_SUM = 0;
         bet_amount = (TextView)findViewById(R.id.betsumtextview);
+
+        /////////////////////////////////////////////////////////////
+        user_amount = (TextView) findViewById(R.id.user_amount_bet);
+        test_text = (TextView)findViewById(R.id.user_amount_play);
+
+        reference = FirebaseDatabase.getInstance().getReference("Users");
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        UserID = user.getUid();
+
+        reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user_amount.setText(""+snapshot.child("balance").getValue().toString().trim());
+                }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        reset_btn = findViewById(R.id.reset);
+        reset_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i< 36; i++){
+                    MAP[i] = 0;
+                }
+                BET_SUM = 0;
+                bet_amount.setText(""+BET_SUM);
+                final_bet_txt.setText("");
+            }
+        });
+        final_bet_txt = findViewById(R.id.final_bet);
+        calculator = findViewById(R.id.calculate);
+        calculator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String show = "  ";
+                for (int i = 0; i< 37 ; i++){
+                    if(MAP[i] > 0){
+                        show += i + " -> " + MAP[i] +"| " ;
+                    }
+                    final_bet_txt.setText(show.substring(0,show.length()-2));
+                }
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int sum = 0;
+                        if(BET_SUM > Integer.parseInt(snapshot.child("balance").getValue().toString())){
+                            BET_SUM = 0;
+                            for(int i = 0; i<37; i++){
+                                MAP[i] = 0;
+                                Toast.makeText(betTable.this,"Error, not enough money,enter new bet",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else{
+                            for(int i = 0 ; i< 37 ; i++){
+                                reference.child(UserID).child("bet").child(""+i).setValue(MAP[i]);
+                            }
+                            boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
+                                    long new_sum = BET_SUM + bos_balance;
+                                    boss_reference.child("balance").setValue(""+new_sum);
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                            BALANCE = Long.parseLong(snapshot.child("balance").getValue().toString()) - (long)BET_SUM;
+                            reference.child(UserID).child("balance").setValue(""+BALANCE);
+                            startActivity(new Intent(betTable.this,Table.class));
+                        }
+
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+        });
+
         b0 = (Button) findViewById(R.id.b0);
         b0.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -464,76 +562,6 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 CHIP=1000;
                 selected_chip.setText("1000");
-            }
-        });
-        /////////////////////////////////////////////////////////////
-        user_amount = (TextView) findViewById(R.id.user_amount_bet);
-        test_text = (TextView)findViewById(R.id.user_amount_play);
-
-        reference = FirebaseDatabase.getInstance().getReference("Users");
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        UserID = user.getUid();
-
-        reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                user_amount.setText(""+snapshot.child("balance").getValue().toString());
-                }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        int sum = 0;
-                        if(BET_SUM > Integer.parseInt(snapshot.child("balance").getValue().toString())){
-                            BET_SUM = 0;
-                            for(int i = 0; i<37; i++){
-                                MAP[i] = 0;
-                                Toast.makeText(betTable.this,"Error, not enough money,enter new bet",Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else{
-                            for(int i = 0 ; i< 37 ; i++){
-                                reference.child(UserID).child("bet").child(""+i).setValue(MAP[i]);
-                            }
-                            boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
-                                    long new_sum = BET_SUM + bos_balance;
-                                    boss_reference.child("balance").setValue(""+new_sum);
-
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-                            BALANCE = Long.parseLong(snapshot.child("balance").getValue().toString()) - (long)BET_SUM;
-                            reference.child(UserID).child("balance").setValue(""+BALANCE);
-                            startActivity(new Intent(betTable.this,Table.class));
-                        }
-
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
             }
         });
     }

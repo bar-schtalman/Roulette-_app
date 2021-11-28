@@ -136,6 +136,8 @@ public class Table extends AppCompatActivity {
                                             long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
                                             long new_sum = bos_balance - win;
                                             boss_reference.child("balance").setValue(""+new_sum);
+                                            user_amount.setText(""+new_sum);
+                                            bet_view.setText("place bet to play");
 
                                         }
 
