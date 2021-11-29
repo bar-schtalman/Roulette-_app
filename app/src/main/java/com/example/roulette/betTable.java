@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -89,6 +90,7 @@ public class betTable extends AppCompatActivity {
             }
         });
         final_bet_txt = findViewById(R.id.final_bet);
+
         calculator = findViewById(R.id.calculate);
         calculator.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,9 +98,10 @@ public class betTable extends AppCompatActivity {
                 String show = "  ";
                 for (int i = 0; i< 37 ; i++){
                     if(MAP[i] > 0){
-                        show += i + " -> " + MAP[i] +"| " ;
+                        show += i + "->" + MAP[i] +"$  "  ;
                     }
                     final_bet_txt.setText(show.substring(0,show.length()-2));
+                    final_bet_txt.setMovementMethod(new ScrollingMovementMethod());
                 }
             }
         });
@@ -116,6 +119,10 @@ public class betTable extends AppCompatActivity {
                                 MAP[i] = 0;
                                 Toast.makeText(betTable.this,"Error, not enough money,enter new bet",Toast.LENGTH_SHORT).show();
                             }
+                        }
+                        else if( BET_SUM == 0){
+
+                            Toast.makeText(betTable.this,"place a bet to play",Toast.LENGTH_SHORT).show();
                         }
                         else{
                             for(int i = 0 ; i< 37 ; i++){

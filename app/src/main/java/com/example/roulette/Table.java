@@ -40,7 +40,7 @@ public class Table extends AppCompatActivity {
     private Button spin,bet;
     private ImageView roulette_image;
     private Random r;
-    private int degree ;
+    private int degree ,new_amount ;
     private static int NUMBER;
     private boolean isSpinning = false;
     private FirebaseUser user;
@@ -72,7 +72,7 @@ public class Table extends AppCompatActivity {
         UserID = user.getUid();
         textView = findViewById(R.id.textView7) ;
         spin = findViewById(R.id.spin);
-         str_bets = "";
+        str_bets = "";
 
                 reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -97,6 +97,10 @@ public class Table extends AppCompatActivity {
         spin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(bet_view.getText().toString().isEmpty() || bet_view.getText().toString().equals("place bet to play")){
+                    Toast.makeText(Table.this,"place a bet to play",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(!isSpinning){
                     spin();
                     isSpinning = true;
@@ -116,6 +120,18 @@ public class Table extends AppCompatActivity {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
+                        boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                int games = Integer.parseInt(snapshot.child("games").getValue().toString())+1;
+                                boss_reference.child("games").setValue(""+games);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                         String number = sectors[sectors.length - (degree + 1)];
                         textView.setText(number);
                         NUMBER = numbers[sectors.length - (degree + 1)];
@@ -125,9 +141,13 @@ public class Table extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                                 String str2 = snapshot.child("bet").child(""+NUMBER).getValue().toString();
+                                int user_games = Integer.parseInt(snapshot.child("games").getValue().toString()) + 1;
+                                reference.child(UserID).child("games").setValue(""+user_games);
                                 int win = Integer.parseInt(str2)*32;
                                 if(win > 0 ){
-                                    int new_amount = win + Integer.parseInt(snapshot.child("balance").getValue().toString());
+                                    int user_wins = Integer.parseInt(snapshot.child("wins").getValue().toString().trim()) + 1;
+                                    reference.child(UserID).child("wins").setValue(""+user_wins);
+                                    new_amount = win + Integer.parseInt(snapshot.child("balance").getValue().toString());
                                     reference.child(UserID).child("balance").setValue(""+new_amount);
                                     Toast.makeText(Table.this,"win!!!, your prize is "+win+"$",Toast.LENGTH_LONG).show();
                                     boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -135,8 +155,12 @@ public class Table extends AppCompatActivity {
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
                                             long new_sum = bos_balance - win;
+                                            int wins_count = Integer.parseInt(snapshot.child("wins").getValue().toString()) +1;
+                                            boss_reference.child("wins").setValue(""+wins_count);
                                             boss_reference.child("balance").setValue(""+new_sum);
-                                            user_amount.setText(""+new_sum);
+                                            int money_won = Integer.parseInt(snapshot.child("money_spent").getValue().toString()) + win;
+                                            boss_reference.child("money_spent").setValue(""+money_won);
+                                            user_amount.setText(""+new_amount);
                                             bet_view.setText("place bet to play");
 
                                         }
@@ -149,6 +173,7 @@ public class Table extends AppCompatActivity {
                                 }
                                 else{
                                     Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();
+                                    bet_view.setText("place bet to play");
                                 }
                                 for(int i = 0; i<37; i++){
                                     reference.child(UserID).child("bet").child(""+i).setValue("0");

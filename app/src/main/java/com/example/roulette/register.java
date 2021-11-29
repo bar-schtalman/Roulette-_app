@@ -31,6 +31,7 @@ public class register extends AppCompatActivity implements View.OnClickListener 
     private EditText user_full_name, user_email, user_password;
     private Button registerUser;
     private DatabaseReference reference;
+
     private CheckBox box;
     private ProgressBar progressBar;
     private String UserID;
@@ -44,6 +45,7 @@ public class register extends AppCompatActivity implements View.OnClickListener 
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+
         Button registerUser = findViewById(R.id.button2);
         registerUser.setOnClickListener(this);
         reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -53,8 +55,6 @@ public class register extends AppCompatActivity implements View.OnClickListener 
         box = (CheckBox) findViewById(R.id.checkBox);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         UserID = mAuth.getUid();
-
-
 
 
     }
