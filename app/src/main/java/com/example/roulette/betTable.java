@@ -42,9 +42,9 @@ public class betTable extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_bet_table);
         ////////////////////////////////////////////////////////////
+
         reference = FirebaseDatabase.getInstance().getReference("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();
         UserID = user.getUid();
@@ -68,7 +68,7 @@ public class betTable extends AppCompatActivity {
         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                user_amount.setText(""+snapshot.child("balance").getValue().toString().trim());
+                user_amount.setText(snapshot.child("balance").getValue().toString().trim());
                 }
 
 
