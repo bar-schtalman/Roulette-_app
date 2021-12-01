@@ -27,14 +27,14 @@ public class betTable extends AppCompatActivity {
 
     private Button b1 ,b2 ,b3 ,b4 ,b5 ,b6 ,b7 ,b8 ,b9 ,b10 ,b11 ,b0 ,b12 ,b13 ,b14 ,b15 ,b16 ,b17 ,
             b18 ,b19,b20 ,b21 ,b22 ,b23 ,b24 ,b25 ,b26 ,b27 ,b28 ,b29 ,b30 ,b31 ,b32 ,b33 ,b34 ,b35
-            ,b36,btn5,btn25,btn100,btn500, btn1000,submit,reset_btn,calculator;
-    public int [] MAP = new int [37];
+            ,b36,btn5,btn25,btn100,btn500, btn1000,submit,reset_btn,calculator,odd,even,red,black,low,high;
+    public int [] MAP = new int [43];
     private TextView bet_amount,user_amount,selected_chip,test_text,final_bet_txt;
     String BET_STRING,UserID;
     private FirebaseUser user;
     public long BALANCE;
     private DatabaseReference reference,boss_reference;
-    private static int CHIP = 0,BET_SUM = 0;
+    private static int CHIP = 0,BET_SUM = 0, ADD_SUM = 0;
 
 
 
@@ -54,6 +54,7 @@ public class betTable extends AppCompatActivity {
 
         submit = (Button)findViewById(R.id.submit_bet);
         selected_chip = (TextView)findViewById(R.id.textView17);
+        ADD_SUM = 0;
         BET_SUM = 0;
         bet_amount = (TextView)findViewById(R.id.betsumtextview);
 
@@ -81,7 +82,7 @@ public class betTable extends AppCompatActivity {
         reset_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i< 36; i++){
+                for (int i = 0; i< 43; i++){
                     MAP[i] = 0;
                 }
                 BET_SUM = 0;
@@ -95,15 +96,36 @@ public class betTable extends AppCompatActivity {
         calculator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String show = "  ";
-                for (int i = 0; i< 37 ; i++){
-                    if(MAP[i] > 0){
-                        show += i + "->" + MAP[i] +"$  "  ;
+                String show = " ";
+                for (int i = 0; i< 37 ; i++) {
+                    if (MAP[i] > 0) {
+                        show += i + "->" + MAP[i] + "$  ";
+
                     }
+                }
+                if(MAP [37] >0){
+                    show += "ODD->" +MAP[37] +"$  ";
+                }
+                if(MAP[38] > 0){
+                    show += "EVEN->" + MAP[38]+"$  ";
+                }
+                if(MAP[39] > 0){
+                    show += "RED->" + MAP[39]+"$  ";
+                }
+                if(MAP[40] > 0){
+                    show += "BLACK->" + MAP[40]+"$  ";
+                }
+                if(MAP[41] > 0){
+                    show += "19-36->" + MAP[41]+"$  ";
+                }
+                if(MAP[42] > 0){
+                    show += "1-18->" + MAP[42]+"$  ";
+                }
+
                     final_bet_txt.setText(show.substring(0,show.length()-2));
                     final_bet_txt.setMovementMethod(new ScrollingMovementMethod());
                 }
-            }
+
         });
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +150,13 @@ public class betTable extends AppCompatActivity {
                             for(int i = 0 ; i< 37 ; i++){
                                 reference.child(UserID).child("bet").child(""+i).setValue(MAP[i]);
                             }
+                            reference.child(UserID).child("bet").child("odd").setValue(""+MAP[37]);
+                            reference.child(UserID).child("bet").child("even").setValue(""+MAP[38]);
+                            reference.child(UserID).child("bet").child("red").setValue(""+MAP[39]);
+                            reference.child(UserID).child("bet").child("black").setValue(""+MAP[40]);
+                            reference.child(UserID).child("bet").child("high").setValue(""+MAP[41]);
+                            reference.child(UserID).child("bet").child("low").setValue(""+MAP[42]);
+
                             boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -166,7 +195,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP[0] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
 
             }
         });
@@ -176,7 +206,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [1] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
 
             }
         });
@@ -186,8 +217,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [2] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b3 = (Button) findViewById(R.id.b3);
@@ -196,8 +227,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [3] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b4 = (Button) findViewById(R.id.b4);
@@ -206,8 +237,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [4] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b5 = (Button) findViewById(R.id.b5);
@@ -216,8 +247,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [5] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b6 = (Button) findViewById(R.id.b6);
@@ -226,8 +257,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [6] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b7 = (Button) findViewById(R.id.b7);
@@ -236,8 +267,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [7] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b8 = (Button) findViewById(R.id.b8);
@@ -246,8 +277,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [8] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b9 = (Button) findViewById(R.id.b9);
@@ -256,8 +287,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [9] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b10 = (Button) findViewById(R.id.b10);
@@ -266,8 +297,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [10] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b11 = (Button) findViewById(R.id.b11);
@@ -276,8 +307,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [11] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b12 = (Button) findViewById(R.id.b12);
@@ -286,8 +317,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [12] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b13 = (Button) findViewById(R.id.b13);
@@ -296,8 +327,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [13] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b14 = (Button) findViewById(R.id.b14);
@@ -306,8 +337,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [14] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b15 = (Button) findViewById(R.id.b15);
@@ -316,8 +347,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [15] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b16 = (Button) findViewById(R.id.b16);
@@ -326,8 +357,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [16] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b17 = (Button) findViewById(R.id.b17);
@@ -336,7 +367,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [17] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
 
             }
         });
@@ -346,8 +378,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [18] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b19 = (Button) findViewById(R.id.b19);
@@ -356,8 +388,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [19] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b20 = (Button) findViewById(R.id.b20);
@@ -366,8 +398,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [20] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b21 = (Button) findViewById(R.id.b21);
@@ -376,8 +408,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [21] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b22 = (Button) findViewById(R.id.b22);
@@ -386,8 +418,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [22] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b23 = (Button) findViewById(R.id.b23);
@@ -396,8 +428,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [23] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b24 = (Button) findViewById(R.id.b24);
@@ -406,8 +438,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [24] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b25 = (Button) findViewById(R.id.b25);
@@ -416,8 +448,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [25] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b26 = (Button) findViewById(R.id.b26);
@@ -426,8 +458,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [26] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b27 = (Button) findViewById(R.id.b27);
@@ -436,8 +468,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [27] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b28 = (Button) findViewById(R.id.b28);
@@ -446,8 +478,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [28] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b29 = (Button) findViewById(R.id.b29);
@@ -456,8 +488,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [29] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b30 = (Button) findViewById(R.id.b30);
@@ -466,7 +498,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [30] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
 
             }
         });
@@ -476,7 +509,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [31] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
 
             }
         });
@@ -486,8 +520,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [32] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b33 = (Button) findViewById(R.id.b33);
@@ -496,7 +530,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [33] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
 
             }
         });
@@ -506,7 +541,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [34] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
 
             }
         });
@@ -516,8 +552,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [35] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
-
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
             }
         });
         b36 = (Button) findViewById(R.id.b36);
@@ -526,7 +562,8 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 MAP [36] += CHIP;
                 BET_SUM += CHIP;
-                bet_amount.setText(""+BET_SUM);
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
 
             }
         });
@@ -571,6 +608,67 @@ public class betTable extends AppCompatActivity {
                 selected_chip.setText("1000");
             }
         });
+        odd = findViewById(R.id.odd);
+        odd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MAP [37] += CHIP;
+                ADD_SUM += CHIP;
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
+            }
+        });
+        even = findViewById(R.id.even);
+        even.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MAP [38] += CHIP;
+                ADD_SUM += CHIP;
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
+            }
+        });
+        red = findViewById(R.id.red);
+        red.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MAP [39] += CHIP;
+                ADD_SUM += CHIP;
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
+            }
+        });
+        black = findViewById(R.id.black);
+        black.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MAP [40] += CHIP;
+                ADD_SUM += CHIP;
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
+            }
+        });
+        high = findViewById(R.id.half2);
+        high.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MAP [41] += CHIP;
+                ADD_SUM += CHIP;
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
+            }
+        });
+        low = findViewById(R.id.half1);
+        low.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MAP [42] += CHIP;
+                ADD_SUM += CHIP;
+                int new_sum = BET_SUM+ADD_SUM;
+                bet_amount.setText(""+new_sum);
+            }
+        });
+
     }
 
 }

@@ -40,12 +40,13 @@ public class Table extends AppCompatActivity {
     private Button spin,bet;
     private ImageView roulette_image;
     private Random r;
-    private int degree ,new_amount ;
+    private int degree ,new_amount, win ;
     private static int NUMBER;
     private boolean isSpinning = false;
     private FirebaseUser user;
     private DatabaseReference reference,boss_reference;
     private String UserID,str_bets;
+
     // 0 32 15 19 4 21 2 25 17 34 6 27 13 36 11 30 8 23 10 5 24 16 33 1 20 14 31 9 22 18 29 7 28 12 35 3 26
     private static final String [] sectors = {"32 red","15 black","19 red","4 black","21 red","2 black",
             "25 red","17 black","34 red","6 black","27 red","13 black","36 red","11 black","30 red","8 black",
@@ -72,6 +73,7 @@ public class Table extends AppCompatActivity {
         textView = findViewById(R.id.textView7) ;
         spin = findViewById(R.id.spin);
         str_bets = "";
+        win = 0;
 
                 reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -83,6 +85,13 @@ public class Table extends AppCompatActivity {
                                 str_bets += i +" ";
                             }
                             }
+                        if(Integer.parseInt(snapshot.child("bet").child("odd").getValue().toString()) > 0){str_bets += "odd" +" ";}
+                        if(Integer.parseInt(snapshot.child("bet").child("even").getValue().toString()) > 0){str_bets += "even" +" ";}
+                        if(Integer.parseInt(snapshot.child("bet").child("red").getValue().toString()) > 0){str_bets += "red" +" ";}
+                        if(Integer.parseInt(snapshot.child("bet").child("black").getValue().toString()) > 0){str_bets += "black" +" ";}
+                        if(Integer.parseInt(snapshot.child("bet").child("high").getValue().toString()) > 0){str_bets += "19-36" +" ";}
+                        if(Integer.parseInt(snapshot.child("bet").child("low").getValue().toString()) > 0){str_bets += "1-18" +" ";}
+
                         bet_view.setText(str_bets);
                     }
 
@@ -142,7 +151,29 @@ public class Table extends AppCompatActivity {
                                 String str2 = snapshot.child("bet").child(""+NUMBER).getValue().toString();
                                 int user_games = Integer.parseInt(snapshot.child("games").getValue().toString()) + 1;
                                 reference.child(UserID).child("games").setValue(""+user_games);
-                                int win = Integer.parseInt(str2)*32;
+                                win = Integer.parseInt(str2)*32;
+                                if(NUMBER > 0) {
+                                    if (NUMBER % 2 == 0) {
+                                        win += 2 * Integer.parseInt(snapshot.child("bet").child("even").getValue().toString().trim());
+                                    }
+                                    else{
+                                        win += 2 * Integer.parseInt(snapshot.child("bet").child("odd").getValue().toString().trim());
+                                    }
+
+                                    if(isRed(NUMBER)){
+                                        win += 2 * Integer.parseInt(snapshot.child("bet").child("red").getValue().toString().trim());
+                                    }
+                                    else{
+                                        win += 2 * Integer.parseInt(snapshot.child("bet").child("black").getValue().toString().trim());
+                                    }
+                                    if(NUMBER> 18 && NUMBER <=36){
+                                        win += 2 * Integer.parseInt(snapshot.child("bet").child("high").getValue().toString().trim());
+                                    }
+                                    else{
+                                        win += 2 * Integer.parseInt(snapshot.child("bet").child("low").getValue().toString().trim());
+
+                                    }
+                                }
                                 if(win > 0 ){
                                     int user_wins = Integer.parseInt(snapshot.child("wins").getValue().toString().trim()) + 1;
                                     reference.child(UserID).child("wins").setValue(""+user_wins);
@@ -177,6 +208,12 @@ public class Table extends AppCompatActivity {
                                 for(int i = 0; i<37; i++){
                                     reference.child(UserID).child("bet").child(""+i).setValue("0");
                                 }
+                                reference.child(UserID).child("bet").child("odd").setValue("0");
+                                reference.child(UserID).child("bet").child("even").setValue("0");
+                                reference.child(UserID).child("bet").child("red").setValue("0");
+                                reference.child(UserID).child("bet").child("black").setValue("0");
+                                reference.child(UserID).child("bet").child("high").setValue("0");
+                                reference.child(UserID).child("bet").child("low").setValue("0");
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) { }
@@ -206,5 +243,13 @@ public class Table extends AppCompatActivity {
         }
 
     }
-
+    private boolean isRed(int n){
+            if( n == 1|| n == 3|| n == 5||n == 7||n == 9||n == 12||n == 14||n == 16||n == 18||n == 19||
+                n == 21||n == 23||n == 25|| n == 27 || n == 30|| n == 32|| n == 34|| n == 36){
+                return true;
+         }
+            else{
+                return false;
+            }
+    }
 }
