@@ -108,7 +108,7 @@ public class user_bio extends AppCompatActivity {
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(user_bio.this,Table.class));
+                startActivity(new Intent(user_bio.this,betTable.class));
             }
         });
 

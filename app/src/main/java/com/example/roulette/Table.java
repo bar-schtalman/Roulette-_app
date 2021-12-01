@@ -143,6 +143,7 @@ public class Table extends AppCompatActivity {
                         String number = sectors[sectors.length - (degree + 1)];
                         textView.setText(number);
                         NUMBER = numbers[sectors.length - (degree + 1)];
+
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
                         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -184,7 +185,7 @@ public class Table extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
-                                            long new_sum = bos_balance - win;
+                                            long new_sum = bos_balance - win;;
                                             int wins_count = Integer.parseInt(snapshot.child("wins").getValue().toString()) +1;
                                             boss_reference.child("wins").setValue(""+wins_count);
                                             boss_reference.child("balance").setValue(""+new_sum);
@@ -205,6 +206,18 @@ public class Table extends AppCompatActivity {
                                     Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();
                                     bet_view.setText("place bet to play");
                                 }
+                                boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        int new_val = Integer.parseInt(snapshot.child("bets").child(""+NUMBER).getValue().toString().trim()) + 1;
+                                        boss_reference.child("bets").child(""+NUMBER).setValue(""+new_val);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                                 for(int i = 0; i<37; i++){
                                     reference.child(UserID).child("bet").child(""+i).setValue("0");
                                 }

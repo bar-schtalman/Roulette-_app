@@ -80,6 +80,8 @@ public class EditProfile extends AppCompatActivity {
                             s_pass = user_password.getText().toString().trim();
 
                             if( !s_pass.equals(current_password) && !s_pass.isEmpty() && s_pass.length() >=6 ){
+                                password_change = true;
+
                                 user.updatePassword(s_pass).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
@@ -87,7 +89,6 @@ public class EditProfile extends AppCompatActivity {
                                             Toast.makeText(EditProfile.this,"failed to update password",Toast.LENGTH_SHORT).show();
                                         }
                                         reference.child(UserID).child("password").setValue(s_pass);
-                                        password_change = true;
                                     }
                                 });
                             }
@@ -96,6 +97,8 @@ public class EditProfile extends AppCompatActivity {
                                 name_changed = true;
                             }
                             if( !s_mail.equals(current_email) && Patterns.EMAIL_ADDRESS.matcher(s_mail).matches()) {
+                                email_changed = true;
+
                                 user.updateEmail(s_mail).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
@@ -104,7 +107,6 @@ public class EditProfile extends AppCompatActivity {
                                             user_email.requestFocus();
                                             return;
                                         }
-                                        email_changed = true;
                                         reference.child(UserID).child("email").setValue(s_mail);
                                     }
                                 });

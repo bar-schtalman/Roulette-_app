@@ -49,6 +49,7 @@ public class betTable extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         UserID = user.getUid();
         boss_reference = FirebaseDatabase.getInstance().getReference("Boss");
+
         ///////////////////////////////////////////////////////////
         BET_STRING = "";
 

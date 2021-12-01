@@ -25,7 +25,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="bank number"
+        android:hint="Bank number"
+        android:textColorHint="@color/black"
+
         android:inputType="number"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="branch number"
+        android:hint="Branch number"
+        android:textColorHint="@color/black"
+
         android:inputType="number"
         android:textAlignment="viewStart"
         android:textStyle="bold"
@@ -56,8 +60,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="acount number"
+        android:hint="Account number"
         android:inputType="number"
+        android:textColorHint="@color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,9 +72,10 @@
 
     <TextView
         android:id="@+id/user_balance_w"
-        android:textSize="30dp"
         android:layout_width="173dp"
         android:layout_height="30dp"
+        android:textAlignment="center"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.92"
@@ -86,7 +92,7 @@
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintHorizontal_bias="0.084"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.185" />
@@ -112,6 +118,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="$$$"
+        android:textColorHint="@color/black"
+
         android:inputType="number"
         android:textAlignment="center"
         android:textStyle="bold"
