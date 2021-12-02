@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User {
-    public String email, full_name, password,balance,games, wins,wins_money;
+    public String email, full_name, password,balance,games, wins,wins_money,bets_money;
 
 
 
@@ -17,6 +17,7 @@ public class User {
         this.games = "0";
         this.wins = "0";
         this.wins_money = "0";
+        this.bets_money = "0";
 
 
     }

@@ -173,6 +173,8 @@ public class betTable extends AppCompatActivity {
                                 }
                             });
                             BALANCE = Long.parseLong(snapshot.child("balance").getValue().toString()) - (long)BET_SUM;
+                            long user_bets_money = Integer.parseInt(snapshot.child("bets_money").getValue().toString()) +(long) BET_SUM;
+                            reference.child(UserID).child("bets_money").setValue(""+user_bets_money);
                             reference.child(UserID).child("balance").setValue(""+BALANCE);
                             startActivity(new Intent(betTable.this,Table.class));
                         }
