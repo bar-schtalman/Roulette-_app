@@ -46,6 +46,7 @@ public class user_bio extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(user_bio.this,UserLogIn.class));
+                finish();
             }
         });
 

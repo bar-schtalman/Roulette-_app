@@ -177,7 +177,9 @@ public class Table extends AppCompatActivity {
                                 }
                                 if(win > 0 ){
                                     int user_wins = Integer.parseInt(snapshot.child("wins").getValue().toString().trim()) + 1;
+                                    int user_wins_money = Integer.parseInt(snapshot.child("wins_money").getValue().toString()) + win;
                                     reference.child(UserID).child("wins").setValue(""+user_wins);
+                                    reference.child(UserID).child("wins_money").setValue(""+user_wins_money);
                                     new_amount = win + Integer.parseInt(snapshot.child("balance").getValue().toString());
                                     reference.child(UserID).child("balance").setValue(""+new_amount);
                                     Toast.makeText(Table.this,"win!!!, your prize is "+win+"$",Toast.LENGTH_LONG).show();
