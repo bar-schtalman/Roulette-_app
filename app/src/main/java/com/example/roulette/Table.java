@@ -182,6 +182,8 @@ public class Table extends AppCompatActivity {
                                     reference.child(UserID).child("wins_money").setValue(""+user_wins_money);
                                     new_amount = win + Integer.parseInt(snapshot.child("balance").getValue().toString());
                                     reference.child(UserID).child("balance").setValue(""+new_amount);
+                                    Toast.makeText(Table.this,"win!!!, your prize is "+win+"$",Toast.LENGTH_LONG).show();
+
                                     boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -202,7 +204,6 @@ public class Table extends AppCompatActivity {
 
                                         }
                                     });
-                                    finish();
                                 }
                                 else{
                                     Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();
