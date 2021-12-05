@@ -616,7 +616,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [37] += CHIP;
-                ADD_SUM += CHIP;
+                BET_SUM += CHIP;
                 int new_sum = BET_SUM+ADD_SUM;
                 bet_amount.setText(""+new_sum);
             }
@@ -626,7 +626,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [38] += CHIP;
-                ADD_SUM += CHIP;
+                BET_SUM += CHIP;
                 int new_sum = BET_SUM+ADD_SUM;
                 bet_amount.setText(""+new_sum);
             }
@@ -636,7 +636,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [39] += CHIP;
-                ADD_SUM += CHIP;
+                BET_SUM += CHIP;
                 int new_sum = BET_SUM+ADD_SUM;
                 bet_amount.setText(""+new_sum);
             }
@@ -646,7 +646,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [40] += CHIP;
-                ADD_SUM += CHIP;
+                BET_SUM += CHIP;
                 int new_sum = BET_SUM+ADD_SUM;
                 bet_amount.setText(""+new_sum);
             }
@@ -656,7 +656,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [41] += CHIP;
-                ADD_SUM += CHIP;
+                BET_SUM += CHIP;
                 int new_sum = BET_SUM+ADD_SUM;
                 bet_amount.setText(""+new_sum);
             }
@@ -666,7 +666,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MAP [42] += CHIP;
-                ADD_SUM += CHIP;
+                BET_SUM += CHIP;
                 int new_sum = BET_SUM+ADD_SUM;
                 bet_amount.setText(""+new_sum);
             }
