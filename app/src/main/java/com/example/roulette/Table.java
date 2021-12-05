@@ -182,7 +182,6 @@ public class Table extends AppCompatActivity {
                                     reference.child(UserID).child("wins_money").setValue(""+user_wins_money);
                                     new_amount = win + Integer.parseInt(snapshot.child("balance").getValue().toString());
                                     reference.child(UserID).child("balance").setValue(""+new_amount);
-                                    startActivity(new Intent(Table.this,winner_screen.class));
                                     boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -203,7 +202,6 @@ public class Table extends AppCompatActivity {
 
                                         }
                                     });
-                                    startActivity(new Intent(Table.this,winner_screen.class));
                                     finish();
                                 }
                                 else{
