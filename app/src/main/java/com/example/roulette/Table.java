@@ -46,8 +46,6 @@ public class Table extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference reference,boss_reference;
     private String UserID,str_bets;
-
-    // 0 32 15 19 4 21 2 25 17 34 6 27 13 36 11 30 8 23 10 5 24 16 33 1 20 14 31 9 22 18 29 7 28 12 35 3 26
     private static final String [] sectors = {"32 red","15 black","19 red","4 black","21 red","2 black",
             "25 red","17 black","34 red","6 black","27 red","13 black","36 red","11 black","30 red","8 black",
             "23 red","10 black","5 red","24 black","16 red","33 black","1 red","20 black","14 red","31 black",
@@ -58,57 +56,55 @@ public class Table extends AppCompatActivity {
     private static  final Random random = new Random();
      @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+         super.onCreate(savedInstanceState);
          getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
          setContentView(R.layout.activity_table);
-
+////////////////////////////////////////////
          boss_reference = FirebaseDatabase.getInstance().getReference("Boss");
          roulette_image = findViewById(R.id.imageView) ;
-        bet_view = findViewById(R.id.User_bet);
-        reference = FirebaseDatabase.getInstance().getReference("Users");
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        user_amount =  findViewById(R.id.user_amount_play);
-        reference = FirebaseDatabase.getInstance().getReference("Users");
-        UserID = user.getUid();
-        textView = findViewById(R.id.textView7) ;
-        spin = findViewById(R.id.spin);
-        str_bets = "";
-        win = 0;
+         bet_view = findViewById(R.id.User_bet);
+         reference = FirebaseDatabase.getInstance().getReference("Users");
+         user = FirebaseAuth.getInstance().getCurrentUser();
+         user_amount =  findViewById(R.id.user_amount_play);
+         UserID = user.getUid();
+         textView = findViewById(R.id.textView7) ;
+         spin = findViewById(R.id.spin);
+         str_bets = "";
+         win = 0;
 
                 reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        //set user balance Textview
                         user_amount.setText(snapshot.child("balance").getValue().toString());
+                        //adding bets to bet view textview
                         for(int i = 0; i<37; i++){
-
                             if(Integer.parseInt(snapshot.child("bet").child(""+i).getValue().toString()) > 0) {
                                 str_bets += i +" ";
                             }
-                            }
+                        }
                         if(Integer.parseInt(snapshot.child("bet").child("odd").getValue().toString()) > 0){str_bets += "odd" +" ";}
                         if(Integer.parseInt(snapshot.child("bet").child("even").getValue().toString()) > 0){str_bets += "even" +" ";}
                         if(Integer.parseInt(snapshot.child("bet").child("red").getValue().toString()) > 0){str_bets += "red" +" ";}
                         if(Integer.parseInt(snapshot.child("bet").child("black").getValue().toString()) > 0){str_bets += "black" +" ";}
                         if(Integer.parseInt(snapshot.child("bet").child("high").getValue().toString()) > 0){str_bets += "19-36" +" ";}
                         if(Integer.parseInt(snapshot.child("bet").child("low").getValue().toString()) > 0){str_bets += "1-18" +" ";}
-
                         bet_view.setText(str_bets);
-                    }
 
+                    }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
-
-        getDegree();
-        r = new Random();
-
+                getDegree();
         spin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //check if user placed bet
                 if(bet_view.getText().toString().isEmpty() || bet_view.getText().toString().equals("place bet to play")){
                     Toast.makeText(Table.this,"place a bet to play",Toast.LENGTH_SHORT).show();
                     return;
                 }
+                //spin
                 if(!isSpinning){
                     spin();
                     isSpinning = true;
@@ -116,6 +112,7 @@ public class Table extends AppCompatActivity {
             }
 
             private void spin() {
+                //image rotation
                 degree = random.nextInt(sectors.length - 1);
                 RotateAnimation rotate = new RotateAnimation(0, (360 * sectors.length) + sectorsDegrees[degree],
                         RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
@@ -129,26 +126,26 @@ public class Table extends AppCompatActivity {
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            //update the games number for the boos
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 int games = Integer.parseInt(snapshot.child("games").getValue().toString())+1;
                                 boss_reference.child("games").setValue(""+games);
                             }
-
                             @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
+                            public void onCancelled(@NonNull DatabaseError error) { }
                         });
+                        //set and show the drawn number
                         String number = sectors[sectors.length - (degree + 1)];
                         textView.setText(number);
                         NUMBER = numbers[sectors.length - (degree + 1)];
 
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
                         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
+                            //check if user win
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                                //check the money user bet on the drawn number and stats update
                                 String str2 = snapshot.child("bet").child(""+NUMBER).getValue().toString();
                                 int user_games = Integer.parseInt(snapshot.child("games").getValue().toString()) + 1;
                                 reference.child(UserID).child("games").setValue(""+user_games);
@@ -175,6 +172,7 @@ public class Table extends AppCompatActivity {
 
                                     }
                                 }
+                                //if user wins money, updates user balance and stats
                                 if(win > 0 ){
                                     int user_wins = Integer.parseInt(snapshot.child("wins").getValue().toString().trim()) + 1;
                                     int user_wins_money = Integer.parseInt(snapshot.child("wins_money").getValue().toString()) + win;
@@ -185,6 +183,7 @@ public class Table extends AppCompatActivity {
                                     Toast.makeText(Table.this,"win!!!, your prize is "+win+"$",Toast.LENGTH_LONG).show();
 
                                     boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        //update boss balance and stats
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
@@ -200,9 +199,7 @@ public class Table extends AppCompatActivity {
                                         }
 
                                         @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
+                                        public void onCancelled(@NonNull DatabaseError error) { }
                                     });
                                 }
                                 else{
@@ -210,6 +207,7 @@ public class Table extends AppCompatActivity {
                                     bet_view.setText("place bet to play");
                                 }
                                 boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    //update games stats
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         int new_val = Integer.parseInt(snapshot.child("bets").child(""+NUMBER).getValue().toString().trim()) + 1;
@@ -217,10 +215,9 @@ public class Table extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
+                                    public void onCancelled(@NonNull DatabaseError error) { }
                                 });
+                                //reset user bets data in firebase
                                 for(int i = 0; i<37; i++){
                                     reference.child(UserID).child("bet").child(""+i).setValue("0");
                                 }
@@ -251,7 +248,6 @@ public class Table extends AppCompatActivity {
             });
 
     }
-
     private void getDegree(){
         int sectorDegree = 360/sectors.length;
         for (int i=0 ; i< sectors.length; i++){
@@ -259,6 +255,7 @@ public class Table extends AppCompatActivity {
         }
 
     }
+
     private boolean isRed(int n){
             if( n == 1|| n == 3|| n == 5||n == 7||n == 9||n == 12||n == 14||n == 16||n == 18||n == 19||
                 n == 21||n == 23||n == 25|| n == 27 || n == 30|| n == 32|| n == 34|| n == 36){

@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class betTable extends AppCompatActivity {
 
-    private Button b1 ,b2 ,b3 ,b4 ,b5 ,b6 ,b7 ,b8 ,b9 ,b10 ,b11 ,b0 ,b12 ,b13 ,b14 ,b15 ,b16 ,b17 ,
+    private Button b0, b1 ,b2 ,b3 ,b4 ,b5 ,b6 ,b7 ,b8 ,b9 ,b10 ,b11  ,b12 ,b13 ,b14 ,b15 ,b16 ,b17 ,
             b18 ,b19,b20 ,b21 ,b22 ,b23 ,b24 ,b25 ,b26 ,b27 ,b28 ,b29 ,b30 ,b31 ,b32 ,b33 ,b34 ,b35
             ,b36,btn5,btn25,btn100,btn500, btn1000,submit,reset_btn,calculator,odd,even,red,black,low,high;
     public int [] MAP = new int [43];
@@ -66,21 +66,19 @@ public class betTable extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();
         UserID = user.getUid();
-
+        //set balance Textview
         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 user_amount.setText(snapshot.child("balance").getValue().toString().trim());
                 }
 
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
         reset_btn = findViewById(R.id.reset);
         reset_btn.setOnClickListener(new View.OnClickListener() {
+            //reset all bets
             @Override
             public void onClick(View v) {
                 for (int i = 0; i< 43; i++){
@@ -91,17 +89,17 @@ public class betTable extends AppCompatActivity {
                 final_bet_txt.setText("");
             }
         });
-        final_bet_txt = findViewById(R.id.final_bet);
 
+        final_bet_txt = findViewById(R.id.final_bet);
         calculator = findViewById(R.id.calculate);
         calculator.setOnClickListener(new View.OnClickListener() {
+            //show the bets to the user
             @Override
             public void onClick(View v) {
                 String show = " ";
                 for (int i = 0; i< 37 ; i++) {
                     if (MAP[i] > 0) {
                         show += i + "->" + MAP[i] + "$  ";
-
                     }
                 }
                 if(MAP [37] >0){
@@ -122,9 +120,8 @@ public class betTable extends AppCompatActivity {
                 if(MAP[42] > 0){
                     show += "1-18->" + MAP[42]+"$  ";
                 }
-
-                    final_bet_txt.setText(show.substring(0,show.length()-2));
-                    final_bet_txt.setMovementMethod(new ScrollingMovementMethod());
+                final_bet_txt.setText(show.substring(0,show.length()-2));
+                final_bet_txt.setMovementMethod(new ScrollingMovementMethod());
                 }
 
         });
@@ -136,17 +133,20 @@ public class betTable extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int sum = 0;
+                        //check if user have enough money
                         if(BET_SUM > Integer.parseInt(snapshot.child("balance").getValue().toString())){
+                            //doesnt have money, reset the bets
                             BET_SUM = 0;
                             for(int i = 0; i<37; i++){
                                 MAP[i] = 0;
                                 Toast.makeText(betTable.this,"Error, not enough money,enter new bet",Toast.LENGTH_SHORT).show();
                             }
                         }
+                        //check if user didn't placed a bet
                         else if( BET_SUM == 0){
-
                             Toast.makeText(betTable.this,"place a bet to play",Toast.LENGTH_SHORT).show();
                         }
+                        //bet is legal, upload to firebase
                         else{
                             for(int i = 0 ; i< 37 ; i++){
                                 reference.child(UserID).child("bet").child(""+i).setValue(MAP[i]);
@@ -161,26 +161,22 @@ public class betTable extends AppCompatActivity {
                             boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    //adding money to the boss
                                     long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
                                     long new_sum = BET_SUM + bos_balance;
                                     boss_reference.child("balance").setValue(""+new_sum);
-
                                 }
 
                                 @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
+                                public void onCancelled(@NonNull DatabaseError error) { }
                             });
+                            //update user balance and bets money
                             BALANCE = Long.parseLong(snapshot.child("balance").getValue().toString()) - (long)BET_SUM;
                             long user_bets_money = Integer.parseInt(snapshot.child("bets_money").getValue().toString()) +(long) BET_SUM;
                             reference.child(UserID).child("bets_money").setValue(""+user_bets_money);
                             reference.child(UserID).child("balance").setValue(""+BALANCE);
                             startActivity(new Intent(betTable.this,Table.class));
                         }
-
-
-
                     }
 
                     @Override

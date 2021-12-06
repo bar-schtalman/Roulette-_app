@@ -44,7 +44,7 @@ public class deposit extends AppCompatActivity {
         submit = findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //valid information check before deposit
                 c_number = number.getText().toString().trim();
                 c_month = month.getText().toString().trim();
                 c_year = year.getText().toString().trim();
@@ -72,12 +72,13 @@ public class deposit extends AppCompatActivity {
                     amount.requestFocus();
                     return;
                 }
+
                 user = FirebaseAuth.getInstance().getCurrentUser();
                 reference = FirebaseDatabase.getInstance().getReference("Users");
                 UserID = user.getUid();
                 reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    public void onDataChange(@NonNull DataSnapshot snapshot) { //adding the amount to data base user
 
                             String user_balance = snapshot.child("balance").getValue().toString();
                             long user_new_sum = Long.parseLong(user_balance) + Long.parseLong(c_amount);

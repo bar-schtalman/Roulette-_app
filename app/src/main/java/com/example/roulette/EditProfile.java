@@ -46,9 +46,6 @@ public class EditProfile extends AppCompatActivity {
         user_email = findViewById(R.id.email);
         user_password = findViewById(R.id.password);
 
-
-
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         UserID = user.getUid();
@@ -64,9 +61,6 @@ public class EditProfile extends AppCompatActivity {
                     user_email.setText(current_email);
                     user_password.setText(current_password);
 
-
-
-
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -78,7 +72,7 @@ public class EditProfile extends AppCompatActivity {
                             s_name = user_full_name.getText().toString().trim();
                             s_mail = user_email.getText().toString().trim();
                             s_pass = user_password.getText().toString().trim();
-
+                            //changed password and if the password is valid and update
                             if( !s_pass.equals(current_password) && !s_pass.isEmpty() && s_pass.length() >=6 ){
                                 password_change = true;
 
@@ -139,13 +133,7 @@ public class EditProfile extends AppCompatActivity {
                             startActivity(new Intent(EditProfile.this,user_bio.class));
                         }
                     });
-
-
-
-
-
                 }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }

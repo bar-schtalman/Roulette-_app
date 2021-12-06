@@ -55,13 +55,11 @@ public class register extends AppCompatActivity implements View.OnClickListener 
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         UserID = mAuth.getUid();
 
-
     }
 
     @Override
     public void onClick(View v) {
         registerUser();
-        
     }
 
     private void registerUser() {
@@ -72,26 +70,31 @@ public class register extends AppCompatActivity implements View.OnClickListener 
         full_name = user_full_name.getText().toString().trim();
         progressBar.setVisibility(View.GONE);
 
+        //empty name check
         if(full_name.isEmpty()){
             user_full_name.setError("full name is required!");
             user_full_name.requestFocus();
             return;
         }
+        //valid email check
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             user_email.setError("valid email is required!");
             user_email.requestFocus();
             return;
         }
+        //empty email check
         if(email.isEmpty()){
             user_email.setError("email is required!");
             user_email.requestFocus();
             return;
         }
+        //valid password check
         if(password.isEmpty() || password.length() < 6){
             user_password.setError("min password should be 6 characters");
             user_password.requestFocus();
             return;
         }
+        //age check over 18
         if(!box.isChecked()){
             box.setError("please confirm your age");
             box.requestFocus();
@@ -102,32 +105,38 @@ public class register extends AppCompatActivity implements View.OnClickListener 
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        //register successful
                         if(task.isSuccessful()){
-
+                            //new user object
                             User user1 = new User(full_name,email,password);
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(user1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                //adding the new user to data base
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
+                                    //added successfully
                                     if(task.isSuccessful()){
                                         progressBar.setVisibility(View.VISIBLE);
-
                                         Toast.makeText(register.this,"successfully",Toast.LENGTH_LONG).show();
+                                        //login with the new user
                                         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                             @Override
                                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                                //login success
                                                 if(task.isSuccessful()){
                                                     startActivity(new Intent(register.this,user_bio.class));
                                                 }
+                                                //failed
                                                 else{
-                                                    Toast.makeText(register.this,"failed to register! please try check your email/password",Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(register.this,"failed ",Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                         });
                                     }
+                                    //failed to add user
                                     else{
-                                        Toast.makeText(register.this,"failed!",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(register.this,"failed to add user object",Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
@@ -136,8 +145,9 @@ public class register extends AppCompatActivity implements View.OnClickListener 
 
                             }
                         }
+                        //failed to register
                         else{
-                            Toast.makeText(register.this,"failed!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(register.this,"failed to register! please try check your email/password",Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
                         }
                     }

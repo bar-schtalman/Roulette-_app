@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class UserLogIn extends AppCompatActivity  {
     private Button forgot,regiser,login;
     private EditText user_email, user_password;
-    private Button signin;
+
     private ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
@@ -57,45 +57,52 @@ public class UserLogIn extends AppCompatActivity  {
             }
         });
 
-        user_email = (EditText) findViewById(R.id.Email);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
-        user_password = (EditText) findViewById(R.id.Password);
+        user_email =  findViewById(R.id.Email);
+        progressBar =  findViewById(R.id.progressBar1);
+        user_password =  findViewById(R.id.Password);
         mAuth = FirebaseAuth.getInstance();
     }
 
 
-    private void userLogin() {
+    private void userLogin() { //after pressing login func
         progressBar.setVisibility(View.VISIBLE);
         String email = user_email.getText().toString().trim();
         String password = user_password.getText().toString().trim();
 
+        //empty email check
         if(email.isEmpty()){
             user_email.setError("email is required!");
             user_email.requestFocus();
             return;
         }
+        //valid email check
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             user_email.setError("valid email is required!");
             user_email.requestFocus();
             return;
         }
+        //valid password check
         if(password.length() < 6){
             user_password.setError("min password should be 6 characters");
             user_password.requestFocus();
             return;
         }
+        //empty password check
         if(password.isEmpty()){
             user_password.setError("password is required!");
             user_password.requestFocus();
             return;
         }
+        //login with email and password
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                //login successful
                 if(task.isSuccessful()){
                     progressBar.setVisibility(View.GONE);
                     startActivity(new Intent(UserLogIn.this,user_bio.class));
                 }
+                //login faild
                 else{
                     Toast.makeText(UserLogIn.this,"failed to login! please try check your email/password",Toast.LENGTH_LONG).show();
                     progressBar.setVisibility(View.GONE);

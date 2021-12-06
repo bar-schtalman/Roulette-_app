@@ -36,7 +36,7 @@ public class forgot_password extends AppCompatActivity {
 
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //valid email check
                 String email = emailEditText.getText().toString().trim();
                 if (email.isEmpty()){
                     emailEditText.setError("email is required");
@@ -49,6 +49,7 @@ public class forgot_password extends AppCompatActivity {
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
+                //sending a reset password email to user
                 auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

@@ -67,6 +67,7 @@ public class user_bio extends AppCompatActivity {
         balancee = findViewById(R.id.balance);
 
         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
+            //adding the first name to welcome text editor
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String ful_name = snapshot.child("full_name").getValue().toString();
