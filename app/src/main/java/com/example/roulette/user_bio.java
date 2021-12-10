@@ -25,7 +25,7 @@ public class user_bio extends AppCompatActivity {
     private DatabaseReference reference;
     private TextView welcomeMSG, full_name, balancee, email_user;
     private String UserID;
-    private Button deposit,edit,play;
+    private Button deposit,edit,play,face;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,13 @@ public class user_bio extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(user_bio.this,UserLogIn.class));
                 finish();
+            }
+        });
+        face = findViewById(R.id.face);
+        face.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(user_bio.this,faces.class));
             }
         });
 

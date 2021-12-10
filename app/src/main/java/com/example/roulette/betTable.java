@@ -156,6 +156,7 @@ public class betTable extends AppCompatActivity {
                             reference.child(UserID).child("bet").child("black").setValue(""+MAP[40]);
                             reference.child(UserID).child("bet").child("high").setValue(""+MAP[41]);
                             reference.child(UserID).child("bet").child("low").setValue(""+MAP[42]);
+                            reference.child(UserID).child("last_bet").setValue(""+BET_SUM);
 
                             boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override

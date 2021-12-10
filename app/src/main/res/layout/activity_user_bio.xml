@@ -60,6 +60,23 @@
         app:strokeColor="#F61010" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/face"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:background="@drawable/face_icon"
+        android:fontFamily="@font/spike_speak_straight"
+        android:text=""
+        android:textColor="#FFFFFF"
+
+        android:textSize="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.897"
+        app:strokeColor="#F61010" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/withdrawal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

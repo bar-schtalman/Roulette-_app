@@ -1,11 +1,23 @@
 package com.example.roulette;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.admin.DeviceAdminService;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -19,8 +31,11 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.cast.framework.media.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,7 +44,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,12 +56,20 @@ import java.util.Random;
 
 public class Table extends AppCompatActivity {
     private TextView textView,user_amount,bet_view;
-    private Button spin,bet,profile;
+    private Button spin,bet,profile,cam;
     private ImageView roulette_image;
+    private Uri image;
+    public static final int CAMERA_ACTION_CODE = 1;
+    private final int CAMERA_CODE = 102;
+    private int BET_SUM;
     private Random r;
-    private int degree ,new_amount, win ;
+    int LAST_WIN = 0;
+    int LAST_BET = 0;
+    private int degree ,new_amount, win ,img_counter;
     private static int NUMBER;
     private boolean isSpinning = false;
+    private StorageReference storageRef,mStorage;
+    private FirebaseStorage storage;
     private FirebaseUser user;
     private DatabaseReference reference,boss_reference;
     private String UserID,str_bets;
@@ -64,6 +91,7 @@ public class Table extends AppCompatActivity {
          roulette_image = findViewById(R.id.imageView) ;
          bet_view = findViewById(R.id.User_bet);
          reference = FirebaseDatabase.getInstance().getReference("Users");
+         storageRef = FirebaseStorage.getInstance().getReference("users");
          user = FirebaseAuth.getInstance().getCurrentUser();
          user_amount =  findViewById(R.id.user_amount_play);
          UserID = user.getUid();
@@ -71,16 +99,19 @@ public class Table extends AppCompatActivity {
          spin = findViewById(R.id.spin);
          str_bets = "";
          win = 0;
+         BET_SUM = 0;
 
                 reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        img_counter = (Integer.parseInt(snapshot.child("img_count").getValue().toString())) % 4;
                         //set user balance Textview
                         user_amount.setText(snapshot.child("balance").getValue().toString());
                         //adding bets to bet view textview
                         for(int i = 0; i<37; i++){
                             if(Integer.parseInt(snapshot.child("bet").child(""+i).getValue().toString()) > 0) {
                                 str_bets += i +" ";
+                                BET_SUM+= Integer.parseInt(snapshot.child("bet").child(""+i).getValue().toString());
                             }
                         }
                         if(Integer.parseInt(snapshot.child("bet").child("odd").getValue().toString()) > 0){str_bets += "odd" +" ";}
@@ -89,6 +120,12 @@ public class Table extends AppCompatActivity {
                         if(Integer.parseInt(snapshot.child("bet").child("black").getValue().toString()) > 0){str_bets += "black" +" ";}
                         if(Integer.parseInt(snapshot.child("bet").child("high").getValue().toString()) > 0){str_bets += "19-36" +" ";}
                         if(Integer.parseInt(snapshot.child("bet").child("low").getValue().toString()) > 0){str_bets += "1-18" +" ";}
+                        BET_SUM+= Integer.parseInt(snapshot.child("bet").child("odd").getValue().toString());
+                        BET_SUM+= Integer.parseInt(snapshot.child("bet").child("even").getValue().toString());
+                        BET_SUM+= Integer.parseInt(snapshot.child("bet").child("red").getValue().toString());
+                        BET_SUM+= Integer.parseInt(snapshot.child("bet").child("black").getValue().toString());
+                        BET_SUM+= Integer.parseInt(snapshot.child("bet").child("high").getValue().toString());
+                        BET_SUM+= Integer.parseInt(snapshot.child("bet").child("low").getValue().toString());
                         bet_view.setText(str_bets);
 
                     }
@@ -181,6 +218,7 @@ public class Table extends AppCompatActivity {
                                     new_amount = win + Integer.parseInt(snapshot.child("balance").getValue().toString());
                                     reference.child(UserID).child("balance").setValue(""+new_amount);
                                     Toast.makeText(Table.this,"win!!!, your prize is "+win+"$",Toast.LENGTH_LONG).show();
+                                    reference.child(UserID).child("last_win").setValue(""+win);
 
                                     boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                         //update boss balance and stats
@@ -257,7 +295,114 @@ public class Table extends AppCompatActivity {
                 }
             });
 
+//             @Override
+//             public void onActivityResult(ActivityResult result) {
+//                if(result.getResultCode() == CAMERA_ACTION_CODE && result.getResultCode() == RESULT_OK && result.getData() != null){
+//                    Bundle bundle = result.getData().getExtras();
+//                    Bitmap bitmap = (Bitmap) bundle.get("data");
+//
+//             }
+//         }});
+//             @Override
+//             public void onActivityResult(Uri result) {
+//                 if (result != null){
+//                     image = result;
+//                     storageRef.child(UserID).child("games_images").child(""+img_counter).putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                         @Override
+//                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                             storageRef.child(UserID).child("games_images").child(""+img_counter).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                                 @Override
+//                                 public void onSuccess(Uri uri) {
+//                                     int pos = img_counter%4;
+//                                     reference.child(UserID).child("imgUrl").child(""+pos).setValue(uri.toString());
+//                                     img_counter++;
+//                                     reference.child(UserID).child("img_count").setValue(""+img_counter);
+//                                 }
+//                             });
+//                         }
+//                     });
+//                 }
+//
+//                 }
+
+//         });
+
+            cam = findViewById(R.id.camera);
+            cam.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkPermission();
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent,CAMERA_CODE);
+                }
+            });
+
+     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 102){
+            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,CAMERA_CODE);
+            }
+        }
     }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 102){
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+            String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),imageBitmap,"val",null);
+            Uri img_uri = Uri.parse(path);
+
+            int pos = img_counter%4;
+            storageRef.child(UserID).child("games_images").child(""+pos).putFile( img_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    storageRef.child(UserID).child("games_images").child(""+img_counter).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            reference.child(UserID).child("faces").child(""+pos).child("url").setValue(uri.toString());
+                            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    LAST_BET = Integer.parseInt(snapshot.child(UserID).child("last_bet").getValue().toString());
+                                    LAST_WIN = Integer.parseInt(snapshot.child(UserID).child("last_win").getValue().toString());
+                                    reference.child(UserID).child("faces").child(""+pos).child("sum").setValue("bet amount "+LAST_BET + ", win amount "+LAST_WIN);
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                            img_counter+= 1;
+                            reference.child(UserID).child("img_count").setValue(""+img_counter);
+                        }
+                    });
+
+                }
+            });
+        }
+    }
+
+    private void checkPermission(){
+         if(ContextCompat.checkSelfPermission(Table.this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+             ActivityCompat.requestPermissions(Table.this,new String[]{Manifest.permission.CAMERA},101);
+         }
+
+     }
+
+
     private void getDegree(){
         int sectorDegree = 360/sectors.length;
         for (int i=0 ; i< sectors.length; i++){
@@ -275,4 +420,5 @@ public class Table extends AppCompatActivity {
                 return false;
             }
     }
+
 }
