@@ -244,6 +244,7 @@ public class Table extends AppCompatActivity {
                                 else{
 //                                    Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();
                                     bet_view.setText("place bet to play");
+                                    reference.child(UserID).child("last_win").setValue("0");
                                     startActivity(new Intent(Table.this,Loser_screen.class));
 
                                 }
