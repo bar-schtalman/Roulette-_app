@@ -109,5 +109,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.879" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/profile_btn"
+        android:layout_width="51dp"
+        android:layout_height="51dp"
+        android:background="@drawable/profile_icon"
+        android:fontFamily="@font/spike_speak_straight"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.033"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.161"
+        app:strokeColor="#F61010" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

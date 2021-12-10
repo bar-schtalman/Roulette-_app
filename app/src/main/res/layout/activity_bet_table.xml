@@ -13,7 +13,6 @@
         android:layout_width="54dp"
         android:layout_height="43dp"
         android:background="@drawable/costume_button"
-
         android:fontFamily="@font/spike_speak_straight"
         android:text="5"
         android:textColor="#FFFFFF"

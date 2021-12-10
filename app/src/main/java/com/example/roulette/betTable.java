@@ -29,7 +29,7 @@ public class betTable extends AppCompatActivity {
             b18 ,b19,b20 ,b21 ,b22 ,b23 ,b24 ,b25 ,b26 ,b27 ,b28 ,b29 ,b30 ,b31 ,b32 ,b33 ,b34 ,b35
             ,b36,btn5,btn25,btn100,btn500, btn1000,submit,reset_btn,calculator,odd,even,red,black,low,high;
     public int [] MAP = new int [43];
-    private TextView bet_amount,user_amount,selected_chip,test_text,final_bet_txt;
+    private TextView bet_amount,user_amount,selected_chip,final_bet_txt;
     String BET_STRING,UserID;
     private FirebaseUser user;
     public long BALANCE;
@@ -61,7 +61,6 @@ public class betTable extends AppCompatActivity {
 
         /////////////////////////////////////////////////////////////
         user_amount = (TextView) findViewById(R.id.user_amount_bet);
-        test_text = (TextView)findViewById(R.id.user_amount_play);
 
         reference = FirebaseDatabase.getInstance().getReference("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();

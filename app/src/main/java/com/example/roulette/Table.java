@@ -37,7 +37,7 @@ import java.util.Random;
 
 public class Table extends AppCompatActivity {
     private TextView textView,user_amount,bet_view;
-    private Button spin,bet;
+    private Button spin,bet,profile;
     private ImageView roulette_image;
     private Random r;
     private int degree ,new_amount, win ;
@@ -201,10 +201,13 @@ public class Table extends AppCompatActivity {
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) { }
                                     });
+                                    startActivity(new Intent(Table.this,Winner_screen.class));
                                 }
                                 else{
-                                    Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();
+//                                    Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();
                                     bet_view.setText("place bet to play");
+                                    startActivity(new Intent(Table.this,Loser_screen.class));
+
                                 }
                                 boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                     //update games stats
@@ -244,6 +247,13 @@ public class Table extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(Table.this,betTable.class));
+                }
+            });
+            profile = findViewById(R.id.profile_btn);
+            profile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(Table.this,user_bio.class));
                 }
             });
 
