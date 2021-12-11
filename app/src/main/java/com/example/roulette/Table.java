@@ -377,7 +377,14 @@ public class Table extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     LAST_BET = Integer.parseInt(snapshot.child(UserID).child("last_bet").getValue().toString());
                                     LAST_WIN = Integer.parseInt(snapshot.child(UserID).child("last_win").getValue().toString());
-                                    reference.child(UserID).child("faces").child(""+pos).child("sum").setValue("bet amount "+LAST_BET + ", win amount "+LAST_WIN);
+                                    if(LAST_WIN > 0){
+                                        reference.child(UserID).child("faces").child(""+pos).child("sum").setValue("WON "+LAST_WIN+"$");
+                                    }
+                                    if(LAST_WIN == 0)
+                                    {
+                                        reference.child(UserID).child("faces").child(""+pos).child("sum").setValue("LOST "+LAST_BET+"$");
+
+                                    }
 
                                 }
 

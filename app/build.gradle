@@ -46,6 +46,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-cast-framework:20.1.0'
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:4.2.2"
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+    implementation 'com.zolad:zoominimageview:1.0.0'
+
     implementation ("com.github.bumptech.glide:glide:4.11.0") {
         exclude group: "com.android.support"
         implementation "com.android.support:support-fragment:26.1.0"

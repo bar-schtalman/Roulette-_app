@@ -3,8 +3,12 @@ package com.example.roulette;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +25,8 @@ public class faces extends AppCompatActivity {
     private ImageView img1,img2,img3,img4;
     private TextView txt1,txt2,txt3,txt4;
     private String UserID,imgURL;
+    private Button profile2;
+
     private FirebaseUser user;
     private DatabaseReference reference;
     @Override
@@ -64,6 +70,13 @@ public class faces extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+        profile2 = findViewById(R.id.profile_btn2);
+        profile2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(faces.this,user_bio.class));
             }
         });
 
