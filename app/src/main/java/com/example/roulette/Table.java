@@ -332,6 +332,7 @@ public class Table extends AppCompatActivity {
             cam.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String file_name = "photo";
                     checkPermission();
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(intent,CAMERA_CODE);
