@@ -6,6 +6,8 @@
     <uses-feature
         android:name="android.hardware.sensor.accelerometer"
         android:required="true" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 
     <application
@@ -29,7 +31,7 @@
             android:exported="false" />
         <activity
             android:name=".betTable"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Table"
             android:exported="true" />

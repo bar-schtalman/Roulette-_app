@@ -25,6 +25,7 @@ public class faces extends AppCompatActivity {
     private ImageView img1,img2,img3,img4;
     private TextView txt1,txt2,txt3,txt4;
     private String UserID,imgURL;
+    int min_photos;
     private Button profile2;
 
     private FirebaseUser user;
@@ -51,22 +52,44 @@ public class faces extends AppCompatActivity {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.child(UserID).child("faces").child("0").child("url").getValue().toString().isEmpty()){
+                min_photos = Integer.parseInt(snapshot.child(UserID).child("faces").child("min_show").getValue().toString());
+                if(min_photos == 0 ){
+
+                }
+                if(min_photos == 1){
                     imgURL = snapshot.child(UserID).child("faces").child("0").child("url").getValue().toString();
                     Picasso.get().load(imgURL).into(img1);
                     txt1.setText(snapshot.child(UserID).child("faces").child("0").child("sum").getValue().toString());
                 }
-                if(!snapshot.child(UserID).child("faces").child("1").child("url").getValue().toString().isEmpty()) {
+                if(min_photos == 2) {
+                    imgURL = snapshot.child(UserID).child("faces").child("0").child("url").getValue().toString();
+                    Picasso.get().load(imgURL).into(img1);
+                    txt1.setText(snapshot.child(UserID).child("faces").child("0").child("sum").getValue().toString());
                     imgURL = snapshot.child(UserID).child("faces").child("1").child("url").getValue().toString();
                     Picasso.get().load(imgURL).into(img2);
                     txt2.setText(snapshot.child(UserID).child("faces").child("1").child("sum").getValue().toString());
                 }
-                if(!snapshot.child(UserID).child("faces").child("2").child("url").getValue().toString().isEmpty()) {
+                if(min_photos == 3) {
+                    imgURL = snapshot.child(UserID).child("faces").child("0").child("url").getValue().toString();
+                    Picasso.get().load(imgURL).into(img1);
+                    txt1.setText(snapshot.child(UserID).child("faces").child("0").child("sum").getValue().toString());
+                    imgURL = snapshot.child(UserID).child("faces").child("1").child("url").getValue().toString();
+                    Picasso.get().load(imgURL).into(img2);
+                    txt2.setText(snapshot.child(UserID).child("faces").child("1").child("sum").getValue().toString());
                     imgURL = snapshot.child(UserID).child("faces").child("2").child("url").getValue().toString();
                     Picasso.get().load(imgURL).into(img3);
                     txt3.setText(snapshot.child(UserID).child("faces").child("2").child("sum").getValue().toString());
                 }
-                if( !snapshot.child(UserID).child("faces").child("3").child("url").getValue().toString().isEmpty()) {
+                if( min_photos >= 4) {
+                    imgURL = snapshot.child(UserID).child("faces").child("0").child("url").getValue().toString();
+                    Picasso.get().load(imgURL).into(img1);
+                    txt1.setText(snapshot.child(UserID).child("faces").child("0").child("sum").getValue().toString());
+                    imgURL = snapshot.child(UserID).child("faces").child("1").child("url").getValue().toString();
+                    Picasso.get().load(imgURL).into(img2);
+                    txt2.setText(snapshot.child(UserID).child("faces").child("1").child("sum").getValue().toString());
+                    imgURL = snapshot.child(UserID).child("faces").child("2").child("url").getValue().toString();
+                    Picasso.get().load(imgURL).into(img3);
+                    txt3.setText(snapshot.child(UserID).child("faces").child("2").child("sum").getValue().toString());
                     imgURL = snapshot.child(UserID).child("faces").child("3").child("url").getValue().toString();
                     Picasso.get().load(imgURL).into(img4);
                     txt4.setText(snapshot.child(UserID).child("faces").child("3").child("sum").getValue().toString());

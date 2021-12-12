@@ -11,6 +11,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.WindowManager;
@@ -46,7 +47,16 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Properties;
 import java.util.Random;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 public class Table extends AppCompatActivity {
     private SensorManager sm;
@@ -64,14 +74,14 @@ public class Table extends AppCompatActivity {
     private Random r;
     int LAST_WIN = 0;
     int LAST_BET = 0;
-    private int degree ,new_amount, win ,img_counter;
+    private int degree ,new_amount, win ,img_counter,round_win;
     private static int NUMBER;
     private boolean isSpinning = false;
     private StorageReference storageRef,mStorage;
     private FirebaseStorage storage;
     private FirebaseUser user;
     private DatabaseReference reference,boss_reference;
-    private String UserID,str_bets;
+    private String UserID,str_bets,user_email,EMAIL,PASS;
     private static final String [] sectors = {"32 red","15 black","19 red","4 black","21 red","2 black",
             "25 red","17 black","34 red","6 black","27 red","13 black","36 red","11 black","30 red","8 black",
             "23 red","10 black","5 red","24 black","16 red","33 black","1 red","20 black","14 red","31 black",
@@ -105,6 +115,8 @@ public class Table extends AppCompatActivity {
         str_bets = "";
         win = 0;
         BET_SUM = 0;
+        EMAIL = "roulleteboss@gmail.com";
+        PASS = "uhgnjmsmvfppdmxz";
 
         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -187,6 +199,7 @@ public class Table extends AppCompatActivity {
                             //check if user win
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                user_email = snapshot.child("email").getValue().toString();
                                 //check the money user bet on the drawn number and stats update
                                 String str2 = snapshot.child("bet").child(""+NUMBER).getValue().toString();
                                 int user_games = Integer.parseInt(snapshot.child("games").getValue().toString()) + 1;
@@ -216,6 +229,11 @@ public class Table extends AppCompatActivity {
                                 }
                                 //if user wins money, updates user balance and stats
                                 if(win > 0 ){
+                                    round_win = win;
+                                    int biggest_win = Integer.parseInt(snapshot.child("biggest_win").getValue().toString());
+                                    if(win > biggest_win){
+                                        reference.child(UserID).child("biggest_win").setValue("" + win);
+                                    }
                                     int user_wins = Integer.parseInt(snapshot.child("wins").getValue().toString().trim()) + 1;
                                     int user_wins_money = Integer.parseInt(snapshot.child("wins_money").getValue().toString()) + win;
                                     reference.child(UserID).child("wins").setValue(""+user_wins);
@@ -229,6 +247,37 @@ public class Table extends AppCompatActivity {
                                         //update boss balance and stats
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            int biggest_win = Integer.parseInt(snapshot.child("biggest_win").getValue().toString());
+                                            if(win > biggest_win){
+                                                boss_reference.child("biggest_win").setValue("" + win);
+                                                Properties props = new Properties();
+                                                props.put("mail.smtp.auth", "true");
+                                                props.put("mail.smtp.starttls.enable","true");
+                                                props.put("mail.smtp.host","smtp.gmail.com");
+                                                props.put("mail.smtp.port","587");
+                                                Session session = Session.getInstance(props, new javax.mail.Authenticator(){
+                                                    @Override
+                                                    protected PasswordAuthentication getPasswordAuthentication() {
+                                                        return new PasswordAuthentication(EMAIL, PASS);
+                                                    }
+                                                });
+                                                try{
+                                                    Message message = new MimeMessage(session);
+                                                    message.setFrom(new InternetAddress("EMAIL"));
+                                                    message.setRecipients(MimeMessage.RecipientType.TO,  InternetAddress.parse(user_email));
+                                                    message.setSubject("New win record!!");
+                                                    String str = "new win record, last record was "+biggest_win + "$, new record is "+win+"$";
+                                                    message.setText(str);
+                                                    if (android.os.Build.VERSION.SDK_INT > 9) {
+                                                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                                        StrictMode.setThreadPolicy(policy);
+                                                    }
+                                                    Transport.send(message);
+                                                }
+                                                catch (MessagingException e){
+                                                    throw new RuntimeException(e);
+                                                }
+                                            }
                                             long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
                                             long new_sum = bos_balance - win;;
                                             int wins_count = Integer.parseInt(snapshot.child("wins").getValue().toString()) +1;
@@ -259,6 +308,7 @@ public class Table extends AppCompatActivity {
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         int new_val = Integer.parseInt(snapshot.child("bets").child(""+NUMBER).getValue().toString().trim()) + 1;
                                         boss_reference.child("bets").child(""+NUMBER).setValue(""+new_val);
+
                                     }
 
                                     @Override
@@ -435,6 +485,11 @@ public class Table extends AppCompatActivity {
                             }
                             //if user wins money, updates user balance and stats
                             if(win > 0 ){
+                                round_win = win;
+                                int biggest_win = Integer.parseInt(snapshot.child("biggest_win").getValue().toString());
+                                if(win > biggest_win){
+                                    reference.child(UserID).child("biggest_win").setValue("" + win);
+                                }
                                 int user_wins = Integer.parseInt(snapshot.child("wins").getValue().toString().trim()) + 1;
                                 int user_wins_money = Integer.parseInt(snapshot.child("wins_money").getValue().toString()) + win;
                                 reference.child(UserID).child("wins").setValue(""+user_wins);
@@ -448,6 +503,37 @@ public class Table extends AppCompatActivity {
                                     //update boss balance and stats
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        int biggest_win = Integer.parseInt(snapshot.child("biggest_win").getValue().toString());
+                                        if(win > biggest_win){
+                                            boss_reference.child("biggest_win").setValue("" + win);
+                                            Properties props = new Properties();
+                                            props.put("mail.smtp.auth", "true");
+                                            props.put("mail.smtp.starttls.enable","true");
+                                            props.put("mail.smtp.host","smtp.gmail.com");
+                                            props.put("mail.smtp.port","587");
+                                            Session session = Session.getInstance(props, new javax.mail.Authenticator(){
+                                                @Override
+                                                protected PasswordAuthentication getPasswordAuthentication() {
+                                                    return new PasswordAuthentication(EMAIL, PASS);
+                                                }
+                                            });
+                                            try{
+                                                Message message = new MimeMessage(session);
+                                                message.setFrom(new InternetAddress("EMAIL"));
+                                                message.setRecipients(MimeMessage.RecipientType.TO,  InternetAddress.parse(user_email));
+                                                message.setSubject("New win record!!");
+                                                String str = "new win record, last record was "+biggest_win + "$, new record is "+win+"$";
+                                                message.setText(str);
+                                                if (android.os.Build.VERSION.SDK_INT > 9) {
+                                                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                                    StrictMode.setThreadPolicy(policy);
+                                                }
+                                                Transport.send(message);
+                                            }
+                                            catch (MessagingException e){
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
                                         long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
                                         long new_sum = bos_balance - win;;
                                         int wins_count = Integer.parseInt(snapshot.child("wins").getValue().toString()) +1;
@@ -544,6 +630,8 @@ public class Table extends AppCompatActivity {
                             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    int min_img = Integer.parseInt(snapshot.child(UserID).child("faces").child("min_show").getValue().toString()) +1;
+                                    reference.child(UserID).child("faces").child("min_show").setValue(""+min_img);
                                     LAST_BET = Integer.parseInt(snapshot.child(UserID).child("last_bet").getValue().toString());
                                     LAST_WIN = Integer.parseInt(snapshot.child(UserID).child("last_win").getValue().toString());
                                     if(LAST_WIN > 0){

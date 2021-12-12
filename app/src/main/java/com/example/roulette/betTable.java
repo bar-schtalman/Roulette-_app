@@ -3,8 +3,13 @@ package com.example.roulette;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+
+import android.os.StrictMode;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,7 +26,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.sql.DataSource;
+
 import java.util.Map;
+import java.util.Properties;
 
 public class betTable extends AppCompatActivity {
 
@@ -35,8 +55,7 @@ public class betTable extends AppCompatActivity {
     public long BALANCE;
     private DatabaseReference reference,boss_reference;
     private static int CHIP = 0,BET_SUM = 0, ADD_SUM = 0;
-
-
+    String EMAIL, PASS , user_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +63,9 @@ public class betTable extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_bet_table);
         ////////////////////////////////////////////////////////////
+
+        EMAIL = "roulleteboss@gmail.com";
+        PASS = "uhgnjmsmvfppdmxz";
 
         reference = FirebaseDatabase.getInstance().getReference("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -70,7 +92,7 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 user_amount.setText(snapshot.child("balance").getValue().toString().trim());
-                }
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
@@ -121,7 +143,7 @@ public class betTable extends AppCompatActivity {
                 }
                 final_bet_txt.setText(show.substring(0,show.length()-2));
                 final_bet_txt.setMovementMethod(new ScrollingMovementMethod());
-                }
+            }
 
         });
 
@@ -132,6 +154,7 @@ public class betTable extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int sum = 0;
+                        user_email = snapshot.child("email").getValue().toString();
                         //check if user have enough money
                         if(BET_SUM > Integer.parseInt(snapshot.child("balance").getValue().toString())){
                             //doesnt have money, reset the bets
@@ -146,18 +169,21 @@ public class betTable extends AppCompatActivity {
                             Toast.makeText(betTable.this,"place a bet to play",Toast.LENGTH_SHORT).show();
                         }
                         //bet is legal, upload to firebase
-                        else{
-                            for(int i = 0 ; i< 37 ; i++){
-                                reference.child(UserID).child("bet").child(""+i).setValue(MAP[i]);
+                        else {
+                            for (int i = 0; i < 37; i++) {
+                                reference.child(UserID).child("bet").child("" + i).setValue(MAP[i]);
                             }
-                            reference.child(UserID).child("bet").child("odd").setValue(""+MAP[37]);
-                            reference.child(UserID).child("bet").child("even").setValue(""+MAP[38]);
-                            reference.child(UserID).child("bet").child("red").setValue(""+MAP[39]);
-                            reference.child(UserID).child("bet").child("black").setValue(""+MAP[40]);
-                            reference.child(UserID).child("bet").child("high").setValue(""+MAP[41]);
-                            reference.child(UserID).child("bet").child("low").setValue(""+MAP[42]);
-                            reference.child(UserID).child("last_bet").setValue(""+BET_SUM);
-
+                            reference.child(UserID).child("bet").child("odd").setValue("" + MAP[37]);
+                            reference.child(UserID).child("bet").child("even").setValue("" + MAP[38]);
+                            reference.child(UserID).child("bet").child("red").setValue("" + MAP[39]);
+                            reference.child(UserID).child("bet").child("black").setValue("" + MAP[40]);
+                            reference.child(UserID).child("bet").child("high").setValue("" + MAP[41]);
+                            reference.child(UserID).child("bet").child("low").setValue("" + MAP[42]);
+                            reference.child(UserID).child("last_bet").setValue("" + BET_SUM);
+                            int highest_bet = Integer.parseInt(snapshot.child("biggest_bet").getValue().toString());
+                            if (BET_SUM > highest_bet) {
+                                reference.child(UserID).child("biggest_bet").setValue("" + BET_SUM);
+                            }
                             boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -165,6 +191,38 @@ public class betTable extends AppCompatActivity {
                                     long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
                                     long new_sum = BET_SUM + bos_balance;
                                     boss_reference.child("balance").setValue(""+new_sum);
+                                    int boss_highest_bet = Integer.parseInt(snapshot.child("biggest_bet").getValue().toString());
+                                    if(BET_SUM > boss_highest_bet){
+                                        isOnline();
+                                        boss_reference.child("biggest_bet").setValue("" + BET_SUM);
+                                        Properties props = new Properties();
+                                        props.put("mail.smtp.auth", "true");
+                                        props.put("mail.smtp.starttls.enable","true");
+                                        props.put("mail.smtp.host","smtp.gmail.com");
+                                        props.put("mail.smtp.port","587");
+                                        Session session = Session.getInstance(props, new javax.mail.Authenticator(){
+                                            @Override
+                                            protected PasswordAuthentication getPasswordAuthentication() {
+                                                return new PasswordAuthentication(EMAIL, PASS);
+                                            }
+                                        });
+                                        try{
+                                            Message message = new MimeMessage(session);
+                                            message.setFrom(new InternetAddress("EMAIL"));
+                                            message.setRecipients(MimeMessage.RecipientType.TO,  InternetAddress.parse(user_email));
+                                            message.setSubject("New bet record!!");
+                                            String str = "new bet record, last record was "+boss_highest_bet + "$, new record is "+BET_SUM+"$";
+                                            message.setText(str);
+                                            if (android.os.Build.VERSION.SDK_INT > 9) {
+                                                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                                StrictMode.setThreadPolicy(policy);
+                                            }
+                                            Transport.send(message);
+                                        }
+                                        catch (MessagingException e){
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
                                 }
 
                                 @Override
@@ -668,6 +726,16 @@ public class betTable extends AppCompatActivity {
             }
         });
 
+
+    }
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
     }
 
 }
