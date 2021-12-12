@@ -9,6 +9,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -457,6 +459,7 @@ public class Table extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             //check the money user bet on the drawn number and stats update
+                            user_email = snapshot.child("email").getValue().toString();
                             String str2 = snapshot.child("bet").child(""+NUMBER).getValue().toString();
                             int user_games = Integer.parseInt(snapshot.child("games").getValue().toString()) + 1;
                             reference.child(UserID).child("games").setValue(""+user_games);
@@ -684,5 +687,14 @@ public class Table extends AppCompatActivity {
         else{
             return false;
         }
+    }
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
     }
 }
