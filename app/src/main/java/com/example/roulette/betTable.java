@@ -47,14 +47,14 @@ public class betTable extends AppCompatActivity {
 
     private Button b0, b1 ,b2 ,b3 ,b4 ,b5 ,b6 ,b7 ,b8 ,b9 ,b10 ,b11  ,b12 ,b13 ,b14 ,b15 ,b16 ,b17 ,
             b18 ,b19,b20 ,b21 ,b22 ,b23 ,b24 ,b25 ,b26 ,b27 ,b28 ,b29 ,b30 ,b31 ,b32 ,b33 ,b34 ,b35
-            ,b36,btn5,btn25,btn100,btn500, btn1000,submit,reset_btn,calculator,odd,even,red,black,low,high;
+            ,b36,btn5,btn25,btn100,btn500, btn1000,submit,reset_btn,calculator,odd,even,red,black,low,high,btn_allIn,btn10k,btn5000;
     public int [] MAP = new int [43];
     private TextView bet_amount,user_amount,selected_chip,final_bet_txt;
     String BET_STRING,UserID;
     private FirebaseUser user;
     public long BALANCE;
     private DatabaseReference reference,boss_reference;
-    private static int CHIP = 0,BET_SUM = 0, ADD_SUM = 0;
+    private static int CHIP = 0,BET_SUM = 0, ADD_SUM = 0,USER_AMOUNT = 0;
     String EMAIL, PASS , user_email;
 
     @Override
@@ -91,7 +91,8 @@ public class betTable extends AppCompatActivity {
         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                user_amount.setText(snapshot.child("balance").getValue().toString().trim());
+                USER_AMOUNT = Integer.parseInt(snapshot.child("balance").getValue().toString().trim());
+                user_amount.setText(""+USER_AMOUNT);
             }
 
             @Override
@@ -663,6 +664,30 @@ public class betTable extends AppCompatActivity {
             public void onClick(View v) {
                 CHIP=1000;
                 selected_chip.setText("1000");
+            }
+        });
+        btn5000 = (Button) findViewById(R.id.bet5000);
+        btn5000.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CHIP=5000;
+                selected_chip.setText("5000");
+            }
+        });
+        btn10k = (Button) findViewById(R.id.bet10k);
+        btn10k.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CHIP=10000;
+                selected_chip.setText("10K");
+            }
+        });
+        btn_allIn = (Button) findViewById(R.id.betaLLiN);
+        btn_allIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CHIP=USER_AMOUNT;
+                selected_chip.setText(""+USER_AMOUNT);
             }
         });
         odd = findViewById(R.id.odd);

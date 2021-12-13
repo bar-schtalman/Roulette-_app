@@ -26,7 +26,8 @@ public class faces extends AppCompatActivity {
     private TextView txt1,txt2,txt3,txt4;
     private String UserID,imgURL;
     int min_photos;
-    private Button profile2;
+    private Button profile2,del1,del2,del3,del4;
+    int COUNT;
 
     private FirebaseUser user;
     private DatabaseReference reference;
@@ -47,11 +48,17 @@ public class faces extends AppCompatActivity {
         txt2 = findViewById(R.id.second_pic_details);
         txt3 = findViewById(R.id.third_pic_details);
         txt4 = findViewById(R.id.fourth_pic_details);
+        del1 = findViewById(R.id.pic1delete);
+        del2 = findViewById(R.id.pic2delete);
+        del3 = findViewById(R.id.pic3delete);
+        del4 = findViewById(R.id.pic4delete);
+        int num = 0;
 
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                COUNT = Integer.parseInt(snapshot.child(UserID).child("img_count").getValue().toString());
                 min_photos = Integer.parseInt(snapshot.child(UserID).child("faces").child("min_show").getValue().toString());
                 if(min_photos == 0 ){
 
@@ -110,6 +117,53 @@ public class faces extends AppCompatActivity {
                 startActivity(new Intent(faces.this,user_bio.class));
             }
         });
+        del1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reference.child(UserID).child("faces").child("0").child("url").setValue("https://www.exaltedchristchurch.com/wp-content/uploads/2017/02/blank-profile-picture-png-transparent.png");
+                reference.child(UserID).child("faces").child("0").child("sum").setValue(" ");
+                Picasso.get().load("https://www.exaltedchristchurch.com/wp-content/uploads/2017/02/blank-profile-picture-png-transparent.png").into(img1);
+                txt1.setText(" ");
+                COUNT--;
+                reference.child(UserID).child("img_count").setValue(""+COUNT);
+                reference.child(UserID).child("faces").child("min_show").setValue(""+COUNT);
+
+            }
+        });
+        del2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reference.child(UserID).child("faces").child("1").child("url").setValue("https://www.exaltedchristchurch.com/wp-content/uploads/2017/02/blank-profile-picture-png-transparent.png");
+                reference.child(UserID).child("faces").child("1").child("sum").setValue(" ");
+                Picasso.get().load("https://www.exaltedchristchurch.com/wp-content/uploads/2017/02/blank-profile-picture-png-transparent.png").into(img2);
+                txt2.setText(" ");
+                reference.child(UserID).child("img_count").setValue(""+COUNT);
+                reference.child(UserID).child("faces").child("min_show").setValue(""+COUNT);
+            }
+        });
+        del3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reference.child(UserID).child("faces").child("2").child("url").setValue("https://www.exaltedchristchurch.com/wp-content/uploads/2017/02/blank-profile-picture-png-transparent.png");
+                reference.child(UserID).child("faces").child("2").child("sum").setValue(" ");
+                Picasso.get().load("https://www.exaltedchristchurch.com/wp-content/uploads/2017/02/blank-profile-picture-png-transparent.png").into(img3);
+                txt3.setText(" ");
+                reference.child(UserID).child("img_count").setValue(""+COUNT);
+                reference.child(UserID).child("faces").child("min_show").setValue(""+COUNT);
+            }
+        });
+        del4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reference.child(UserID).child("faces").child("3").child("url").setValue("https://www.exaltedchristchurch.com/wp-content/uploads/2017/02/blank-profile-picture-png-transparent.png");
+                reference.child(UserID).child("faces").child("3").child("sum").setValue(" ");
+                Picasso.get().load("https://www.exaltedchristchurch.com/wp-content/uploads/2017/02/blank-profile-picture-png-transparent.png").into(img4);
+                txt4.setText(" ");
+                reference.child(UserID).child("img_count").setValue(""+COUNT);
+                reference.child(UserID).child("faces").child("min_show").setValue(""+COUNT);
+            }
+        });
+
 
 
     }

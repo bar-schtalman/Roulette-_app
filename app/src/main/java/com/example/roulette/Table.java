@@ -79,6 +79,7 @@ public class Table extends AppCompatActivity {
     private int degree ,new_amount, win ,img_counter,round_win;
     private static int NUMBER;
     private boolean isSpinning = false;
+    private static  boolean spinned = false;
     private StorageReference storageRef,mStorage;
     private FirebaseStorage storage;
     private FirebaseUser user;
@@ -97,7 +98,6 @@ public class Table extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_table);
-
         sm=(SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sm.registerListener(sensorListener,sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         acelVal = SensorManager.GRAVITY_EARTH;
@@ -164,11 +164,14 @@ public class Table extends AppCompatActivity {
                 if(!isSpinning){
                     spin();
                     isSpinning = true;
+                    spinned = true;
+
                 }
             }
 
             private void spin() {
                 //image rotation
+
                 degree = random.nextInt(sectors.length - 1);
                 RotateAnimation rotate = new RotateAnimation(0, (360 * sectors.length) + sectorsDegrees[degree],
                         RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
@@ -331,6 +334,9 @@ public class Table extends AppCompatActivity {
                             public void onCancelled(@NonNull DatabaseError error) { }
                         });
                         isSpinning = false;
+                        spinned = true;
+
+
                     }
                     @Override
                     public void onAnimationRepeat(Animation animation) { }
@@ -342,7 +348,16 @@ public class Table extends AppCompatActivity {
         bet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Table.this, betTable.class));
+                if(spinned) {
+                    spinned = false;
+
+                    startActivity(new Intent(Table.this, betTable.class));
+
+                }
+                if(!spinned){
+
+                    Toast.makeText(Table.this,"Don't waist your money, SPIN!",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         profile = findViewById(R.id.profile_btn);
@@ -353,37 +368,7 @@ public class Table extends AppCompatActivity {
             }
         });
 
-//             @Override
-//             public void onActivityResult(ActivityResult result) {
-//                if(result.getResultCode() == CAMERA_ACTION_CODE && result.getResultCode() == RESULT_OK && result.getData() != null){
-//                    Bundle bundle = result.getData().getExtras();
-//                    Bitmap bitmap = (Bitmap) bundle.get("data");
-//
-//             }
-//         }});
-//             @Override
-//             public void onActivityResult(Uri result) {
-//                 if (result != null){
-//                     image = result;
-//                     storageRef.child(UserID).child("games_images").child(""+img_counter).putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                         @Override
-//                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                             storageRef.child(UserID).child("games_images").child(""+img_counter).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                                 @Override
-//                                 public void onSuccess(Uri uri) {
-//                                     int pos = img_counter%4;
-//                                     reference.child(UserID).child("imgUrl").child(""+pos).setValue(uri.toString());
-//                                     img_counter++;
-//                                     reference.child(UserID).child("img_count").setValue(""+img_counter);
-//                                 }
-//                             });
-//                         }
-//                     });
-//                 }
-//
-//                 }
 
-//         });
 
         cam = findViewById(R.id.camera);
         cam.setOnClickListener(new View.OnClickListener() {
@@ -418,6 +403,8 @@ public class Table extends AppCompatActivity {
                 //spin
                 if(!isSpinning){
                     spinGravity();
+                    spinned = true;
+
                     isSpinning = true;
                 }
 
@@ -425,6 +412,7 @@ public class Table extends AppCompatActivity {
 
         }
         private void spinGravity() {
+
             //image rotation
             degree = random.nextInt(sectors.length - 1);
             RotateAnimation rotate = new RotateAnimation(0, (360 * sectors.length) + sectorsDegrees[degree],

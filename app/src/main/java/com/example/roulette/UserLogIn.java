@@ -20,7 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class UserLogIn extends AppCompatActivity  {
-    private Button forgot,regiser,login;
+    private Button forgot,regiser,login,back;
     private EditText user_email, user_password;
 
     private ProgressBar progressBar;
@@ -61,6 +61,13 @@ public class UserLogIn extends AppCompatActivity  {
         progressBar =  findViewById(R.id.progressBar1);
         user_password =  findViewById(R.id.Password);
         mAuth = FirebaseAuth.getInstance();
+        back = findViewById(R.id.back_btn);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserLogIn.this,MainActivity.class));
+            }
+        });
     }
 
 

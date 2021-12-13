@@ -130,6 +130,7 @@ public class register extends AppCompatActivity implements View.OnClickListener 
                                                     user = FirebaseAuth.getInstance().getCurrentUser();
                                                     UserID = user.getUid();
                                                     reference.child(UserID).child("faces").child("min_show").setValue("0");
+
                                                     startActivity(new Intent(register.this,user_bio.class));
                                                 }
                                                 //failed

@@ -57,10 +57,42 @@
         app:strokeColor="#F61010" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bet5000"
+        android:layout_width="54dp"
+        android:layout_height="43dp"
+        android:background="@drawable/costume_button"
+        android:fontFamily="@font/spike_speak_straight"
+        android:text="5000"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.215"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.332"
+        app:strokeColor="#F61010" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bet10k"
+        android:layout_width="54dp"
+        android:layout_height="43dp"
+        android:background="@drawable/costume_button"
+        android:fontFamily="@font/spike_speak_straight"
+        android:text="10 k"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.408"
+        app:strokeColor="#F61010" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/reset"
-        android:layout_width="53dp"
-        android:layout_height="44dp"
-        android:background="@drawable/imgbin_reset_button_computer_icons_reboot_png"
+        android:layout_width="60dp"
+        android:layout_height="53dp"
+        android:background="@drawable/rubish"
         android:fontFamily="@font/spike_speak_straight"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -68,7 +100,7 @@
         app:layout_constraintHorizontal_bias="0.102"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.865"
+        app:layout_constraintVertical_bias="0.876"
         app:strokeColor="#F61010" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -85,6 +117,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.261"
+        app:strokeColor="#F61010" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/betaLLiN"
+        android:layout_width="54dp"
+        android:layout_height="43dp"
+        android:background="@drawable/costume_button"
+        android:fontFamily="@font/spike_speak_straight"
+        android:text="ALL IN"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.215"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.408"
         app:strokeColor="#F61010" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -122,8 +170,8 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/calculate"
-        android:layout_width="54dp"
-        android:layout_height="43dp"
+        android:layout_width="116dp"
+        android:layout_height="34dp"
         android:background="@drawable/costume_button"
 
         android:text="show bets"
@@ -131,10 +179,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.334"
+        app:layout_constraintVertical_bias="0.474"
         app:strokeColor="#F61010" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -892,18 +940,18 @@
 
     <TextView
         android:id="@+id/final_bet"
-        android:layout_width="107dp"
-        android:layout_height="318dp"
-        android:textSize="20dp"
+        android:layout_width="121dp"
+        android:layout_height="219dp"
+        android:scrollbars="vertical"
         android:textColor="@color/black"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintHorizontal_bias="0.048"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.665"
-        android:scrollbars = "vertical"/>
+        app:layout_constraintVertical_bias="0.732" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
