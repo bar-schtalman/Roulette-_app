@@ -65,7 +65,7 @@ public class register extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void registerUser() {
-        String email, password, full_name,balance;
+        String email, password, full_name;
 
         email = user_email.getText().toString().trim();
         password = user_password.getText().toString().trim();

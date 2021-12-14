@@ -49,6 +49,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 import java.util.Properties;
 import java.util.Random;
 
@@ -76,6 +77,7 @@ public class Table extends AppCompatActivity {
     private Random r;
     int LAST_WIN = 0;
     int LAST_BET = 0;
+    String LAST_NUM = "";
     private int degree ,new_amount, win ,img_counter,round_win;
     private static int NUMBER;
     private boolean isSpinning = false;
@@ -119,6 +121,18 @@ public class Table extends AppCompatActivity {
         BET_SUM = 0;
         EMAIL = "roulleteboss@gmail.com";
         PASS = "uhgnjmsmvfppdmxz";
+        boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                LAST_NUM = snapshot.child("last_num").getValue().toString();
+                textView.setText(LAST_NUM);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -155,7 +169,7 @@ public class Table extends AppCompatActivity {
         spin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //check if user placed bet
+//                check if user placed bet
                 if(bet_view.getText().toString().isEmpty() || bet_view.getText().toString().equals("place bet to play")){
                     Toast.makeText(Table.this,"place a bet to play",Toast.LENGTH_SHORT).show();
                     return;
@@ -171,8 +185,8 @@ public class Table extends AppCompatActivity {
 
             private void spin() {
                 //image rotation
-
-                degree = random.nextInt(sectors.length - 1);
+                degree = (int) ((Math.random() * (36)));
+                //degree = random.nextInt(sectors.length - 1);
                 RotateAnimation rotate = new RotateAnimation(0, (360 * sectors.length) + sectorsDegrees[degree],
                         RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
                 rotate.setDuration(3600);
@@ -210,6 +224,20 @@ public class Table extends AppCompatActivity {
                                 int user_games = Integer.parseInt(snapshot.child("games").getValue().toString()) + 1;
                                 reference.child(UserID).child("games").setValue(""+user_games);
                                 win = Integer.parseInt(str2)*32;
+                                boss_reference.child("last_num").setValue(""+NUMBER);
+                                boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        int position = (Integer.parseInt(snapshot.child("last10").child("pos").getValue().toString()))%10 ;
+                                        boss_reference.child("last10").child(""+position).setValue(""+NUMBER);
+                                        position++;
+                                        boss_reference.child("last10").child("pos").setValue(""+position);
+                                        LAST_NUM = (snapshot.child("last_num").getValue().toString());
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) { }
+                                });
                                 if(NUMBER > 0) {
                                     if (NUMBER % 2 == 0) {
                                         win += 2 * Integer.parseInt(snapshot.child("bet").child("even").getValue().toString().trim());
@@ -298,22 +326,33 @@ public class Table extends AppCompatActivity {
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) { }
                                     });
-                                    startActivity(new Intent(Table.this, Winner_screen.class));
+//                                    startActivity(new Intent(Table.this, Winner_screen.class));
                                 }
                                 else{
 //                                    Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();
                                     bet_view.setText("place bet to play");
                                     reference.child(UserID).child("last_win").setValue("0");
-                                    startActivity(new Intent(Table.this, Loser_screen.class));
+//                                    startActivity(new Intent(Table.this, Loser_screen.class));
 
                                 }
                                 boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                     //update games stats
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        int new_val = Integer.parseInt(snapshot.child("bets").child(""+NUMBER).getValue().toString().trim()) + 1;
-                                        boss_reference.child("bets").child(""+NUMBER).setValue(""+new_val);
-
+                                        if(NUMBER == 0){
+                                            int zero_val = Integer.parseInt(snapshot.child("bets").child("0").getValue().toString().trim()) + 1;
+                                            boss_reference.child("bets").child("0").setValue("" +zero_val);
+                                        }
+                                        else if (NUMBER == 32)
+                                        {
+                                            int val_32 = Integer.parseInt(snapshot.child("bets").child("32").getValue().toString().trim()) + 1;
+                                            boss_reference.child("bets").child("32").setValue("" + val_32);
+                                        }
+                                        else
+                                        {
+                                            int new_val = Integer.parseInt(snapshot.child("bets").child("" + NUMBER).getValue().toString().trim()) + 1;
+                                            boss_reference.child("bets").child("" + NUMBER).setValue("" + new_val);
+                                        }
                                     }
 
                                     @Override
@@ -452,6 +491,19 @@ public class Table extends AppCompatActivity {
                             int user_games = Integer.parseInt(snapshot.child("games").getValue().toString()) + 1;
                             reference.child(UserID).child("games").setValue(""+user_games);
                             win = Integer.parseInt(str2)*32;
+                            boss_reference.child("last_num").setValue(""+NUMBER);
+                            boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    int position = (Integer.parseInt(snapshot.child("last10").child("pos").getValue().toString()))%10 ;
+                                    boss_reference.child("last10").child(""+position).setValue(""+NUMBER);
+                                    position++;
+                                    boss_reference.child("last10").child("pos").setValue(""+position);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) { }
+                            });
                             if(NUMBER > 0) {
                                 if (NUMBER % 2 == 0) {
                                     win += 2 * Integer.parseInt(snapshot.child("bet").child("even").getValue().toString().trim());
@@ -553,8 +605,20 @@ public class Table extends AppCompatActivity {
                                 //update games stats
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    int new_val = Integer.parseInt(snapshot.child("bets").child(""+NUMBER).getValue().toString().trim()) + 1;
-                                    boss_reference.child("bets").child(""+NUMBER).setValue(""+new_val);
+                                    if(NUMBER == 0){
+                                        int zero_val = Integer.parseInt(snapshot.child("bets").child("0").getValue().toString().trim()) + 1;
+                                        boss_reference.child("bets").child("0").setValue("" +zero_val);
+                                    }
+                                    else if (NUMBER == 32)
+                                    {
+                                        int val_32 = Integer.parseInt(snapshot.child("bets").child("32").getValue().toString().trim()) + 1;
+                                        boss_reference.child("bets").child("32").setValue("" + val_32);
+                                    }
+                                    else
+                                    {
+                                        int new_val = Integer.parseInt(snapshot.child("bets").child("" + NUMBER).getValue().toString().trim()) + 1;
+                                        boss_reference.child("bets").child("" + NUMBER).setValue("" + new_val);
+                                    }
                                 }
 
                                 @Override
@@ -607,9 +671,8 @@ public class Table extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
-            String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),imageBitmap,"val",null);
+            String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),imageBitmap,"IMG_" + Calendar.getInstance().getTime(),null);
             Uri img_uri = Uri.parse(path);
-
             int pos = img_counter%4;
             storageRef.child(UserID).child("games_images").child(""+pos).putFile( img_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
