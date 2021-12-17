@@ -41,7 +41,7 @@ public class UserLogIn extends AppCompatActivity  {
                 startActivity(new Intent(UserLogIn.this,register.class));
             }
         });
-        login =  findViewById(R.id.player_login);
+        login =  findViewById(R.id.boss_login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,9 +57,9 @@ public class UserLogIn extends AppCompatActivity  {
             }
         });
 
-        user_email =  findViewById(R.id.Email);
+        user_email =  findViewById(R.id.boss_email);
         progressBar =  findViewById(R.id.progressBar1);
-        user_password =  findViewById(R.id.Password);
+        user_password =  findViewById(R.id.boss_pass);
         mAuth = FirebaseAuth.getInstance();
         back = findViewById(R.id.back_btn);
         back.setOnClickListener(new View.OnClickListener() {

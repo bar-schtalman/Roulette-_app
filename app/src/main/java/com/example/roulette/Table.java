@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.View;
@@ -49,6 +50,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Properties;
 import java.util.Random;
@@ -66,6 +69,7 @@ public class Table extends AppCompatActivity {
     private float acelVal; //current accelaration value and gravity
     private float acelLast;// last acceleration value and gravity
     private float shake;// acceration value different from gravity
+    private String currntPhotoPath;
 
     private TextView textView,user_amount,bet_view;
     private Button spin,bet,profile,cam;
@@ -326,13 +330,13 @@ public class Table extends AppCompatActivity {
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) { }
                                     });
-//                                    startActivity(new Intent(Table.this, Winner_screen.class));
+                                    startActivity(new Intent(Table.this, Winner_screen.class));
                                 }
                                 else{
 //                                    Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();
                                     bet_view.setText("place bet to play");
                                     reference.child(UserID).child("last_win").setValue("0");
-//                                    startActivity(new Intent(Table.this, Loser_screen.class));
+                                    startActivity(new Intent(Table.this, Loser_screen.class));
 
                                 }
                                 boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -666,6 +670,7 @@ public class Table extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if(requestCode == 102){
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -689,7 +694,7 @@ public class Table extends AppCompatActivity {
                                     LAST_BET = Integer.parseInt(snapshot.child(UserID).child("last_bet").getValue().toString());
                                     LAST_WIN = Integer.parseInt(snapshot.child(UserID).child("last_win").getValue().toString());
                                     if(LAST_WIN > 0){
-                                        reference.child(UserID).child("faces").child(""+pos).child("sum").setValue("WON "+LAST_WIN+"$");
+                                        reference  .child(UserID).child("faces").child(""+pos).child("sum").setValue("WON "+LAST_WIN+"$");
                                     }
                                     if(LAST_WIN == 0)
                                     {

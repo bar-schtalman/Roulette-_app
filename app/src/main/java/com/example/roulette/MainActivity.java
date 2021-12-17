@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button exit;
+    private Button exit,boss_login;
 
 
 
@@ -44,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        boss_login = findViewById(R.id.mode_dealer);
+        boss_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, com.example.roulette.boss_login.class));
+            }
+        });
+
 
 
 

@@ -24,7 +24,7 @@
         app:layout_constraintVertical_bias="0.094" />
 
     <EditText
-        android:id="@+id/Email"
+        android:id="@+id/boss_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableTint="#1DE9B6"
@@ -44,7 +44,7 @@
         app:layout_constraintVertical_bias="0.313" />
 
     <EditText
-        android:id="@+id/Password"
+        android:id="@+id/boss_pass"
         android:textColorHint="@color/black"
 
         android:layout_width="wrap_content"
@@ -57,12 +57,12 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/Email"
+        app:layout_constraintStart_toEndOf="@+id/boss_email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/player_login"
+        android:id="@+id/boss_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/costume_button"

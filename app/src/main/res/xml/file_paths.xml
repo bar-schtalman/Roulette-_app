@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
+
+    <files-path name="my_images" path="images/"/>
+    <cache-path
+        name="shared_images"
+        path="images"
+        />
     <external-path
-        name="my_images"
-        path="Android/data/com.example.roulette/files/pictures"/>
+        name="saved_images"
+        path="MyImageStorage/"/>
+    <external-files-path name="my_images" path="/" />
 </paths>
