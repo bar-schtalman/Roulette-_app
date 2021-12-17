@@ -3,8 +3,12 @@ package com.example.roulette;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -47,11 +51,12 @@ public class betTable extends AppCompatActivity {
 
     private Button b0, b1 ,b2 ,b3 ,b4 ,b5 ,b6 ,b7 ,b8 ,b9 ,b10 ,b11  ,b12 ,b13 ,b14 ,b15 ,b16 ,b17 ,
             b18 ,b19,b20 ,b21 ,b22 ,b23 ,b24 ,b25 ,b26 ,b27 ,b28 ,b29 ,b30 ,b31 ,b32 ,b33 ,b34 ,b35
-            ,b36,btn5,btn25,btn100,btn500, btn1000,submit,reset_btn,calculator,odd,even,red,black,low,high,btn_allIn,btn10k,btn5000;
+            ,b36,btn5,btn25,btn100,btn500, btn1000,submit,reset_btn,calculator,odd,even,red,black,low,high,btn_allIn,btn10k,btn5000,info;
     public int [] MAP = new int [43];
     private TextView bet_amount,user_amount,selected_chip,final_bet_txt;
     String BET_STRING,UserID;
     private FirebaseUser user;
+    Dialog dialog;
     public long BALANCE;
     private DatabaseReference reference,boss_reference;
     private static int CHIP = 0,BET_SUM = 0, ADD_SUM = 0,USER_AMOUNT = 0;
@@ -63,7 +68,7 @@ public class betTable extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_bet_table);
         ////////////////////////////////////////////////////////////
-
+        dialog = new Dialog(this);
         EMAIL = "roulleteboss@gmail.com";
         PASS = "uhgnjmsmvfppdmxz";
 
@@ -74,7 +79,7 @@ public class betTable extends AppCompatActivity {
 
         ///////////////////////////////////////////////////////////
         BET_STRING = "";
-
+        info = findViewById(R.id.information);
         submit = (Button)findViewById(R.id.submit_bet);
         selected_chip = (TextView)findViewById(R.id.textView17);
         ADD_SUM = 0;
@@ -109,6 +114,33 @@ public class betTable extends AppCompatActivity {
                 BET_SUM = 0;
                 bet_amount.setText(""+BET_SUM);
                 final_bet_txt.setText("");
+            }
+        });
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.MATCH_PARENT ;
+                int width = (int)(getResources().getDisplayMetrics().widthPixels*0.82);
+                int height = (int)(getResources().getDisplayMetrics().heightPixels*0.45);
+
+
+                dialog.show();
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.CYAN));
+                dialog.getWindow().setLayout(width,height);
+//                dialog.getWindow().setAttributes(lp);
+                dialog.setContentView(R.layout.info_popup);
+                Button exit = dialog.findViewById(R.id.exit_btn);
+                exit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
             }
         });
 

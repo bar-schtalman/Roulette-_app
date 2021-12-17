@@ -25,6 +25,21 @@
         app:strokeColor="#F61010" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/information"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/info"
+        android:fontFamily="@font/spike_speak_straight"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.104"
+        app:strokeColor="#F61010" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bet100"
         android:layout_width="54dp"
         android:layout_height="43dp"
