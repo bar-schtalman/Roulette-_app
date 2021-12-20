@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/background_pop2"
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatButton
@@ -10,7 +11,6 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:background="@drawable/exit_icon"
-        android:fontFamily="@font/spike_speak_straight"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,28 +27,30 @@
         android:text="other bets = X2"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textSize="34sp"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.721"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.737" />
+        app:layout_constraintVertical_bias="0.682" />
 
     <TextView
         android:id="@+id/textView18"
-        android:layout_width="307dp"
-        android:layout_height="56dp"
+        android:layout_width="251dp"
+        android:layout_height="55dp"
         android:text="Information"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textSize="34sp"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.556"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.118" />
+        app:layout_constraintVertical_bias="0.131" />
 
     <TextView
         android:id="@+id/textView19"
@@ -57,11 +59,12 @@
         android:text="bet on 0-36 = X32"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textSize="34sp"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.836"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.419" />
+        app:layout_constraintVertical_bias="0.405" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -51,8 +51,10 @@ public class betTable extends AppCompatActivity {
 
     private Button b0, b1 ,b2 ,b3 ,b4 ,b5 ,b6 ,b7 ,b8 ,b9 ,b10 ,b11  ,b12 ,b13 ,b14 ,b15 ,b16 ,b17 ,
             b18 ,b19,b20 ,b21 ,b22 ,b23 ,b24 ,b25 ,b26 ,b27 ,b28 ,b29 ,b30 ,b31 ,b32 ,b33 ,b34 ,b35
-            ,b36,btn5,btn25,btn100,btn500, btn1000,submit,reset_btn,calculator,odd,even,red,black,low,high,btn_allIn,btn10k,btn5000,info;
+            ,b36,btn5,btn25,btn100,btn500, btn1000,submit,reset_btn,calculator,odd,even,red,black,
+            low,high,btn_allIn,btn10k,btn5000,info,last10;
     public int [] MAP = new int [43];
+    private String [] nums = new String[10];
     private TextView bet_amount,user_amount,selected_chip,final_bet_txt;
     String BET_STRING,UserID;
     private FirebaseUser user;
@@ -74,6 +76,7 @@ public class betTable extends AppCompatActivity {
 
         reference = FirebaseDatabase.getInstance().getReference("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();
+        last10 = findViewById(R.id.last_ten_nums);
         UserID = user.getUid();
         boss_reference = FirebaseDatabase.getInstance().getReference("Boss");
 
@@ -125,13 +128,11 @@ public class betTable extends AppCompatActivity {
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                 lp.height = WindowManager.LayoutParams.MATCH_PARENT ;
                 int width = (int)(getResources().getDisplayMetrics().widthPixels*0.82);
-                int height = (int)(getResources().getDisplayMetrics().heightPixels*0.45);
+                int height = (int)(getResources().getDisplayMetrics().heightPixels*0.65);
 
 
                 dialog.show();
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.CYAN));
                 dialog.getWindow().setLayout(width,height);
-//                dialog.getWindow().setAttributes(lp);
                 dialog.setContentView(R.layout.info_popup);
                 Button exit = dialog.findViewById(R.id.exit_btn);
                 exit.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +144,181 @@ public class betTable extends AppCompatActivity {
 
             }
         });
+        boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(int i =0; i<10; i++){
+                    nums[i]= snapshot.child("last10").child(""+i).getValue().toString();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        last10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.MATCH_PARENT ;
+                int width = (int)(getResources().getDisplayMetrics().widthPixels*1);
+                int height = (int)(getResources().getDisplayMetrics().heightPixels*0.40);
+                dialog.show();
+                dialog.getWindow().setLayout(width,height);
+                dialog.setContentView(R.layout.last_ten_view);
+                Button exit = dialog.findViewById(R.id.exit_btn_10);
+                exit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                TextView textView1 = dialog.findViewById(R.id.last1);
+                int num = Integer.parseInt(nums[0]);
+                if(num == 0 ){
+                    textView1.setText(nums[0]);
+                    textView1.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num) ){
+                    textView1.setText(nums[0]);
+                    textView1.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView1.setText(nums[0]);
+                    textView1.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView2 = dialog.findViewById(R.id.last2);
+                int num2 = Integer.parseInt(nums[1]);
+                if(num == 0 ){
+                    textView2.setText(nums[1]);
+                    textView2.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num2) ){
+                    textView2.setText(nums[1]);
+                    textView2.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView2.setText(nums[1]);
+                    textView2.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView3 = dialog.findViewById(R.id.last3);
+                int num3 = Integer.parseInt(nums[2]);
+                if(num3 == 0 ){
+                    textView3.setText(nums[2]);
+                    textView3.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num3) ){
+                    textView3.setText(nums[2]);
+                    textView3.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView3.setText(nums[2]);
+                    textView3.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView4 = dialog.findViewById(R.id.last4);
+                int num4 = Integer.parseInt(nums[3]);
+                if(num4 == 0 ){
+                    textView4.setText(nums[3]);
+                    textView4.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num4) ){
+                    textView4.setText(nums[3]);
+                    textView4.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView4.setText(nums[3]);
+                    textView4.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView5 = dialog.findViewById(R.id.last5);
+                int num5 = Integer.parseInt(nums[4]);
+                if(num5 == 0 ){
+                    textView5.setText(nums[4]);
+                    textView5.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num5) ){
+                    textView5.setText(nums[4]);
+                    textView5.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView5.setText(nums[4]);
+                    textView5.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView6 = dialog.findViewById(R.id.last6);
+                int num6 = Integer.parseInt(nums[5]);
+                if(num6 == 0 ){
+                    textView6.setText(nums[5]);
+                    textView6.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num6) ){
+                    textView6.setText(nums[5]);
+                    textView6.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView6.setText(nums[5]);
+                    textView6.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView7 = dialog.findViewById(R.id.last7);
+                int num7 = Integer.parseInt(nums[6]);
+                if(num7 == 0 ){
+                    textView7.setText(nums[6]);
+                    textView7.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num7) ){
+                    textView7.setText(nums[6]);
+                    textView7.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView7.setText(nums[6]);
+                    textView7.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView8 = dialog.findViewById(R.id.last8);
+                int num8 = Integer.parseInt(nums[7]);
+                if(num8 == 0 ){
+                    textView8.setText(nums[7]);
+                    textView8.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num8) ){
+                    textView8.setText(nums[7]);
+                    textView8.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView8.setText(nums[7]);
+                    textView8.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView9 = dialog.findViewById(R.id.last9);
+                int num9 = Integer.parseInt(nums[8]);
+                if(num9 == 0 ){
+                    textView9.setText(nums[8]);
+                    textView9.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num9) ){
+                    textView9.setText(nums[8]);
+                    textView9.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView9.setText(nums[8]);
+                    textView9.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView10 = dialog.findViewById(R.id.last10);
+                int num10 = Integer.parseInt(nums[9]);
+                if(num10 == 0 ){
+                    textView10.setText(nums[9]);
+                    textView10.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num10) ){
+                    textView10.setText(nums[9]);
+                    textView10.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView10.setText(nums[9]);
+                    textView10.setBackgroundColor(Color.BLACK);
+                }
+            }
+        });
 
         final_bet_txt = findViewById(R.id.final_bet);
         calculator = findViewById(R.id.calculate);
@@ -150,31 +326,31 @@ public class betTable extends AppCompatActivity {
             //show the bets to the user
             @Override
             public void onClick(View v) {
-                String show = " ";
+                String show = "";
                 for (int i = 0; i< 37 ; i++) {
                     if (MAP[i] > 0) {
-                        show += i + "->" + MAP[i] + "$  ";
+                        show += i + "->" + MAP[i] + "$\n";
                     }
                 }
                 if(MAP [37] >0){
-                    show += "ODD->" +MAP[37] +"$  ";
+                    show += "ODD->" +MAP[37] +"$\n";
                 }
                 if(MAP[38] > 0){
-                    show += "EVEN->" + MAP[38]+"$  ";
+                    show += "EVEN->" + MAP[38]+"$\n";
                 }
                 if(MAP[39] > 0){
-                    show += "RED->" + MAP[39]+"$  ";
+                    show += "RED->" + MAP[39]+"$\n";
                 }
                 if(MAP[40] > 0){
-                    show += "BLACK->" + MAP[40]+"$  ";
+                    show += "BLACK->" + MAP[40]+"$\n";
                 }
                 if(MAP[41] > 0){
-                    show += "19-36->" + MAP[41]+"$  ";
+                    show += "19-36->" + MAP[41]+"$\n";
                 }
                 if(MAP[42] > 0){
-                    show += "1-18->" + MAP[42]+"$  ";
+                    show += "1-18->" + MAP[42]+"$\n";
                 }
-                final_bet_txt.setText(show.substring(0,show.length()-2));
+                final_bet_txt.setText(show);
                 final_bet_txt.setMovementMethod(new ScrollingMovementMethod());
             }
 
@@ -793,6 +969,15 @@ public class betTable extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+    private boolean isRed(int n){
+        if( n == 1|| n == 3|| n == 5||n == 7||n == 9||n == 12||n == 14||n == 16||n == 18||n == 19||
+                n == 21||n == 23||n == 25|| n == 27 || n == 30|| n == 32|| n == 34|| n == 36){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }

@@ -1,10 +1,12 @@
 package com.example.roulette;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -16,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -71,18 +74,21 @@ public class Table extends AppCompatActivity {
     private float shake;// acceration value different from gravity
     private String currntPhotoPath;
 
-    private TextView textView,user_amount,bet_view;
-    private Button spin,bet,profile,cam;
+    private TextView textView,user_amount,bet_view,user_bets_biew;
+    private Button spin,bet,profile,cam,last10,mybet;
     private ImageView roulette_image;
     private Uri image;
     public static final int CAMERA_ACTION_CODE = 1;
     private final int CAMERA_CODE = 102;
+    private static final float FACTOR = 4.86f;
     private int BET_SUM;
+    private String [] nums = new String[10];
     private Random r;
     int LAST_WIN = 0;
     int LAST_BET = 0;
     String LAST_NUM = "";
-    private int degree ,new_amount, win ,img_counter,round_win;
+    private Dialog dialog;
+    private int degree, degree_old ,new_amount, win ,img_counter,round_win, index;
     private static int NUMBER;
     private boolean isSpinning = false;
     private static  boolean spinned = false;
@@ -91,10 +97,12 @@ public class Table extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference reference,boss_reference;
     private String UserID,str_bets,user_email,EMAIL,PASS;
+    public int [] MAP = new int [43];
+
     private static final String [] sectors = {"32 red","15 black","19 red","4 black","21 red","2 black",
             "25 red","17 black","34 red","6 black","27 red","13 black","36 red","11 black","30 red","8 black",
             "23 red","10 black","5 red","24 black","16 red","33 black","1 red","20 black","14 red","31 black",
-            "9 red","22 black","18 red","29 black","7 red","28 black","12 red","35 black","3 red","0"};
+            "9 red","22 black","18 red","29 black","7 red","28 black","12 red","35 black","3 red", "26 black","0"};
     private static final int [] numbers = {32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,
             16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26,0};
     private static final int [] sectorsDegrees = new int [sectors.length];
@@ -110,6 +118,7 @@ public class Table extends AppCompatActivity {
         acelLast = SensorManager.GRAVITY_EARTH;
         shake = 0.00f;
         ////////////////////////////////////////////
+        dialog = new Dialog(this);
         boss_reference = FirebaseDatabase.getInstance().getReference("Boss");
         roulette_image = findViewById(R.id.imageView) ;
         bet_view = findViewById(R.id.User_bet);
@@ -125,16 +134,237 @@ public class Table extends AppCompatActivity {
         BET_SUM = 0;
         EMAIL = "roulleteboss@gmail.com";
         PASS = "uhgnjmsmvfppdmxz";
+
+        r = new Random();
+        degree = 0;
+        degree_old = 0;
+
+
         boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 LAST_NUM = snapshot.child("last_num").getValue().toString();
                 textView.setText(LAST_NUM);
+                for(int i =0; i<10; i++){
+                    nums[i]= snapshot.child("last10").child(""+i).getValue().toString();
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+        mybet = findViewById(R.id.Table_user_bets);
+        mybet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.MATCH_PARENT ;
+                int width = (int)(getResources().getDisplayMetrics().widthPixels*1);
+                int height = (int)(getResources().getDisplayMetrics().heightPixels*0.40);
+                dialog.show();
+                dialog.getWindow().setLayout(width,height);
+                dialog.setContentView(R.layout.my_bets_view);
+                user_bets_biew = dialog.findViewById(R.id.final_bets33);
+                String show = "";
+                for (int i = 0; i< 37 ; i++) {
+                    if (MAP[i] > 0) {
+                        show += i + "->" + MAP[i] + "$\n";
+                    }
+                }
+                if(MAP [37] >0){
+                    show += "ODD->" +MAP[37] +"$\n";
+                }
+                if(MAP[38] > 0){
+                    show += "EVEN->" + MAP[38]+"$\n";
+                }
+                if(MAP[39] > 0){
+                    show += "RED->" + MAP[39]+"$\n";
+                }
+                if(MAP[40] > 0){
+                    show += "BLACK->" + MAP[40]+"$\n";
+                }
+                if(MAP[41] > 0){
+                    show += "19-36->" + MAP[41]+"$\n";
+                }
+                if(MAP[42] > 0){
+                    show += "1-18->" + MAP[42]+"$\n";
+                }
+                Button exit_btn = dialog.findViewById(R.id.exit_btn_bets);
+                exit_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                user_bets_biew.setText(show);
+                user_bets_biew.setMovementMethod(new ScrollingMovementMethod());
+
+            }
+        });
+        last10 = findViewById(R.id.table_last10);
+        last10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.MATCH_PARENT ;
+                int width = (int)(getResources().getDisplayMetrics().widthPixels*1);
+                int height = (int)(getResources().getDisplayMetrics().heightPixels*0.40);
+                dialog.show();
+                dialog.getWindow().setLayout(width,height);
+                dialog.setContentView(R.layout.last_ten_view);
+                Button exit = dialog.findViewById(R.id.exit_btn_10);
+                exit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                TextView textView1 = dialog.findViewById(R.id.last1);
+                int num = Integer.parseInt(nums[0]);
+                if(num == 0 ){
+                    textView1.setText(nums[0]);
+                    textView1.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num) ){
+                    textView1.setText(nums[0]);
+                    textView1.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView1.setText(nums[0]);
+                    textView1.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView2 = dialog.findViewById(R.id.last2);
+                int num2 = Integer.parseInt(nums[1]);
+                if(num == 0 ){
+                    textView2.setText(nums[1]);
+                    textView2.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num2) ){
+                    textView2.setText(nums[1]);
+                    textView2.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView2.setText(nums[1]);
+                    textView2.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView3 = dialog.findViewById(R.id.last3);
+                int num3 = Integer.parseInt(nums[2]);
+                if(num3 == 0 ){
+                    textView3.setText(nums[2]);
+                    textView3.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num3) ){
+                    textView3.setText(nums[2]);
+                    textView3.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView3.setText(nums[2]);
+                    textView3.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView4 = dialog.findViewById(R.id.last4);
+                int num4 = Integer.parseInt(nums[3]);
+                if(num4 == 0 ){
+                    textView4.setText(nums[3]);
+                    textView4.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num4) ){
+                    textView4.setText(nums[3]);
+                    textView4.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView4.setText(nums[3]);
+                    textView4.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView5 = dialog.findViewById(R.id.last5);
+                int num5 = Integer.parseInt(nums[4]);
+                if(num5 == 0 ){
+                    textView5.setText(nums[4]);
+                    textView5.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num5) ){
+                    textView5.setText(nums[4]);
+                    textView5.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView5.setText(nums[4]);
+                    textView5.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView6 = dialog.findViewById(R.id.last6);
+                int num6 = Integer.parseInt(nums[5]);
+                if(num6 == 0 ){
+                    textView6.setText(nums[5]);
+                    textView6.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num6) ){
+                    textView6.setText(nums[5]);
+                    textView6.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView6.setText(nums[5]);
+                    textView6.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView7 = dialog.findViewById(R.id.last7);
+                int num7 = Integer.parseInt(nums[6]);
+                if(num7 == 0 ){
+                    textView7.setText(nums[6]);
+                    textView7.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num7) ){
+                    textView7.setText(nums[6]);
+                    textView7.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView7.setText(nums[6]);
+                    textView7.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView8 = dialog.findViewById(R.id.last8);
+                int num8 = Integer.parseInt(nums[7]);
+                if(num8 == 0 ){
+                    textView8.setText(nums[7]);
+                    textView8.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num8) ){
+                    textView8.setText(nums[7]);
+                    textView8.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView8.setText(nums[7]);
+                    textView8.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView9 = dialog.findViewById(R.id.last9);
+                int num9 = Integer.parseInt(nums[8]);
+                if(num9 == 0 ){
+                    textView9.setText(nums[8]);
+                    textView9.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num9) ){
+                    textView9.setText(nums[8]);
+                    textView9.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView9.setText(nums[8]);
+                    textView9.setBackgroundColor(Color.BLACK);
+                }
+                TextView textView10 = dialog.findViewById(R.id.last10);
+                int num10 = Integer.parseInt(nums[9]);
+                if(num10 == 0 ){
+                    textView10.setText(nums[9]);
+                    textView10.setBackgroundColor(Color.GREEN);
+                }
+                else if(isRed(num10) ){
+                    textView10.setText(nums[9]);
+                    textView10.setBackgroundColor(Color.RED);
+                }
+                else{
+                    textView10.setText(nums[9]);
+                    textView10.setBackgroundColor(Color.BLACK);
+                }
             }
         });
 
@@ -146,6 +376,7 @@ public class Table extends AppCompatActivity {
                 user_amount.setText(snapshot.child("balance").getValue().toString());
                 //adding bets to bet view textview
                 for(int i = 0; i<37; i++){
+                    MAP[i] = Integer.parseInt(snapshot.child("bet").child(""+i).getValue().toString());
                     if(Integer.parseInt(snapshot.child("bet").child(""+i).getValue().toString()) > 0) {
                         str_bets += i +" ";
                         BET_SUM+= Integer.parseInt(snapshot.child("bet").child(""+i).getValue().toString());
@@ -189,9 +420,10 @@ public class Table extends AppCompatActivity {
 
             private void spin() {
                 //image rotation
-                degree = (int) ((Math.random() * (36)));
+                degree_old = degree % 360;
+                degree = r.nextInt(3600) + 720;
                 //degree = random.nextInt(sectors.length - 1);
-                RotateAnimation rotate = new RotateAnimation(0, (360 * sectors.length) + sectorsDegrees[degree],
+                RotateAnimation rotate = new RotateAnimation(0, degree,
                         RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
                 rotate.setDuration(3600);
                 rotate.setFillAfter(true);
@@ -202,6 +434,7 @@ public class Table extends AppCompatActivity {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
+                        index = getNum(360 - (degree % 360));
                         boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
                             //update the games number for the boos
                             @Override
@@ -213,9 +446,9 @@ public class Table extends AppCompatActivity {
                             public void onCancelled(@NonNull DatabaseError error) { }
                         });
                         //set and show the drawn number
-                        String number = sectors[sectors.length - (degree + 1)];
+                        String number = sectors[index];
                         textView.setText(number);
-                        NUMBER = numbers[sectors.length - (degree + 1)];
+                        NUMBER = numbers[index];
 
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
                         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -457,8 +690,9 @@ public class Table extends AppCompatActivity {
         private void spinGravity() {
 
             //image rotation
-            degree = random.nextInt(sectors.length - 1);
-            RotateAnimation rotate = new RotateAnimation(0, (360 * sectors.length) + sectorsDegrees[degree],
+            degree_old = degree % 360;
+            degree = r.nextInt(3600) + 720;
+            RotateAnimation rotate = new RotateAnimation(0, degree,
                     RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
             rotate.setDuration(3600);
             rotate.setFillAfter(true);
@@ -726,6 +960,121 @@ public class Table extends AppCompatActivity {
 
     }
 
+    private int getNum(int degrees){
+
+        if(degrees >= (FACTOR * 1) && degrees < (FACTOR * 3)){
+            return 0;
+        }
+        if(degrees >= (FACTOR * 3) && degrees < (FACTOR * 5)){
+            return 1;
+        }
+        if(degrees >= (FACTOR * 5) && degrees < (FACTOR * 7)){
+            return 2;
+        }
+        if(degrees >= (FACTOR * 7) && degrees < (FACTOR * 9)){
+            return 3;
+        }
+        if(degrees >= (FACTOR * 9) && degrees < (FACTOR * 11)){
+            return 4;
+        }
+        if(degrees >= (FACTOR * 11) && degrees < (FACTOR * 13)){
+            return 5;
+        }
+        if(degrees >= (FACTOR * 13) && degrees < (FACTOR * 15)){
+            return 6;
+        }
+        if(degrees >= (FACTOR * 15) && degrees < (FACTOR * 17)){
+            return 7;
+        }
+        if(degrees >= (FACTOR * 17) && degrees < (FACTOR * 19)){
+            return 8;
+        }
+        if(degrees >= (FACTOR * 19) && degrees < (FACTOR * 21)){
+            return 9;
+        }
+        if(degrees >= (FACTOR * 21) && degrees < (FACTOR * 23)){
+            return 10;
+        }
+        if(degrees >= (FACTOR * 23) && degrees < (FACTOR * 25)){
+            return 11;
+        }
+        if(degrees >= (FACTOR * 25) && degrees < (FACTOR * 27)){
+            return 12;
+        }
+        if(degrees >= (FACTOR * 27) && degrees < (FACTOR * 29)){
+            return 13;
+        }
+        if(degrees >= (FACTOR * 29) && degrees < (FACTOR * 31)){
+            return 14;
+        }
+        if(degrees >= (FACTOR * 31) && degrees < (FACTOR * 33)){
+            return 15;
+        }
+        if(degrees >= (FACTOR * 33) && degrees < (FACTOR * 35)){
+            return 16;
+        }
+        if(degrees >= (FACTOR * 35) && degrees < (FACTOR * 37)){
+            return 17;
+        }
+        if(degrees >= (FACTOR * 37) && degrees < (FACTOR * 39)){
+            return 18;
+        }
+        if(degrees >= (FACTOR * 39) && degrees < (FACTOR * 41)){
+            return 19;
+        }
+        if(degrees >= (FACTOR * 41) && degrees < (FACTOR * 43)){
+            return 20;
+        }
+        if(degrees >= (FACTOR * 43) && degrees < (FACTOR * 45)){
+            return 21;
+        }
+        if(degrees >= (FACTOR * 45) && degrees < (FACTOR * 47)){
+            return 22;
+        }
+        if(degrees >= (FACTOR * 47) && degrees < (FACTOR * 49)){
+            return 23;
+        }
+        if(degrees >= (FACTOR * 49) && degrees < (FACTOR * 51)){
+            return 24;
+        }
+        if(degrees >= (FACTOR * 51) && degrees < (FACTOR * 53)){
+            return 25;
+        }
+        if(degrees >= (FACTOR * 53) && degrees < (FACTOR * 55)){
+            return 26;
+        }
+        if(degrees >= (FACTOR * 55) && degrees < (FACTOR * 57)){
+            return 27;
+        }
+        if(degrees >= (FACTOR * 57) && degrees < (FACTOR * 59)){
+            return 28;
+        }
+        if(degrees >= (FACTOR * 59) && degrees < (FACTOR * 61)){
+            return 29;
+        }
+        if(degrees >= (FACTOR * 61) && degrees < (FACTOR * 63)){
+            return 30;
+        }
+        if(degrees >= (FACTOR * 63) && degrees < (FACTOR * 65)){
+            return 31;
+        }
+        if(degrees >= (FACTOR * 65) && degrees < (FACTOR * 667)){
+            return 32;
+        }
+        if(degrees >= (FACTOR * 67) && degrees < (FACTOR * 69)){
+            return 33;
+        }
+        if(degrees >= (FACTOR * 69) && degrees < (FACTOR * 71)){
+            return 34;
+        }
+        if(degrees >= (FACTOR * 71) && degrees < (FACTOR * 73)){
+            return 35;
+        }
+        if((degrees >= (FACTOR * 73) && degrees < 360) || (degrees >= 0 && degrees < (FACTOR * 1))){
+            return 36;
+        }
+        return -1;
+    }
 
     private void getDegree(){
         int sectorDegree = 360/sectors.length;
@@ -744,6 +1093,7 @@ public class Table extends AppCompatActivity {
             return false;
         }
     }
+
     public boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -753,4 +1103,6 @@ public class Table extends AppCompatActivity {
         }
         return false;
     }
+
+
 }

@@ -3,6 +3,7 @@ package com.example.roulette;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,7 @@ public class user_bio extends AppCompatActivity {
     private DatabaseReference reference;
     private TextView welcomeMSG, full_name, balancee, email_user;
     private String UserID;
+    Dialog dialog;
     private Button deposit,edit,play,face;
 
     @Override
@@ -34,10 +36,30 @@ public class user_bio extends AppCompatActivity {
         setContentView(R.layout.activity_user_bio);
 
         deposit = findViewById(R.id.depositBTN);
+        dialog = new Dialog(this);
         deposit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(user_bio.this,deposit.class));
+
+//                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+//                lp.copyFrom(dialog.getWindow().getAttributes());
+//                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+//                lp.height = WindowManager.LayoutParams.MATCH_PARENT ;
+//                int width = (int)(getResources().getDisplayMetrics().widthPixels*0.82);
+//                int height = (int)(getResources().getDisplayMetrics().heightPixels*0.65);
+//
+//
+//                dialog.show();
+//                dialog.getWindow().setLayout(width,height);
+//                dialog.setContentView(R.layout.activity_deposit);
+//                Button with_exit = dialog.findViewById(R.id.exit_btn3);
+//                with_exit.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        dialog.dismiss();
+//                    }
+//                });
             }
         });
         logout = findViewById(R.id.logout);
@@ -62,6 +84,25 @@ public class user_bio extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(user_bio.this,withdrawal.class));
+//
+//                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+//                lp.copyFrom(dialog.getWindow().getAttributes());
+//                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+//                lp.height = WindowManager.LayoutParams.MATCH_PARENT ;
+//                int width = (int)(getResources().getDisplayMetrics().widthPixels*0.82);
+//                int height = (int)(getResources().getDisplayMetrics().heightPixels*0.65);
+//
+//
+//                dialog.show();
+//                dialog.getWindow().setLayout(width,height);
+//                dialog.setContentView(R.layout.activity_withdrawal);
+//                Button with_exit = dialog.findViewById(R.id.exit_btn_2);
+//                with_exit.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        dialog.dismiss();
+//                    }
+//                });
             }
         });
 
@@ -109,6 +150,24 @@ public class user_bio extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(user_bio.this,EditProfile.class));
+//                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+//                lp.copyFrom(dialog.getWindow().getAttributes());
+//                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+//                lp.height = WindowManager.LayoutParams.MATCH_PARENT ;
+//                int width = (int)(getResources().getDisplayMetrics().widthPixels*0.82);
+//                int height = (int)(getResources().getDisplayMetrics().heightPixels*0.85);
+//
+//
+//                dialog.show();
+//                dialog.getWindow().setLayout(width,height);
+//                dialog.setContentView(R.layout.activity_edit_profile);
+//                Button edit_exit = dialog.findViewById(R.id.exit_btn_4);
+//                edit_exit.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        dialog.dismiss();
+//                    }
+//                });
             }
         });
 

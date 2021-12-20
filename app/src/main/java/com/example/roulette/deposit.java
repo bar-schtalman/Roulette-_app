@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 public class deposit extends AppCompatActivity {
     private EditText number,month,year,amount;
     private String c_month, c_year, c_amount,UserID,c_number;
-    private Button submit;
+    private Button submit,close_deposit;
     private FirebaseUser user;
     private DatabaseReference reference;
     @Override
@@ -37,11 +37,16 @@ public class deposit extends AppCompatActivity {
         number = findViewById(R.id.creditcard);
         number.requestFocus();
         month = findViewById(R.id.month);
-        month.requestFocus();
         year = findViewById(R.id.year);
-        year.requestFocus();
         amount = findViewById(R.id.amount);
         submit = findViewById(R.id.submit);
+        close_deposit = findViewById(R.id.exit_btn3);
+        close_deposit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(deposit.this,user_bio.class));
+            }
+        });
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //valid information check before deposit

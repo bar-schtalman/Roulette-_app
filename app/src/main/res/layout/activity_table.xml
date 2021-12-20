@@ -8,11 +8,40 @@
     tools:context=".Table">
 
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/table_last10"
+        android:layout_width="51dp"
+        android:layout_height="51dp"
+        android:background="@drawable/last_ten"
+        android:fontFamily="@font/spike_speak_straight"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.957"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.816"
+        app:strokeColor="#F61010" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Table_user_bets"
+        android:layout_width="51dp"
+        android:layout_height="51dp"
+        android:background="@drawable/bets_icon"
+        android:fontFamily="@font/spike_speak_straight"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.042"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.816"
+        app:strokeColor="#F61010" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="399dp"
         android:layout_height="673dp"
-        android:rotation="-3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -61,7 +90,7 @@
         android:rotation="270"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.166"

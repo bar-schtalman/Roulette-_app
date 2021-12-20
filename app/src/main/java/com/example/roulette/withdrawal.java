@@ -25,7 +25,7 @@ import org.w3c.dom.Text;
 
 public class withdrawal extends AppCompatActivity {
 
-    private Button submit;
+    private Button submit,close;
     private TextView user_balance;
     private EditText bank_num, branch_num, bank_account, amount;
     private String user_balance_str, bank_num_str, branch_num_str, bank_account_str,UserID;
@@ -42,9 +42,11 @@ public class withdrawal extends AppCompatActivity {
         submit = findViewById(R.id.submit_w);
         user_balance = findViewById(R.id.user_balance_w);
         bank_num = findViewById(R.id.bank_number);
+        bank_num.requestFocus();
         branch_num = findViewById(R.id.branch_nubmer);
         bank_account = findViewById(R.id.account_number);
         amount = findViewById(R.id.amount_to_w);
+        close = findViewById(R.id.exit_btn_2);
         reference = FirebaseDatabase.getInstance().getReference("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();
         UserID = user.getUid();
@@ -59,6 +61,12 @@ public class withdrawal extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(withdrawal.this,user_bio.class));
             }
         });
 
