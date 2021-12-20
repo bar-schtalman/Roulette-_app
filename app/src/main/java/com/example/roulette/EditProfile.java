@@ -39,7 +39,7 @@ public class EditProfile extends AppCompatActivity {
     private EditText user_full_name, user_email, user_password;
     private ImageView profile_picture;
     private Uri image;
-    private Button button,upload;
+    private Button button,upload,exit;
     String  UserID;
     private FirebaseUser user;
     private StorageReference storageRef,mStorage;
@@ -57,7 +57,7 @@ public class EditProfile extends AppCompatActivity {
         button = findViewById(R.id.update);
         upload = findViewById(R.id.pic_upload);
         profile_picture = findViewById(R.id.profile_pic);
-
+        exit = findViewById(R.id.exit_btn_4);
         user_full_name = findViewById(R.id.full_name);
         user_email = findViewById(R.id.email);
         user_password = findViewById(R.id.password);
@@ -169,6 +169,12 @@ public class EditProfile extends AppCompatActivity {
                     image = result;
                     imageURL = result.toString();
                 }
+            }
+        });
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(EditProfile.this,user_bio.class));
             }
         });
         upload.setOnClickListener(new View.OnClickListener() {

@@ -111,28 +111,44 @@
         app:strokeColor="#F61010" />
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="87dp"
-        android:layout_height="24dp"
-        android:fontFamily="@font/spike_speak_straight"
-        android:text="Name"
+        android:id="@+id/wins_money"
+        android:layout_width="159dp"
+        android:layout_height="22dp"
 
+        android:fontFamily="@font/spike_speak_straight"
+        android:text="wins money"
         android:textColor="#0E4067"
         android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.079"
+        app:layout_constraintHorizontal_bias="0.095"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.292" />
+        app:layout_constraintVertical_bias="0.465" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/user_bets_money"
+        android:layout_width="159dp"
+        android:layout_height="22dp"
+
+        android:fontFamily="@font/spike_speak_straight"
+        android:text="bets money"
+        android:textColor="#0E4067"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.095"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.526" />
+
+    <TextView
+        android:id="@+id/wins"
         android:layout_width="68dp"
         android:layout_height="22dp"
 
         android:fontFamily="@font/spike_speak_straight"
-        android:text="Email"
+        android:text="wins"
         android:textColor="#0E4067"
         android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -143,30 +159,77 @@
         app:layout_constraintVertical_bias="0.411" />
 
     <TextView
-        android:id="@+id/first_name_display"
-        android:layout_width="275dp"
-        android:layout_height="44dp"
+        android:id="@+id/user_games"
+        android:layout_width="159dp"
+        android:layout_height="22dp"
+        android:fontFamily="@font/spike_speak_straight"
+        android:text="user_games"
         android:textAlignment="textStart"
-        android:textSize="25dp"
+
+        android:textColor="#0E4067"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.176"
+        app:layout_constraintHorizontal_bias="0.095"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.346" />
+        app:layout_constraintVertical_bias="0.349" />
 
     <TextView
-        android:id="@+id/email_display"
-        android:layout_width="356dp"
-        android:layout_height="42dp"
-        android:textAlignment="textStart"
-        android:textSize="25dp"
+        android:id="@+id/user_games_display"
+        android:layout_width="159dp"
+        android:layout_height="22dp"
+        android:textAlignment="textEnd"
+        android:textSize="20dp"
+        android:fontFamily="@font/spike_speak_straight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/user_games"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.349" />
+
+    <TextView
+        android:id="@+id/user_wins_money_display"
+        android:layout_width="159dp"
+        android:layout_height="22dp"
+        android:textAlignment="textEnd"
+        android:textSize="20dp"
+        android:fontFamily="@font/spike_speak_straight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.726"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.465" />
+
+    <TextView
+        android:id="@+id/user_bets_money_display"
+        android:layout_width="159dp"
+        android:layout_height="22dp"
+        android:textAlignment="textEnd"
+        android:textSize="20dp"
+        android:fontFamily="@font/spike_speak_straight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.73"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.526" />
+
+    <TextView
+        android:id="@+id/user_wins_display"
+        android:layout_width="159dp"
+        android:layout_height="22dp"
+        android:textAlignment="textEnd"
+        android:textSize="20dp"
+        android:fontFamily="@font/spike_speak_straight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.726"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.41" />
 
     <TextView
         android:id="@+id/welcome"
@@ -179,7 +242,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.216" />
+        app:layout_constraintVertical_bias="0.203" />
 
     <TextView
         android:id="@+id/textView13"
@@ -194,20 +257,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.525" />
+        app:layout_constraintVertical_bias="0.288" />
 
     <TextView
         android:id="@+id/balance"
-        android:layout_width="275dp"
-        android:layout_height="44dp"
-        android:textAlignment="textStart"
-        android:textSize="25dp"
+        android:layout_width="159dp"
+        android:layout_height="22dp"
+        android:textSize="20dp"
+        android:textAlignment="textEnd"
+        android:fontFamily="@font/spike_speak_straight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.191"
+        app:layout_constraintHorizontal_bias="0.726"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.59" />
+        app:layout_constraintVertical_bias="0.289" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/depositBTN"

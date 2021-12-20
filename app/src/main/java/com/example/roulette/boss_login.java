@@ -22,7 +22,6 @@ public class boss_login extends AppCompatActivity {
     private EditText pass,mail;
     private Button login;
     private FirebaseAuth mAuth;
-    private String BOSS1 = "bar@boss.com", BOSS2= "yogev@boss.com", BOSS3 = "iris@boss.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class boss_login extends AppCompatActivity {
     private void bossLogin() { //after pressing login func
         String email = mail.getText().toString().trim();
         String password = pass.getText().toString().trim();
-        if(!email.equals(BOSS1)  && !email.equals(BOSS2) && !email.equals(BOSS3)){
+        if( !email.contains("boss") && !email.contains("Boss")) {
             mail.setError("only boss can sign in!");
             mail.requestFocus();
             return;

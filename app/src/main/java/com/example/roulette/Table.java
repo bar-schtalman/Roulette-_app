@@ -382,12 +382,25 @@ public class Table extends AppCompatActivity {
                         BET_SUM+= Integer.parseInt(snapshot.child("bet").child(""+i).getValue().toString());
                     }
                 }
-                if(Integer.parseInt(snapshot.child("bet").child("odd").getValue().toString()) > 0){str_bets += "odd" +" ";}
-                if(Integer.parseInt(snapshot.child("bet").child("even").getValue().toString()) > 0){str_bets += "even" +" ";}
-                if(Integer.parseInt(snapshot.child("bet").child("red").getValue().toString()) > 0){str_bets += "red" +" ";}
-                if(Integer.parseInt(snapshot.child("bet").child("black").getValue().toString()) > 0){str_bets += "black" +" ";}
-                if(Integer.parseInt(snapshot.child("bet").child("high").getValue().toString()) > 0){str_bets += "19-36" +" ";}
-                if(Integer.parseInt(snapshot.child("bet").child("low").getValue().toString()) > 0){str_bets += "1-18" +" ";}
+                if(Integer.parseInt(snapshot.child("bet").child("odd").getValue().toString()) > 0){
+                    MAP[37] = Integer.parseInt(snapshot.child("bet").child("odd").getValue().toString());
+                    str_bets += "odd" +" ";}
+                if(Integer.parseInt(snapshot.child("bet").child("even").getValue().toString()) > 0){
+                    MAP[38] = Integer.parseInt(snapshot.child("bet").child("even").getValue().toString());
+                    str_bets += "even" +" ";}
+                if(Integer.parseInt(snapshot.child("bet").child("red").getValue().toString()) > 0){
+                    MAP[39] = Integer.parseInt(snapshot.child("bet").child("red").getValue().toString());
+                    str_bets += "red" +" ";}
+                if(Integer.parseInt(snapshot.child("bet").child("black").getValue().toString()) > 0){
+                    MAP[40] = Integer.parseInt(snapshot.child("bet").child("black").getValue().toString());
+                    str_bets += "black" +" ";
+                }
+                if(Integer.parseInt(snapshot.child("bet").child("high").getValue().toString()) > 0){
+                    MAP[41] = Integer.parseInt(snapshot.child("bet").child("high").getValue().toString());
+                    str_bets += "19-36" +" ";}
+                if(Integer.parseInt(snapshot.child("bet").child("low").getValue().toString()) > 0){
+                    MAP[42] = Integer.parseInt(snapshot.child("bet").child("low").getValue().toString());
+                    str_bets += "1-18" +" ";}
                 BET_SUM+= Integer.parseInt(snapshot.child("bet").child("odd").getValue().toString());
                 BET_SUM+= Integer.parseInt(snapshot.child("bet").child("even").getValue().toString());
                 BET_SUM+= Integer.parseInt(snapshot.child("bet").child("red").getValue().toString());
