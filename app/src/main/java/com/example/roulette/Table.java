@@ -16,6 +16,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
@@ -106,6 +107,7 @@ public class Table extends AppCompatActivity {
     private static final int [] numbers = {32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,
             16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26,0};
     private static final int [] sectorsDegrees = new int [sectors.length];
+    Handler handler = new Handler();
     private static  final Random random = new Random();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,11 +142,22 @@ public class Table extends AppCompatActivity {
         degree_old = 0;
 
 
+
         boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 LAST_NUM = snapshot.child("last_num").getValue().toString();
-                textView.setText(LAST_NUM);
+                if(Integer.parseInt(LAST_NUM) == 0)
+                {
+                    textView.setText(LAST_NUM);
+                }
+                else if(isRed(Integer.parseInt(LAST_NUM))){
+                    textView.setText(LAST_NUM+" Red");
+                }
+                else{
+                    textView.setText(LAST_NUM+" Black");
+
+                }
                 for(int i =0; i<10; i++){
                     nums[i]= snapshot.child("last10").child(""+i).getValue().toString();
                 }
@@ -460,7 +473,7 @@ public class Table extends AppCompatActivity {
                         });
                         //set and show the drawn number
                         String number = sectors[index];
-                        textView.setText(number);
+                        textView.setText(sectors[index]);
                         NUMBER = numbers[index];
 
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -576,13 +589,23 @@ public class Table extends AppCompatActivity {
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) { }
                                     });
-                                    startActivity(new Intent(Table.this, Winner_screen.class));
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            startActivity(new Intent(Table.this,Winner_screen.class));
+                                        }
+                                    },1500);
                                 }
                                 else{
 //                                    Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();
                                     bet_view.setText("place bet to play");
                                     reference.child(UserID).child("last_win").setValue("0");
-                                    startActivity(new Intent(Table.this, Loser_screen.class));
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            startActivity(new Intent(Table.this, Loser_screen.class));
+                                        }
+                                    },1500);
 
                                 }
                                 boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -727,9 +750,9 @@ public class Table extends AppCompatActivity {
                         public void onCancelled(@NonNull DatabaseError error) { }
                     });
                     //set and show the drawn number
-                    String number = sectors[sectors.length - (degree + 1)];
-                    textView.setText(number);
-                    NUMBER = numbers[sectors.length - (degree + 1)];
+                    String number = sectors[index];
+                    textView.setText(sectors[index]);
+                    NUMBER = numbers[index];
 
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
                     reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -843,14 +866,23 @@ public class Table extends AppCompatActivity {
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) { }
                                 });
-                                startActivity(new Intent(Table.this,Winner_screen.class));
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        startActivity(new Intent(Table.this,Winner_screen.class));
+                                    }
+                                },1500);
                             }
                             else{
 //                                    Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();
                                 bet_view.setText("place bet to play");
                                 reference.child(UserID).child("last_win").setValue("0");
-                                startActivity(new Intent(Table.this,Loser_screen.class));
-
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        startActivity(new Intent(Table.this, Loser_screen.class));
+                                    }
+                                },1500);
                             }
                             boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 //update games stats

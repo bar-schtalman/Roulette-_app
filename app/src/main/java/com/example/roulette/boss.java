@@ -71,7 +71,6 @@ public class boss extends AppCompatActivity {
                     String biggest_win = item.child("biggest_win").getValue().toString().trim();
                     String User_id = item.getKey();
                     User tmp_user = new User(name,balance,games,wins,wins_money,bets_money,biggest_bet,biggest_win,User_id);
-                    System.out.println(tmp_user.full_name);
                     map.put(name,tmp_user);
                 }
                 addToList();
