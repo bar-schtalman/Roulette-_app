@@ -448,12 +448,15 @@ public class Table extends AppCompatActivity {
 
             private void spin() {
                 //image rotation
+
                 degree_old = degree % 360;
                 degree = r.nextInt(3600) + 720;
                 //degree = random.nextInt(sectors.length - 1);
                 RotateAnimation rotate = new RotateAnimation(0, degree,
                         RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-                rotate.setDuration(3600);
+                rotate.setDuration(11500);
+                mediaPlayer = MediaPlayer.create(Table.this,R.raw.spin_sound);
+                mediaPlayer.start();
                 rotate.setFillAfter(true);
                 rotate.setInterpolator(new DecelerateInterpolator());
                 rotate.setAnimationListener(new Animation.AnimationListener() {
@@ -736,7 +739,9 @@ public class Table extends AppCompatActivity {
             degree = r.nextInt(3600) + 720;
             RotateAnimation rotate = new RotateAnimation(0, degree,
                     RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-            rotate.setDuration(3600);
+            rotate.setDuration(11500);
+            mediaPlayer = MediaPlayer.create(Table.this,R.raw.spin_sound);
+            mediaPlayer.start();
             rotate.setFillAfter(true);
             rotate.setInterpolator(new DecelerateInterpolator());
             rotate.setAnimationListener(new Animation.AnimationListener() {
