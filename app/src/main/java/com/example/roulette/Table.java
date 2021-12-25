@@ -11,6 +11,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -89,6 +90,7 @@ public class Table extends AppCompatActivity {
     int LAST_BET = 0;
     String LAST_NUM = "";
     private Dialog dialog;
+    private MediaPlayer mediaPlayer;
     private int degree, degree_old ,new_amount, win ,img_counter,round_win, index;
     private static int NUMBER;
     private boolean isSpinning = false;
@@ -589,6 +591,8 @@ public class Table extends AppCompatActivity {
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) { }
                                     });
+                                    mediaPlayer = MediaPlayer.create(Table.this,R.raw.money_sound_effect);
+                                    mediaPlayer.start();
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
@@ -600,6 +604,8 @@ public class Table extends AppCompatActivity {
 //                                    Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();
                                     bet_view.setText("place bet to play");
                                     reference.child(UserID).child("last_win").setValue("0");
+                                    mediaPlayer = MediaPlayer.create(Table.this,R.raw.lose_sound_effect);
+                                    mediaPlayer.start();
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
@@ -866,6 +872,7 @@ public class Table extends AppCompatActivity {
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) { }
                                 });
+
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -877,6 +884,8 @@ public class Table extends AppCompatActivity {
 //                                    Toast.makeText(Table.this,"LOSER!",Toast.LENGTH_LONG).show();
                                 bet_view.setText("place bet to play");
                                 reference.child(UserID).child("last_win").setValue("0");
+                                mediaPlayer = MediaPlayer.create(Table.this,R.raw.lose_sound_effect);
+                                mediaPlayer.start();
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
