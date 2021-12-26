@@ -24,7 +24,7 @@ public class user_bio extends AppCompatActivity {
     private Button logout, withdrawal;
     private FirebaseUser user;
     private DatabaseReference reference;
-    private TextView wins_rate_t,welcomeMSG, full_name, balancee, email_user,user_games, user_wins, user_wins_money
+    private TextView wins_rate_title,wins_rate_t,welcomeMSG, full_name, balancee, email_user,user_games, user_wins, user_wins_money
             , user_bets_money,user_biggest_win, user_biggest_bet;
     private String UserID;
     private int wins_rate;
@@ -47,6 +47,7 @@ public class user_bio extends AppCompatActivity {
                 startActivity(new Intent(user_bio.this,deposit.class));
             }
         });
+        wins_rate_title = findViewById(R.id.user_wins_rate);
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,8 +111,13 @@ public class user_bio extends AppCompatActivity {
                     user_wins_money.setText(wins_money+"$");
                     int tmp_games = Integer.parseInt(games);
                     int tmp_wins = Integer.parseInt(wins);
-                    int tmp = (tmp_wins*100)/tmp_games;
-                    wins_rate_t.setText(tmp+"%");
+                    if( tmp_games>0) {
+                        int tmp = (tmp_wins * 100) / tmp_games;
+                        wins_rate_t.setText(tmp + "%");
+                    }
+                    else{
+                        wins_rate_title.setVisibility(View.GONE);
+                    }
 //                    full_name.setText(ful_name);;
 //                    email_user.setText(email);
                     balancee.setText(String.valueOf(balance)+"$");
