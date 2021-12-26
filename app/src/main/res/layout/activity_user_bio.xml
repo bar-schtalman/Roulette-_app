@@ -275,6 +275,8 @@
         android:id="@+id/welcome"
         android:layout_width="275dp"
         android:layout_height="44dp"
+        android:textColor="#0E4067"
+
         android:fontFamily="@font/spike_speak_straight"
         android:textAlignment="center"
         android:textSize="25dp"
