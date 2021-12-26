@@ -71,7 +71,11 @@ public class register extends AppCompatActivity implements View.OnClickListener 
         password = user_password.getText().toString().trim();
         full_name = user_full_name.getText().toString().trim();
         progressBar.setVisibility(View.GONE);
-
+        if( email.contains("boss") || email.contains("Boss")) {
+            user_email.setError("cant register as boss...");
+            user_email.requestFocus();
+            return;
+        }
         //empty name check
         if(full_name.isEmpty()){
             user_full_name.setError("full name is required!");

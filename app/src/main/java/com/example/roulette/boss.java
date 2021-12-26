@@ -31,7 +31,12 @@ import java.util.List;
 
 public class boss extends AppCompatActivity {
     private ListView list_view1;
+    private int wins,users_num,games, average_earn_per_round, average_lost_per_win,average_bet_amount_per_round,wins_rate; ;
+    private String common_nums, uncommon_nums,earned_money, lost_money, balance;
     private DatabaseReference reference;
+    private DatabaseReference boss_reference;
+    private int [] nums = new int[37];
+    private Button user_stats, game_stats;
     private TextView nameT,balanceT,gamesT,winsT,wins_moneyT,bets_moneyT,biggest_betT,biggest_winT;
     ArrayList<String> list = new ArrayList<>();
     String str = "";
@@ -44,8 +49,12 @@ public class boss extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_boss);
+        user_stats = findViewById(R.id.user_stats);
+        game_stats = findViewById(R.id.game_stats);
         reference = FirebaseDatabase.getInstance().getReference("Users");
+        boss_reference = FirebaseDatabase.getInstance().getReference("Boss");
         list_view1 = findViewById(R.id.list_view);
+        list_view1.setVisibility(View.GONE);
         nameT = findViewById(R.id.full_name_textview);
         balanceT = findViewById(R.id.balance_textview);
         gamesT = findViewById(R.id.games_textview);
@@ -55,7 +64,6 @@ public class boss extends AppCompatActivity {
         biggest_betT = findViewById(R.id.biggest_bet_textview);
         biggest_winT = findViewById(R.id.biggest_win_textview);
         map.clear();
-
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -74,7 +82,6 @@ public class boss extends AppCompatActivity {
                     User tmp_user = new User(name,balance,games,wins,wins_money,bets_money,biggest_bet,biggest_win,User_id);
                     map.put(name,tmp_user);
                 }
-                addToList();
 
             }
 
@@ -83,10 +90,81 @@ public class boss extends AppCompatActivity {
 
             }
         });
+        user_stats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nameT.setText("");
+                balanceT.setText("");
+                gamesT.setText("");
+                winsT.setText("");
+                bets_moneyT.setText("");
+                wins_moneyT.setText("");
+                biggest_winT.setText("");
+                biggest_betT.setText("");
+                list_view1.setVisibility(View.VISIBLE);
+                addToList();
 
+            }
+        });
+        game_stats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list_view1.setVisibility(View.GONE);
+                boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        games = Integer.parseInt(snapshot.child("games").getValue().toString());
+                        balance = snapshot.child("balance").getValue().toString();
+                        lost_money = snapshot.child("money_spent").getValue().toString();
+                        users_num = map.size();
+                        wins = Integer.parseInt(snapshot.child("wins").getValue().toString());
+                        double winss= (double)(wins*100 )/ games;
+                        wins_rate = (wins*100 )/ games;
+                        int l_money = Integer.parseInt(lost_money);
+                        average_lost_per_win = l_money/wins;
+                        int min = 9999;
+                        int max = 0;
+                        uncommon_nums = "most uncommon numbers: ";
+                        common_nums = "most common numbers: ";
+                        for(int i=0; i<37; i++){
+                            int tmp = Integer.parseInt(snapshot.child("bets").child(""+i).getValue().toString());
+                            nums[i] = tmp;
+                            if(tmp>max){
+                                max = tmp;
+                            }
+                            if(tmp<min){
+                                min = tmp;
+                            }
+                        }
 
+                        for(int i=0; i<37; i++){
+                            if(nums[i] == max){
+                                common_nums += i+",";
+                            }
+                            if(nums[i] == min){
+                                uncommon_nums += i+",";
+                            }
+                        }
+                        uncommon_nums += "drawn "+min+" times";
+                        common_nums += "drawn "+max+" times";
+                        nameT.setText("num of users: " + users_num);
+                        balanceT.setText("roulette balance: " +balance+"$" );
+                        gamesT.setText("num of games: " +games);
+                        winsT.setText("num of wins: "+wins);
+                        bets_moneyT.setText( common_nums);
+                        wins_moneyT.setText("lost money: "+lost_money+"$");
+                        biggest_winT.setText( "wins rate: "+wins_rate+"%");
+                        biggest_betT.setText(uncommon_nums);
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
+                    }
+                });
+
+            }
+        });
     }
 
     public void addToList(){

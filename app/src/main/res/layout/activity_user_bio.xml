@@ -8,6 +8,23 @@
     android:background="@drawable/gradiant_backdround"
     tools:context=".user_bio">
 
+
+    <TextView
+        android:id="@+id/wins_rate_display"
+        android:layout_width="159dp"
+        android:layout_height="22dp"
+        android:fontFamily="@font/spike_speak_straight"
+        android:textAlignment="textEnd"
+        android:textColor="#0E4067"
+        android:textSize="20dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.73"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.552" />
+
     <TextView
 
         android:id="@+id/textView"
@@ -141,6 +158,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.499" />
+
+
+    <TextView
+        android:id="@+id/user_wins_rate"
+        android:layout_width="148dp"
+        android:layout_height="24dp"
+
+        android:fontFamily="@font/spike_speak_straight"
+        android:text="wins rate"
+        android:textColor="#0E4067"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.554" />
 
     <TextView
         android:id="@+id/wins"

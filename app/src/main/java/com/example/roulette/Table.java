@@ -669,15 +669,12 @@ public class Table extends AppCompatActivity {
         bet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(spinned) {
-                    spinned = false;
-
-                    startActivity(new Intent(Table.this, betTable.class));
-
-                }
                 if(!spinned){
-
                     Toast.makeText(Table.this,"Don't waist your money, SPIN!",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    spinned = false;
+                    startActivity(new Intent(Table.this, betTable.class));
                 }
             }
         });
@@ -695,10 +692,16 @@ public class Table extends AppCompatActivity {
         cam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String file_name = "photo";
-                checkPermission();
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,CAMERA_CODE);
+                if(!spinned){
+                    Toast.makeText(Table.this,"You need to play a round, then press again",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    String file_name = "photo";
+                    checkPermission();
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent,CAMERA_CODE);
+                }
+
             }
         });
 

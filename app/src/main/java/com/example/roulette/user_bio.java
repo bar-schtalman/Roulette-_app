@@ -24,9 +24,10 @@ public class user_bio extends AppCompatActivity {
     private Button logout, withdrawal;
     private FirebaseUser user;
     private DatabaseReference reference;
-    private TextView welcomeMSG, full_name, balancee, email_user,user_games, user_wins, user_wins_money
+    private TextView wins_rate_t,welcomeMSG, full_name, balancee, email_user,user_games, user_wins, user_wins_money
             , user_bets_money,user_biggest_win, user_biggest_bet;
     private String UserID;
+    private int wins_rate;
     Dialog dialog;
     private Button deposit,edit,play,face;
 
@@ -35,6 +36,8 @@ public class user_bio extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_user_bio);
+        wins_rate_t = findViewById(R.id.wins_rate_display);
+
 
         deposit = findViewById(R.id.depositBTN);
         dialog = new Dialog(this);
@@ -105,6 +108,10 @@ public class user_bio extends AppCompatActivity {
                     user_games.setText(games);
                     user_wins.setText(wins);
                     user_wins_money.setText(wins_money+"$");
+                    int tmp_games = Integer.parseInt(games);
+                    int tmp_wins = Integer.parseInt(wins);
+                    int tmp = (tmp_wins*100)/tmp_games;
+                    wins_rate_t.setText(tmp+"%");
 //                    full_name.setText(ful_name);;
 //                    email_user.setText(email);
                     balancee.setText(String.valueOf(balance)+"$");
