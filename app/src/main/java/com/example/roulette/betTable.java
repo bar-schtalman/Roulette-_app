@@ -15,6 +15,7 @@ import android.os.Bundle;
 
 import android.os.StrictMode;
 import android.text.method.ScrollingMovementMethod;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -52,10 +53,10 @@ public class betTable extends AppCompatActivity {
     private Button b0, b1 ,b2 ,b3 ,b4 ,b5 ,b6 ,b7 ,b8 ,b9 ,b10 ,b11  ,b12 ,b13 ,b14 ,b15 ,b16 ,b17 ,
             b18 ,b19,b20 ,b21 ,b22 ,b23 ,b24 ,b25 ,b26 ,b27 ,b28 ,b29 ,b30 ,b31 ,b32 ,b33 ,b34 ,b35
             ,b36,btn5,btn25,btn100,btn500, btn1000,submit,reset_btn,calculator,odd,even,red,black,
-            low,high,btn_allIn,btn10k,btn5000,info,last10;
+            low,high,btn_allIn,btn10k,btn5000,info,last10 , ok, cancel;
     public int [] MAP = new int [43];
     private String [] nums = new String[10];
-    private TextView bet_amount,user_amount,selected_chip,final_bet_txt;
+    private TextView bet_amount,user_amount,selected_chip,final_bet_txt, text_view;
     String BET_STRING,UserID;
     private FirebaseUser user;
     Dialog dialog;
@@ -379,70 +380,99 @@ public class betTable extends AppCompatActivity {
                         }
                         //bet is legal, upload to firebase
                         else {
-                            for (int i = 0; i < 37; i++) {
-                                reference.child(UserID).child("bet").child("" + i).setValue(MAP[i]);
-                            }
-                            reference.child(UserID).child("bet").child("odd").setValue("" + MAP[37]);
-                            reference.child(UserID).child("bet").child("even").setValue("" + MAP[38]);
-                            reference.child(UserID).child("bet").child("red").setValue("" + MAP[39]);
-                            reference.child(UserID).child("bet").child("black").setValue("" + MAP[40]);
-                            reference.child(UserID).child("bet").child("high").setValue("" + MAP[41]);
-                            reference.child(UserID).child("bet").child("low").setValue("" + MAP[42]);
-                            reference.child(UserID).child("last_bet").setValue("" + BET_SUM);
-                            int highest_bet = Integer.parseInt(snapshot.child("biggest_bet").getValue().toString());
-                            if (BET_SUM > highest_bet) {
-                                reference.child(UserID).child("biggest_bet").setValue("" + BET_SUM);
-                            }
-                            boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                            lp.copyFrom(dialog.getWindow().getAttributes());
+                            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                            lp.height = WindowManager.LayoutParams.MATCH_PARENT ;
+                            int width = (int)(getResources().getDisplayMetrics().widthPixels*1);
+                            int height = (int)(getResources().getDisplayMetrics().heightPixels*0.40);
+                            dialog.show();
+                            dialog.getWindow().setLayout(width,height);
+                            dialog.setContentView(R.layout.costume_dialog);
+                            ok = dialog.findViewById(R.id.ok);
+                            cancel = dialog.findViewById(R.id.cancel);
+                            text_view = dialog.findViewById(R.id.msg_box);
+                            text_view.setText("Are you sure you want to bet " + BET_SUM + "$ ?");
+                            cancel.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    //adding money to the boss
-                                    long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
-                                    long new_sum = BET_SUM + bos_balance;
-                                    boss_reference.child("balance").setValue(""+new_sum);
-                                    int boss_highest_bet = Integer.parseInt(snapshot.child("biggest_bet").getValue().toString());
-                                    if(BET_SUM > boss_highest_bet){
-                                        isOnline();
-                                        boss_reference.child("biggest_bet").setValue("" + BET_SUM);
-                                        Properties props = new Properties();
-                                        props.put("mail.smtp.auth", "true");
-                                        props.put("mail.smtp.starttls.enable","true");
-                                        props.put("mail.smtp.host","smtp.gmail.com");
-                                        props.put("mail.smtp.port","587");
-                                        Session session = Session.getInstance(props, new javax.mail.Authenticator(){
-                                            @Override
-                                            protected PasswordAuthentication getPasswordAuthentication() {
-                                                return new PasswordAuthentication(EMAIL, PASS);
-                                            }
-                                        });
-                                        try{
-                                            Message message = new MimeMessage(session);
-                                            message.setFrom(new InternetAddress("EMAIL"));
-                                            message.setRecipients(MimeMessage.RecipientType.TO,  InternetAddress.parse(user_email));
-                                            message.setSubject("New bet record!!");
-                                            String str = "new bet record, last record was "+boss_highest_bet + "$, new record is "+BET_SUM+"$";
-                                            message.setText(str);
-                                            if (android.os.Build.VERSION.SDK_INT > 9) {
-                                                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                                                StrictMode.setThreadPolicy(policy);
-                                            }
-                                            Transport.send(message);
-                                        }
-                                        catch (MessagingException e){
-                                            throw new RuntimeException(e);
-                                        }
+                                public void onClick(View v) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            ok.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    for (int i = 0; i < 37; i++) {
+                                        reference.child(UserID).child("bet").child("" + i).setValue(MAP[i]);
                                     }
+
+                                    reference.child(UserID).child("bet").child("odd").setValue("" + MAP[37]);
+                                    reference.child(UserID).child("bet").child("even").setValue("" + MAP[38]);
+                                    reference.child(UserID).child("bet").child("red").setValue("" + MAP[39]);
+                                    reference.child(UserID).child("bet").child("black").setValue("" + MAP[40]);
+                                    reference.child(UserID).child("bet").child("high").setValue("" + MAP[41]);
+                                    reference.child(UserID).child("bet").child("low").setValue("" + MAP[42]);
+                                    reference.child(UserID).child("last_bet").setValue("" + BET_SUM);
+                                    int highest_bet = Integer.parseInt(snapshot.child("biggest_bet").getValue().toString());
+                                    if (BET_SUM > highest_bet) {
+                                        reference.child(UserID).child("biggest_bet").setValue("" + BET_SUM);
+                                    }
+
+                                    boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            //adding money to the boss
+                                            long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
+                                            long new_sum = BET_SUM + bos_balance;
+                                            boss_reference.child("balance").setValue(""+new_sum);
+                                            int boss_highest_bet = Integer.parseInt(snapshot.child("biggest_bet").getValue().toString());
+                                            if(BET_SUM > boss_highest_bet){
+                                                isOnline();
+                                                boss_reference.child("biggest_bet").setValue("" + BET_SUM);
+                                                Properties props = new Properties();
+                                                props.put("mail.smtp.auth", "true");
+                                                props.put("mail.smtp.starttls.enable","true");
+                                                props.put("mail.smtp.host","smtp.gmail.com");
+                                                props.put("mail.smtp.port","587");
+                                                Session session = Session.getInstance(props, new javax.mail.Authenticator(){
+                                                    @Override
+                                                    protected PasswordAuthentication getPasswordAuthentication() {
+                                                        return new PasswordAuthentication(EMAIL, PASS);
+                                                    }
+                                                });
+                                                try{
+                                                    Message message = new MimeMessage(session);
+                                                    message.setFrom(new InternetAddress("EMAIL"));
+                                                    message.setRecipients(MimeMessage.RecipientType.TO,  InternetAddress.parse(user_email));
+                                                    message.setSubject("New bet record!!");
+                                                    String str = "new bet record, last record was "+boss_highest_bet + "$, new record is "+BET_SUM+"$";
+                                                    message.setText(str);
+                                                    if (android.os.Build.VERSION.SDK_INT > 9) {
+                                                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                                        StrictMode.setThreadPolicy(policy);
+                                                    }
+                                                    Transport.send(message);
+                                                }
+                                                catch (MessagingException e){
+                                                    throw new RuntimeException(e);
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) { }
+                                    });
+                                    //update user balance and bets money
+                                    BALANCE = Long.parseLong(snapshot.child("balance").getValue().toString()) - (long)BET_SUM;
+                                    long user_bets_money = Integer.parseInt(snapshot.child("bets_money").getValue().toString()) +(long) BET_SUM;
+                                    reference.child(UserID).child("bets_money").setValue(""+user_bets_money);
+                                    reference.child(UserID).child("balance").setValue(""+BALANCE);
+                                    startActivity(new Intent(betTable.this,Table.class));
+                                    dialog.dismiss();
+
                                 }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) { }
                             });
-                            //update user balance and bets money
-                            BALANCE = Long.parseLong(snapshot.child("balance").getValue().toString()) - (long)BET_SUM;
-                            long user_bets_money = Integer.parseInt(snapshot.child("bets_money").getValue().toString()) +(long) BET_SUM;
-                            reference.child(UserID).child("bets_money").setValue(""+user_bets_money);
-                            reference.child(UserID).child("balance").setValue(""+BALANCE);
-                            startActivity(new Intent(betTable.this,Table.class));
                         }
                     }
 

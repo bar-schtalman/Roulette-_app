@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Date;
+
 public class user_bio extends AppCompatActivity {
     private Button logout, withdrawal;
     private FirebaseUser user;
@@ -27,8 +29,8 @@ public class user_bio extends AppCompatActivity {
     private TextView wins_rate_title,wins_rate_t,welcomeMSG, full_name, balancee, email_user,user_games, user_wins, user_wins_money
             , user_bets_money,user_biggest_win, user_biggest_bet;
     private String UserID;
+    private Dialog dialog;
     private int wins_rate;
-    Dialog dialog;
     private Button deposit,edit,play,face;
 
     @Override
@@ -52,9 +54,35 @@ public class user_bio extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(user_bio.this,UserLogIn.class));
-                finish();
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.MATCH_PARENT ;
+                int width = (int)(getResources().getDisplayMetrics().widthPixels*1);
+                int height = (int)(getResources().getDisplayMetrics().heightPixels*0.40);
+                dialog.show();
+                dialog.getWindow().setLayout(width,height);
+                dialog.setContentView(R.layout.costume_dialog);
+                Button ok = dialog.findViewById(R.id.ok);
+                Button cancel = dialog.findViewById(R.id.cancel);
+                TextView textView = dialog.findViewById(R.id.msg_box);
+                textView.setText("Are you sure you want to Log out?");
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(user_bio.this,UserLogIn.class));
+                        finish();
+                        dialog.dismiss();
+                    }
+                });
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
             }
         });
         face = findViewById(R.id.face);
@@ -76,6 +104,8 @@ public class user_bio extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         UserID = user.getUid();
+        Date date = new Date();
+        reference.child(UserID).child("last_online").setValue(date.toString());
         welcomeMSG = findViewById(R.id.welcome);
 //        full_name = findViewById(R.id.first_name_display);
 //        email_user = findViewById(R.id.email_display);
@@ -138,24 +168,7 @@ public class user_bio extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(user_bio.this,EditProfile.class));
-//                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-//                lp.copyFrom(dialog.getWindow().getAttributes());
-//                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-//                lp.height = WindowManager.LayoutParams.MATCH_PARENT ;
-//                int width = (int)(getResources().getDisplayMetrics().widthPixels*0.82);
-//                int height = (int)(getResources().getDisplayMetrics().heightPixels*0.85);
-//
-//
-//                dialog.show();
-//                dialog.getWindow().setLayout(width,height);
-//                dialog.setContentView(R.layout.activity_edit_profile);
-//                Button edit_exit = dialog.findViewById(R.id.exit_btn_4);
-//                edit_exit.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        dialog.dismiss();
-//                    }
-//                });
+
             }
         });
 
