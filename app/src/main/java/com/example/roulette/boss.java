@@ -98,10 +98,10 @@ public class boss extends AppCompatActivity {
         user_stats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                send_bonus.setVisibility(View.GONE);
                 full_text.setText("");
                 list_view1.setVisibility(View.VISIBLE);
                 addToList();
-                send_bonus.setVisibility(View.VISIBLE);
                 send_bonus.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -142,6 +142,7 @@ public class boss extends AppCompatActivity {
         game_stats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                send_bonus.setVisibility(View.GONE);
                 list_view1.setVisibility(View.GONE);
                 boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -210,6 +211,7 @@ public class boss extends AppCompatActivity {
         list_view1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                send_bonus.setVisibility(View.VISIBLE);
                 String user_name = names[position];
                 User tmp = map.get(names[position]);
                 String [] user_details = new String[11];

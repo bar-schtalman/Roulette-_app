@@ -60,9 +60,9 @@
 
     <TextView
         android:id="@+id/full_textview"
-        android:layout_width="394dp"
-        android:layout_height="507dp"
-        android:textAlignment="textStart"
+        android:layout_width="361dp"
+        android:layout_height="511dp"
+        android:textAlignment="viewStart"
         android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

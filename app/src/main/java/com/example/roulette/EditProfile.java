@@ -75,7 +75,6 @@ public class EditProfile extends AppCompatActivity {
                     current_name = snapshot.child("full_name").getValue().toString();
                     current_email = snapshot.child("email").getValue().toString();
                     current_password = snapshot.child("password").getValue().toString();
-                    imageURL = snapshot.child("profile_image").getValue().toString();
                     user_full_name.setText(current_name);
                     user_email.setText(current_email);
                     user_password.setText(current_password);
@@ -161,47 +160,47 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
-        ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
-            @Override
-            public void onActivityResult(Uri result) {
-                if (result != null){
-                    profile_picture.setImageURI(result);
-                    image = result;
-                    imageURL = result.toString();
-                }
-            }
-        });
+//        ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+//            @Override
+//            public void onActivityResult(Uri result) {
+//                if (result != null){
+//                    profile_picture.setImageURI(result);
+//                    image = result;
+//                    imageURL = result.toString();
+//                }
+//            }
+//        });
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(EditProfile.this,user_bio.class));
             }
         });
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(image != null){
-                    storageRef.child(UserID).child("profile picture").putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            storageRef.child(UserID).child("profile picture").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    reference.child(UserID).child("profile_image").setValue(uri.toString());
-                                }
-                            });
-                        }
-                    });
-                }
-            }
-        });
-        profile_picture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mGetContent.launch("image/*");
-
-            }
-        });
+//        upload.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(image != null){
+//                    storageRef.child(UserID).child("profile picture").putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                        @Override
+//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                            storageRef.child(UserID).child("profile picture").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                                @Override
+//                                public void onSuccess(Uri uri) {
+//                                    reference.child(UserID).child("profile_image").setValue(uri.toString());
+//                                }
+//                            });
+//                        }
+//                    });
+//                }
+//            }
+//        });
+//        profile_picture.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mGetContent.launch("image/*");
+//
+//            }
+//        });
     }
 
 }
