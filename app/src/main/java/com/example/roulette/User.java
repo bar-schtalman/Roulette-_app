@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User {
-    public String email, full_name, password,balance,games ,wins,wins_money,bets_money,img_count , biggest_win, biggest_bet,User_id,last_online ;
+    public String email,avg_bet, full_name, password,balance,games ,wins,wins_money,bets_money,img_count , biggest_win, biggest_bet,User_id,last_online ;
 
     public User(){}
-    public User(String full_name,String balance ,String games, String wins, String wins_money, String bets_money,String biggest_bet, String biggest_win,String User_id,String last_online, String email){
+    public User(String full_name,String balance ,String games, String wins, String wins_money, String bets_money,String biggest_bet, String biggest_win,String User_id,String last_online, String email,String avg_bet){
         this.full_name = full_name;
         this.balance = balance;
         this.games = games;
@@ -19,6 +19,7 @@ public class User {
         this.User_id = User_id;
         this.last_online = last_online;
         this.email = email;
+        this.avg_bet = avg_bet;
     }
     public User(String full_name, String email,String password) {
         this.full_name = full_name;
@@ -32,6 +33,7 @@ public class User {
         this.img_count = "0";
         this.biggest_win = "0";
         this.biggest_bet = "0";
+        this.avg_bet = "0";
     }
 
 

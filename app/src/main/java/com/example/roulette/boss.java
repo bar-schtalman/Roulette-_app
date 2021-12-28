@@ -35,8 +35,8 @@ import javax.mail.internet.MimeMessage;
 
 public class boss extends AppCompatActivity {
     private ListView list_view1;
-    private int wins,users_num,games, average_lost_per_win,wins_rate; ;
-    private String common_nums, uncommon_nums,earned_money, lost_money, balance ,last_online;
+    private int wins,users_num,games, average_lost_per_win,wins_rate;
+    private String common_nums, uncommon_nums, lost_money, balance ;
     private DatabaseReference reference;
     private DatabaseReference boss_reference;
     private int [] nums = new int[37];
@@ -47,8 +47,6 @@ public class boss extends AppCompatActivity {
     private String User_Email = " ",User_Date = " ",User_Name = " ";
     private Button user_stats, game_stats, send_bonus;
     private TextView full_text;
-    ArrayList<String> list = new ArrayList<>();
-    String str = "";
     String name = " ";
     HashMap<String, User> map = new HashMap<String, User>();
 
@@ -83,9 +81,10 @@ public class boss extends AppCompatActivity {
                     String biggest_bet = item.child("biggest_bet").getValue().toString().trim();
                     String biggest_win = item.child("biggest_win").getValue().toString().trim();
                     String last_online = item.child("last_online").getValue().toString().trim();
+                    String avg_bet = item.child("avg_bet").getValue().toString().trim();
                     String User_id = item.getKey();
                     String email = item.child("email").getValue().toString().trim();
-                    User tmp_user = new User(name,balance,games,wins,wins_money,bets_money,biggest_bet,biggest_win,User_id,last_online,email);
+                    User tmp_user = new User(name,balance,games,wins,wins_money,bets_money,biggest_bet,biggest_win,User_id,last_online,email,avg_bet);
                     map.put(name,tmp_user);
                 }
 
@@ -150,10 +149,9 @@ public class boss extends AppCompatActivity {
                         games = Integer.parseInt(snapshot.child("games").getValue().toString());
                         balance = snapshot.child("balance").getValue().toString();
                         lost_money = snapshot.child("money_spent").getValue().toString();
-
+                        String Boss_avg_bet = snapshot.child("avg_bet").getValue().toString();
                         users_num = map.size();
                         wins = Integer.parseInt(snapshot.child("wins").getValue().toString());
-                        double winss= (double)(wins*100 )/ games;
                         wins_rate = (wins*100 )/ games;
                         int l_money = Integer.parseInt(lost_money);
                         average_lost_per_win = l_money/wins;
@@ -183,10 +181,10 @@ public class boss extends AppCompatActivity {
                         uncommon_nums += "drawn "+min+" times";
                         common_nums += "drawn "+max+" times";
 
-                        String text = "num of users: " + users_num + "\n" + "roulette balance: " + balance + "$\n" +
-                                "num of games: " +games + "\n" + "num of wins: " + wins + "\n" + common_nums + "\n" +
-                                uncommon_nums  + "\n" + "lost money: "+ lost_money + "$\n" + "wins rate: "+ wins_rate + "%\n" +
-                                "average lost per win: "+average_lost_per_win;
+                        String text = "Num of users: " + users_num + "\n" + "Roulette balance: " + balance + "$\n" +
+                                "Num of games: " +games + "\n" + "Num of wins: " + wins + "\n" + common_nums + "\n" +
+                                uncommon_nums  + "\n" + "Lost money: "+ lost_money + "$\n" + "Wins rate: "+ wins_rate + "%\n" +
+                                "Average lost per win: "+average_lost_per_win+ "\nAverage earn per round: "+Boss_avg_bet;
                         full_text.setText(text);
                     }
 
@@ -214,7 +212,7 @@ public class boss extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String user_name = names[position];
                 User tmp = map.get(names[position]);
-                String [] user_details = new String[10];
+                String [] user_details = new String[11];
                 user_details[0] = "User ID: "+tmp.User_id + "\n";
                 user_details[1] = "Full name: "+tmp.full_name + "\n";
                 user_details[2] = "Balance: "+tmp.balance + "\n";
@@ -224,7 +222,8 @@ public class boss extends AppCompatActivity {
                 user_details[6] = "Bets money: "+tmp.bets_money + "\n";
                 user_details[7] = "Biggest win: "+tmp.biggest_win + "\n";
                 user_details[8] = "Biggest bet: "+tmp.biggest_bet + "\n";
-                user_details[9] = "last online: "+tmp.last_online + "\n";
+                user_details[9] = "Last online: "+tmp.last_online + "\n";
+                user_details[10] = "Average bet: "+tmp.avg_bet;
                 UserID = tmp.User_id;
                 UserBalance = tmp.balance;
                 User_Date = tmp.last_online;

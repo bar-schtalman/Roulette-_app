@@ -62,7 +62,7 @@ public class betTable extends AppCompatActivity {
     Dialog dialog;
     public long BALANCE;
     private DatabaseReference reference,boss_reference;
-    private static int CHIP = 0,BET_SUM = 0, ADD_SUM = 0,USER_AMOUNT = 0;
+    private static int CHIP = 0,BET_SUM = 0, ADD_SUM = 0,USER_AMOUNT = 0,AVG_BET = 0;
     String EMAIL, PASS , user_email;
 
     @Override
@@ -102,6 +102,7 @@ public class betTable extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 USER_AMOUNT = Integer.parseInt(snapshot.child("balance").getValue().toString().trim());
                 user_amount.setText(""+USER_AMOUNT);
+                AVG_BET = Integer.parseInt(snapshot.child("avg_bet").getValue().toString().trim());
             }
 
             @Override
@@ -424,6 +425,9 @@ public class betTable extends AppCompatActivity {
                                             //adding money to the boss
                                             long bos_balance = Long.parseLong(snapshot.child("balance").getValue().toString());
                                             long new_sum = BET_SUM + bos_balance;
+                                            int average_bet = (Integer.parseInt(snapshot.child("avg_bet").getValue().toString().trim()));
+                                            average_bet = (average_bet + BET_SUM) / 2;
+                                            boss_reference.child("avg_bet").setValue(""+average_bet);
                                             boss_reference.child("balance").setValue(""+new_sum);
                                             int boss_highest_bet = Integer.parseInt(snapshot.child("biggest_bet").getValue().toString());
                                             if(BET_SUM > boss_highest_bet){
@@ -463,10 +467,17 @@ public class betTable extends AppCompatActivity {
                                         public void onCancelled(@NonNull DatabaseError error) { }
                                     });
                                     //update user balance and bets money
+                                    if(AVG_BET == 0){
+                                        reference.child(UserID).child("avg_bet").setValue(""+BET_SUM);
+                                    }
+                                    else{
+                                        AVG_BET = (AVG_BET + BET_SUM) / 2;
+                                    }
                                     BALANCE = Long.parseLong(snapshot.child("balance").getValue().toString()) - (long)BET_SUM;
                                     long user_bets_money = Integer.parseInt(snapshot.child("bets_money").getValue().toString()) +(long) BET_SUM;
                                     reference.child(UserID).child("bets_money").setValue(""+user_bets_money);
                                     reference.child(UserID).child("balance").setValue(""+BALANCE);
+
                                     startActivity(new Intent(betTable.this,Table.class));
                                     dialog.dismiss();
 

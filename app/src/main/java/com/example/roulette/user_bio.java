@@ -27,7 +27,7 @@ public class user_bio extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference reference;
     private TextView wins_rate_title,wins_rate_t,welcomeMSG, full_name, balancee, email_user,user_games, user_wins, user_wins_money
-            , user_bets_money,user_biggest_win, user_biggest_bet;
+            , user_bets_money,user_biggest_win, user_biggest_bet,avg_bet_t;
     private String UserID;
     private Dialog dialog;
     private int wins_rate;
@@ -50,6 +50,7 @@ public class user_bio extends AppCompatActivity {
             }
         });
         wins_rate_title = findViewById(R.id.user_wins_rate);
+        avg_bet_t = findViewById(R.id.avg_bet_amount);
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,12 +142,15 @@ public class user_bio extends AppCompatActivity {
                     user_wins_money.setText(wins_money+"$");
                     int tmp_games = Integer.parseInt(games);
                     int tmp_wins = Integer.parseInt(wins);
+                    String avg = snapshot.child("avg_bet").getValue().toString().trim();
+                    avg_bet_t.setText(avg);
                     if( tmp_games>0) {
+                        wins_rate_title.setText("wins rate");
                         int tmp = (tmp_wins * 100) / tmp_games;
                         wins_rate_t.setText(tmp + "%");
                     }
                     else{
-                        wins_rate_title.setVisibility(View.GONE);
+                        wins_rate_t.setVisibility(View.GONE);
                     }
 //                    full_name.setText(ful_name);;
 //                    email_user.setText(email);

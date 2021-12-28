@@ -31,8 +31,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/costume_button"
         android:fontFamily="@font/spike_speak_straight"
-        android:text="send"
-
+        android:text="send gift"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,10 +66,10 @@
         android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.643" />
+        app:layout_constraintVertical_bias="0.629" />
 
     <ListView
         android:id="@+id/list_view"
