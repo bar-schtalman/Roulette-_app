@@ -119,4 +119,9 @@ public class UserLogIn extends AppCompatActivity  {
             }
         });
     }
+    private void restartActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
 }

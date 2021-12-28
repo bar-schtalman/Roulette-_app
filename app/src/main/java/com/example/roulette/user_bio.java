@@ -74,6 +74,7 @@ public class user_bio extends AppCompatActivity {
                         FirebaseAuth.getInstance().signOut();
                         startActivity(new Intent(user_bio.this,UserLogIn.class));
                         finish();
+                        restartActivity();
                         dialog.dismiss();
                     }
                 });
@@ -186,6 +187,11 @@ public class user_bio extends AppCompatActivity {
         });
 
 
+    }
+    private void restartActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 
 
