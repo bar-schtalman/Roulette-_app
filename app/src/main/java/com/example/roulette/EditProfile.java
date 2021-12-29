@@ -55,8 +55,8 @@ public class EditProfile extends AppCompatActivity {
 
         setContentView(R.layout.activity_edit_profile);
         button = findViewById(R.id.update);
-        upload = findViewById(R.id.pic_upload);
-        profile_picture = findViewById(R.id.profile_pic);
+//        upload = findViewById(R.id.pic_upload);
+//        profile_picture = findViewById(R.id.profile_pic);
         exit = findViewById(R.id.exit_btn_4);
         user_full_name = findViewById(R.id.full_name);
         user_email = findViewById(R.id.email);

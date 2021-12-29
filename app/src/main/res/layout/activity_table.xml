@@ -24,6 +24,37 @@
         app:strokeColor="#F61010" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/remove_Bet"
+        android:layout_width="51dp"
+        android:layout_height="51dp"
+        android:background="@drawable/rubish"
+        android:fontFamily="@font/spike_speak_straight"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.161"
+        app:strokeColor="#F61010" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/last_bet"
+        android:layout_width="51dp"
+        android:layout_height="51dp"
+        android:background="@drawable/costume_button"
+        android:fontFamily="@font/spike_speak_straight"
+        android:text="last bet"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.722"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.161"
+        app:strokeColor="#F61010" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/Table_user_bets"
         android:layout_width="51dp"
         android:layout_height="51dp"
@@ -44,7 +75,6 @@
         android:layout_height="673dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/aaaaaa" />

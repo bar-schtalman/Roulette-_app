@@ -75,9 +75,9 @@ public class Table extends AppCompatActivity {
     private float acelLast;// last acceleration value and gravity
     private float shake;// acceration value different from gravity
     private String currntPhotoPath;
-
+    private int LAST_BET_SUM, CURRENT_SUM;;
     private TextView textView,user_amount,bet_view,user_bets_biew;
-    private Button spin,bet,profile,cam,last10,mybet;
+    private Button spin,bet,profile,cam,last10,mybet,last_bet_btn,reset_last_bet;
     private ImageView roulette_image;
     private Uri image;
     public static final int CAMERA_ACTION_CODE = 1;
@@ -94,6 +94,7 @@ public class Table extends AppCompatActivity {
     private int degree, degree_old ,new_amount, win ,img_counter,round_win, index;
     private static int NUMBER;
     private boolean isSpinning = false;
+    private boolean HAS_MONEY = true;
     private static  boolean spinned = false;
     private StorageReference storageRef,mStorage;
     private FirebaseStorage storage;
@@ -101,6 +102,7 @@ public class Table extends AppCompatActivity {
     private DatabaseReference reference,boss_reference;
     private String UserID,str_bets,user_email,EMAIL,PASS;
     public int [] MAP = new int [43];
+    public int [] tmp_MAP = new int [43];
 
     private static final String [] sectors = {"32 red","15 black","19 red","4 black","21 red","2 black",
             "25 red","17 black","34 red","6 black","27 red","13 black","36 red","11 black","30 red","8 black",
@@ -121,11 +123,14 @@ public class Table extends AppCompatActivity {
         acelVal = SensorManager.GRAVITY_EARTH;
         acelLast = SensorManager.GRAVITY_EARTH;
         shake = 0.00f;
+        reset_last_bet = findViewById(R.id.remove_Bet);
+        reset_last_bet.setVisibility(View.GONE);
         ////////////////////////////////////////////
         dialog = new Dialog(this);
         boss_reference = FirebaseDatabase.getInstance().getReference("Boss");
         roulette_image = findViewById(R.id.imageView) ;
         bet_view = findViewById(R.id.User_bet);
+        last_bet_btn = findViewById(R.id.last_bet);
         reference = FirebaseDatabase.getInstance().getReference("Users");
         storageRef = FirebaseStorage.getInstance().getReference("users");
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -170,6 +175,95 @@ public class Table extends AppCompatActivity {
 
             }
         });
+        reset_last_bet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                str_bets = "";
+                BET_SUM = 0;
+                bet_view.setText("");
+                int new_sum = LAST_BET_SUM + CURRENT_SUM;
+                reference.child(UserID).child("balance").setValue(""+new_sum);
+                reset_last_bet.setVisibility(View.GONE);
+            }
+        });
+        last_bet_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                reset_last_bet.setVisibility(View.VISIBLE);
+                str_bets = "";
+                BET_SUM = 0;
+                reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        CURRENT_SUM = Integer.parseInt(snapshot.child("balance").getValue().toString().trim());
+                        //adding bets to bet view textview
+                        for(int i = 0; i<37; i++){
+                            MAP[i] = Integer.parseInt(snapshot.child("bet_map").child(""+i).getValue().toString());
+                            if(Integer.parseInt(snapshot.child("bet_map").child(""+i).getValue().toString()) > 0) {
+                                str_bets += i +" ";
+                                BET_SUM+= Integer.parseInt(snapshot.child("bet_map").child(""+i).getValue().toString());
+                            }
+                        }
+                        tmp_MAP = MAP;
+                        if(Integer.parseInt(snapshot.child("bet_map").child("odd").getValue().toString()) > 0){
+                            MAP[37] = Integer.parseInt(snapshot.child("bet_map").child("odd").getValue().toString());
+                            str_bets += "odd" +" ";}
+                        if(Integer.parseInt(snapshot.child("bet_map").child("even").getValue().toString()) > 0){
+                            MAP[38] = Integer.parseInt(snapshot.child("bet_map").child("even").getValue().toString());
+                            str_bets += "even" +" ";}
+                        if(Integer.parseInt(snapshot.child("bet_map").child("red").getValue().toString()) > 0){
+                            MAP[39] = Integer.parseInt(snapshot.child("bet_map").child("red").getValue().toString());
+                            str_bets += "red" +" ";}
+                        if(Integer.parseInt(snapshot.child("bet_map").child("black").getValue().toString()) > 0){
+                            MAP[40] = Integer.parseInt(snapshot.child("bet_map").child("black").getValue().toString());
+                            str_bets += "black" +" ";
+                        }
+                        if(Integer.parseInt(snapshot.child("bet_map").child("high").getValue().toString()) > 0){
+                            MAP[41] = Integer.parseInt(snapshot.child("bet_map").child("high").getValue().toString());
+                            str_bets += "19-36" +" ";}
+                        if(Integer.parseInt(snapshot.child("bet_map").child("low").getValue().toString()) > 0){
+                            MAP[42] = Integer.parseInt(snapshot.child("bet_map").child("low").getValue().toString());
+                            str_bets += "1-18" +" ";}
+                        BET_SUM+= Integer.parseInt(snapshot.child("bet_map").child("odd").getValue().toString());
+                        BET_SUM+= Integer.parseInt(snapshot.child("bet_map").child("even").getValue().toString());
+                        BET_SUM+= Integer.parseInt(snapshot.child("bet_map").child("red").getValue().toString());
+                        BET_SUM+= Integer.parseInt(snapshot.child("bet_map").child("black").getValue().toString());
+                        BET_SUM+= Integer.parseInt(snapshot.child("bet_map").child("high").getValue().toString());
+                        BET_SUM+= Integer.parseInt(snapshot.child("bet_map").child("low").getValue().toString());
+                        CURRENT_SUM -= BET_SUM;
+                        if(CURRENT_SUM < 0){
+                            Toast.makeText(Table.this,"cant use quick-bet, not enough money",Toast.LENGTH_SHORT);
+                            reset_last_bet.setVisibility(View.GONE);
+                            bet_view.setText("");
+                        }
+                        else{
+                            for(int i = 0; i < 37 ;  i++){
+                                reference.child(UserID).child("bet").child(""+i).setValue(""+MAP[i]);
+                            }
+                            reference.child(UserID).child("bet").child("odd").setValue(""+MAP[37]);
+                            reference.child(UserID).child("bet").child("even").setValue(""+MAP[38]);
+                            reference.child(UserID).child("bet").child("red").setValue(""+MAP[39]);
+                            reference.child(UserID).child("bet").child("black").setValue(""+MAP[40]);
+                            reference.child(UserID).child("bet").child("high").setValue(""+MAP[41]);
+                            reference.child(UserID).child("bet").child("low").setValue(""+MAP[42]);
+
+                            LAST_BET_SUM = BET_SUM;
+                            reference.child(UserID).child("balance").setValue(""+CURRENT_SUM);
+                            bet_view.setText(str_bets);
+                            user_amount.setText(snapshot.child("balance").getValue().toString());
+                        }
+
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) { }
+                });
+                    }
+
+        });
+
         mybet = findViewById(R.id.Table_user_bets);
         mybet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -397,6 +491,7 @@ public class Table extends AppCompatActivity {
                         BET_SUM+= Integer.parseInt(snapshot.child("bet").child(""+i).getValue().toString());
                     }
                 }
+                tmp_MAP = MAP;
                 if(Integer.parseInt(snapshot.child("bet").child("odd").getValue().toString()) > 0){
                     MAP[37] = Integer.parseInt(snapshot.child("bet").child("odd").getValue().toString());
                     str_bets += "odd" +" ";}
@@ -448,7 +543,6 @@ public class Table extends AppCompatActivity {
 
             private void spin() {
                 //image rotation
-
                 degree_old = degree % 360;
                 degree = r.nextInt(3600) + 720;
                 //degree = random.nextInt(sectors.length - 1);

@@ -108,6 +108,15 @@ public class betTable extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
+        for(int i = 0; i<37; i++){
+            reference.child(UserID).child("bet").child(""+i).setValue("0");
+        }
+        reference.child(UserID).child("bet").child("odd").setValue("0");
+        reference.child(UserID).child("bet").child("even").setValue("0");
+        reference.child(UserID).child("bet").child("red").setValue("0");
+        reference.child(UserID).child("bet").child("black").setValue("0");
+        reference.child(UserID).child("bet").child("high").setValue("0");
+        reference.child(UserID).child("bet").child("low").setValue("0");
         reset_btn = findViewById(R.id.reset);
         reset_btn.setOnClickListener(new View.OnClickListener() {
             //reset all bets
@@ -405,14 +414,20 @@ public class betTable extends AppCompatActivity {
                                 public void onClick(View v) {
                                     for (int i = 0; i < 37; i++) {
                                         reference.child(UserID).child("bet").child("" + i).setValue(MAP[i]);
+                                        reference.child(UserID).child("bet_map").child("" + i).setValue(MAP[i]);
                                     }
-
                                     reference.child(UserID).child("bet").child("odd").setValue("" + MAP[37]);
                                     reference.child(UserID).child("bet").child("even").setValue("" + MAP[38]);
                                     reference.child(UserID).child("bet").child("red").setValue("" + MAP[39]);
                                     reference.child(UserID).child("bet").child("black").setValue("" + MAP[40]);
                                     reference.child(UserID).child("bet").child("high").setValue("" + MAP[41]);
                                     reference.child(UserID).child("bet").child("low").setValue("" + MAP[42]);
+                                    reference.child(UserID).child("bet_map").child("odd").setValue("" + MAP[37]);
+                                    reference.child(UserID).child("bet_map").child("even").setValue("" + MAP[38]);
+                                    reference.child(UserID).child("bet_map").child("red").setValue("" + MAP[39]);
+                                    reference.child(UserID).child("bet_map").child("black").setValue("" + MAP[40]);
+                                    reference.child(UserID).child("bet_map").child("high").setValue("" + MAP[41]);
+                                    reference.child(UserID).child("bet_map").child("low").setValue("" + MAP[42]);
                                     reference.child(UserID).child("last_bet").setValue("" + BET_SUM);
                                     int highest_bet = Integer.parseInt(snapshot.child("biggest_bet").getValue().toString());
                                     if (BET_SUM > highest_bet) {
