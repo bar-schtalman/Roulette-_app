@@ -78,7 +78,7 @@ public class EditProfile extends AppCompatActivity {
                     user_full_name.setText(current_name);
                     user_email.setText(current_email);
                     user_password.setText(current_password);
-                    Picasso.get().load(imageURL).into(profile_picture);
+//                    Picasso.get().load(imageURL).into(profile_picture);
 
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
