@@ -250,7 +250,7 @@ public class Table extends AppCompatActivity {
 
                             LAST_BET_SUM = BET_SUM;
                             reference.child(UserID).child("balance").setValue(""+CURRENT_SUM);
-                            bet_view.setText(str_bets+"$");
+                            bet_view.setText(str_bets);
                             user_amount.setText(snapshot.child("balance").getValue().toString());
                         }
 
