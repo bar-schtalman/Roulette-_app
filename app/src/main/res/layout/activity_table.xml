@@ -17,10 +17,10 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.957"
+        app:layout_constraintHorizontal_bias="0.033"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.816"
+        app:layout_constraintVertical_bias="0.861"
         app:strokeColor="#F61010" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -40,18 +40,18 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/last_bet"
-        android:layout_width="51dp"
-        android:layout_height="51dp"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
         android:background="@drawable/costume_button"
         android:fontFamily="@font/spike_speak_straight"
         android:text="last bet"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.722"
+        app:layout_constraintHorizontal_bias="0.974"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.161"
+        app:layout_constraintVertical_bias="0.865"
         app:strokeColor="#F61010" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -63,10 +63,10 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.042"
+        app:layout_constraintHorizontal_bias="0.033"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.816"
+        app:layout_constraintVertical_bias="0.776"
         app:strokeColor="#F61010" />
 
     <ImageView
@@ -133,6 +133,8 @@
         android:layout_height="49dp"
         android:textAlignment="center"
         android:textSize="35dp"
+        android:textColor="#0E4067"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -142,6 +144,8 @@
 
     <TextView
         android:id="@+id/user_amount_play"
+        android:textColor="#0E4067"
+
         android:layout_width="338dp"
         android:layout_height="36dp"
         android:fontFamily="@font/spike_speak_straight"

@@ -24,6 +24,21 @@
         app:strokeColor="#F61010" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/del_bet"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/remove_bet"
+        android:fontFamily="@font/spike_speak_straight"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.385"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.188"
+        app:strokeColor="#F61010" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bet5"
         android:layout_width="54dp"
         android:layout_height="43dp"

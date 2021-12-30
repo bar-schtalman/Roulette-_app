@@ -25,6 +25,12 @@
         <entry key="..\:/Users/Bar/AndroidStudioProjects/Roulette/app/src/main/res/layout/activity_winner_screen.xml" value="0.16485507246376813" />
         <entry key="..\:/Users/Bar/AndroidStudioProjects/Roulette/app/src/main/res/layout/activity_withdrawal.xml" value="0.22" />
         <entry key="..\:/Users/Bar/AndroidStudioProjects/Roulette/app/src/main/res/xml/file_paths.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/drawable/black_btn.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/drawable/black_pressd_btn.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/drawable/btn_pressd_red.xml" value="0.12604166666666666" />
+        <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/drawable/btnred.xml" value="0.12604166666666666" />
+        <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/drawable/greeb_pressd_btn.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/drawable/greenbet.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/drawable/info_dialog.xml" value="0.1" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/activity_bet_table.xml" value="0.22" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/activity_boss.xml" value="0.17552083333333332" />
@@ -34,9 +40,10 @@
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/activity_faces.xml" value="0.22" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/activity_forgot_password.xml" value="0.1490036231884058" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/activity_intro.xml" value="0.14175724637681159" />
+        <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/activity_loser_screen.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/activity_register.xml" value="0.15489130434782608" />
-        <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/activity_table.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/activity_table.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/activity_user_bio.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/activity_user_log_in.xml" value="0.22" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/activity_winner_screen.xml" value="0.14175724637681159" />
@@ -44,7 +51,7 @@
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/costume_dialog.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/costume_dialog_w.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/info_popup.xml" value="0.17552083333333332" />
-        <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/last_ten_view.xml" value="0.22" />
+        <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/last_ten_view.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/layout/my_bets_view.xml" value="0.1490036231884058" />
         <entry key="..\:/Users/Bar/Desktop/roullete/Roulette_app/app/src/main/res/xml/path.xml" value="0.1" />
       </map>

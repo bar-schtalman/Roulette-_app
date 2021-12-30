@@ -189,7 +189,6 @@ public class Table extends AppCompatActivity {
         last_bet_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 reset_last_bet.setVisibility(View.VISIBLE);
                 str_bets = "";
                 BET_SUM = 0;
@@ -251,7 +250,7 @@ public class Table extends AppCompatActivity {
 
                             LAST_BET_SUM = BET_SUM;
                             reference.child(UserID).child("balance").setValue(""+CURRENT_SUM);
-                            bet_view.setText(str_bets);
+                            bet_view.setText(str_bets+"$");
                             user_amount.setText(snapshot.child("balance").getValue().toString());
                         }
 
@@ -482,7 +481,7 @@ public class Table extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 img_counter = (Integer.parseInt(snapshot.child("img_count").getValue().toString())) % 4;
                 //set user balance Textview
-                user_amount.setText(snapshot.child("balance").getValue().toString());
+                user_amount.setText(snapshot.child("balance").getValue().toString()+"$");
                 //adding bets to bet view textview
                 for(int i = 0; i<37; i++){
                     MAP[i] = Integer.parseInt(snapshot.child("bet").child(""+i).getValue().toString());
@@ -534,6 +533,7 @@ public class Table extends AppCompatActivity {
                 }
                 //spin
                 if(!isSpinning){
+                    reset_last_bet.setVisibility(View.GONE);
                     spin();
                     isSpinning = true;
                     spinned = true;
@@ -542,6 +542,7 @@ public class Table extends AppCompatActivity {
             }
 
             private void spin() {
+
                 //image rotation
                 degree_old = degree % 360;
                 degree = r.nextInt(3600) + 720;
@@ -635,7 +636,6 @@ public class Table extends AppCompatActivity {
                                     reference.child(UserID).child("wins_money").setValue(""+user_wins_money);
                                     new_amount = win + Integer.parseInt(snapshot.child("balance").getValue().toString());
                                     reference.child(UserID).child("balance").setValue(""+new_amount);
-                                    Toast.makeText(Table.this,"win!!!, your prize is "+win+"$",Toast.LENGTH_LONG).show();
                                     reference.child(UserID).child("last_win").setValue(""+win);
 
                                     boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -693,7 +693,10 @@ public class Table extends AppCompatActivity {
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
-                                            startActivity(new Intent(Table.this,Winner_screen.class));
+                                            Intent intent = new Intent(Table.this,Winner_screen.class);
+                                            long a = win;
+                                            intent.putExtra("num",a);
+                                            startActivity(intent);
                                         }
                                     },1500);
                                 }
@@ -706,8 +709,10 @@ public class Table extends AppCompatActivity {
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
-                                            startActivity(new Intent(Table.this, Loser_screen.class));
-                                        }
+                                            Intent intent = new Intent(Table.this,Loser_screen.class);
+                                            long a = BET_SUM;
+                                            intent.putExtra("num",a);
+                                            startActivity(intent);                                        }
                                     },1500);
 
                                 }
@@ -820,6 +825,7 @@ public class Table extends AppCompatActivity {
                 }
                 //spin
                 if(!isSpinning){
+                    reset_last_bet.setVisibility(View.GONE);
                     spinGravity();
                     spinned = true;
 
@@ -921,7 +927,6 @@ public class Table extends AppCompatActivity {
                                 reference.child(UserID).child("wins_money").setValue(""+user_wins_money);
                                 new_amount = win + Integer.parseInt(snapshot.child("balance").getValue().toString());
                                 reference.child(UserID).child("balance").setValue(""+new_amount);
-                                Toast.makeText(Table.this,"win!!!, your prize is "+win+"$",Toast.LENGTH_LONG).show();
                                 reference.child(UserID).child("last_win").setValue(""+win);
 
                                 boss_reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -978,7 +983,10 @@ public class Table extends AppCompatActivity {
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        startActivity(new Intent(Table.this,Winner_screen.class));
+                                        Intent intent = new Intent(Table.this,Winner_screen.class);
+                                        long a = win;
+                                        intent.putExtra("num",a);
+                                        startActivity(intent);
                                     }
                                 },1500);
                             }
@@ -991,7 +999,10 @@ public class Table extends AppCompatActivity {
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        startActivity(new Intent(Table.this, Loser_screen.class));
+                                        Intent intent = new Intent(Table.this,Loser_screen.class);
+                                        long a = BET_SUM;
+                                        intent.putExtra("num",a);
+                                        startActivity(intent);
                                     }
                                 },1500);
                             }
