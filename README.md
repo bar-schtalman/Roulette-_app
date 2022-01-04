@@ -2,7 +2,7 @@
 # Roulette App
 
 It is time to take your gambling experience to new level!
- 
+![App Screenshot](https://miro.medium.com/max/1400/1*fRrnkiMwp0CbpHI8nXuRKw.jpeg)
 
 ## Features
 
@@ -16,6 +16,7 @@ It is time to take your gambling experience to new level!
 
 ## Presentation
 [Final Presentation](https://github.com/bar-schtalman/Roulette_app/blob/b2b9253d07ed7306404fb2e6b8bdd1df4a879b50/%D7%9E%D7%A6%D7%92%D7%AA%20%D7%A1%D7%95%D7%A3_2022.pptx)
+
 ## Screenshots
 
 ![App Screenshot](https://serving.photos.photobox.com/6128752333bf983794236da74428da8544cfc930b45accddd0205d9724db469893c81740.jpg)
