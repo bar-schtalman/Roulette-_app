@@ -19,7 +19,7 @@ It is time to take your gambling experience to new level!
 
 ## Screenshots
 
-<img src="https://serving.photos.photobox.com/6128752333bf983794236da74428da8544cfc930b45accddd0205d9724db469893c81740.jpg" width="250" height="180">
+<img src="https://serving.photos.photobox.com/6128752333bf983794236da74428da8544cfc930b45accddd0205d9724db469893c81740.jpg" width="180" height="280">
 ![App Screenshot](https://serving.photos.photobox.com/93669435a7b4f4fca91765afeb157114c0a5a260130b9efe8a3fd220a9c5ffc4515bccff.jpg)
 ![App Screenshot](https://serving.photos.photobox.com/0182424892b2e0faf84744e83bdb7e69713638e27a69dc3c92abb3b0ac7eac41e0da89f8.jpg)
 ![App Screenshot](https://serving.photos.photobox.com/32105119fc2543a33aa20aa968f53c9509d068fe28a9f1054c6fa2187cb10d7480ffd5f8.jpg)
