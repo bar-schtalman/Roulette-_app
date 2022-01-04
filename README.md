@@ -15,7 +15,7 @@ It is time to take your gambling experience to new level!
 
 
 ## Presentation
-[View presentation](https://github.com/bar-schtalman/Roulette_app/blob/b2b9253d07ed7306404fb2e6b8bdd1df4a879b50/%D7%9E%D7%A6%D7%92%D7%AA%20%D7%A1%D7%95%D7%A3_2022.pptx) <img src = "https://play-lh.googleusercontent.com/6pTX4OILXTxazqad66oiVfG4x2KpYn4kIPgdzOe173tT0oHr2ThwpBhMyzzzxWq_r6M" width="50" height = "50">
+[View presentation](https://github.com/bar-schtalman/Roulette_app/blob/b2b9253d07ed7306404fb2e6b8bdd1df4a879b50/%D7%9E%D7%A6%D7%92%D7%AA%20%D7%A1%D7%95%D7%A3_2022.pptx) 
 
 ## Login & Register
 <img src="https://serving.photos.photobox.com/6128752333bf983794236da74428da8544cfc930b45accddd0205d9724db469893c81740.jpg" width="180" height="280"> <img src ="https://serving.photos.photobox.com/23382009ef52099a632c38f977d568707dc1d2697f98ea41347dbc1eafdbe89d445c7d26.jpg" width="180" height="280"> <img src ="https://serving.photos.photobox.com/484321682e933a941958b3d7e8168f1e586b267ba8de32b842387bce2829f7ded08ef40e.jpg" width="180" height ="280">
