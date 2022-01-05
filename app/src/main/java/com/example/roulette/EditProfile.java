@@ -1,49 +1,34 @@
 package com.example.roulette;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
+
+
 
 public class EditProfile extends AppCompatActivity {
-    private String current_email, current_name, current_password,imageURL;
+    private String current_email, current_name, current_password;
     private EditText user_full_name, user_email, user_password;
-    private ImageView profile_picture;
-    private Uri image;
-    private Button button,upload,exit;
+    private Button button,exit;
     String  UserID;
     private FirebaseUser user;
-    private StorageReference storageRef,mStorage;
-    private FirebaseStorage storage;
     private DatabaseReference reference;
     private boolean name_changed, email_changed, password_change;
 
@@ -55,8 +40,6 @@ public class EditProfile extends AppCompatActivity {
 
         setContentView(R.layout.activity_edit_profile);
         button = findViewById(R.id.update);
-//        upload = findViewById(R.id.pic_upload);
-//        profile_picture = findViewById(R.id.profile_pic);
         exit = findViewById(R.id.exit_btn_4);
         user_full_name = findViewById(R.id.full_name);
         user_email = findViewById(R.id.email);
@@ -65,8 +48,7 @@ public class EditProfile extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         UserID = user.getUid();
-        storageRef = FirebaseStorage.getInstance().getReference("users");
-        mStorage = FirebaseStorage.getInstance().getReference().child(UserID);
+
 
         // access the user details from firebase
         reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -160,47 +142,14 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
-//        ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
-//            @Override
-//            public void onActivityResult(Uri result) {
-//                if (result != null){
-//                    profile_picture.setImageURI(result);
-//                    image = result;
-//                    imageURL = result.toString();
-//                }
-//            }
-//        });
+
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(EditProfile.this,user_bio.class));
             }
         });
-//        upload.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(image != null){
-//                    storageRef.child(UserID).child("profile picture").putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            storageRef.child(UserID).child("profile picture").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                                @Override
-//                                public void onSuccess(Uri uri) {
-//                                    reference.child(UserID).child("profile_image").setValue(uri.toString());
-//                                }
-//                            });
-//                        }
-//                    });
-//                }
-//            }
-//        });
-//        profile_picture.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mGetContent.launch("image/*");
-//
-//            }
-//        });
+
     }
 
 }

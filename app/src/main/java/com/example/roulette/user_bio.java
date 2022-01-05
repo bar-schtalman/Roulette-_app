@@ -26,11 +26,10 @@ public class user_bio extends AppCompatActivity {
     private Button logout, withdrawal;
     private FirebaseUser user;
     private DatabaseReference reference;
-    private TextView wins_rate_title,wins_rate_t,welcomeMSG, full_name, balancee, email_user,user_games, user_wins, user_wins_money
-            , user_bets_money,user_biggest_win, user_biggest_bet,avg_bet_t;
+    private TextView wins_rate_title,wins_rate_t,welcomeMSG,  balancee, user_games, user_wins, user_wins_money
+            , user_bets_money,avg_bet_t;
     private String UserID;
     private Dialog dialog;
-    private int wins_rate;
     private Button deposit,edit,play,face;
 
     @Override
@@ -108,8 +107,7 @@ public class user_bio extends AppCompatActivity {
         Date date = new Date();
         reference.child(UserID).child("last_online").setValue(date.toString());
         welcomeMSG = findViewById(R.id.welcome);
-//        full_name = findViewById(R.id.first_name_display);
-//        email_user = findViewById(R.id.email_display);
+
         user_bets_money = findViewById(R.id.user_bets_money_display);
         user_wins_money = findViewById(R.id.user_wins_money_display);
         user_wins = findViewById(R.id.user_wins_display);

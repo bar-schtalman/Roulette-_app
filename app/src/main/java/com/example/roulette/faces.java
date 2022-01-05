@@ -7,23 +7,18 @@ import androidx.core.content.FileProvider;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,19 +31,12 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+
 
 public class faces extends AppCompatActivity {
     private ImageView img1,img2,img3,img4;
     private TextView txt1,txt2,txt3,txt4;
     private String UserID,imgURL1,imgURL2,imgURL3,imgURL4;
-    private URL url;
-    private Bitmap bitmap;
-    private final int GREEN = 0x008000;
-    private final int RED = 0xFF0000;
-
 
     int min_photos;
     private Button profile2,del1,del2,del3,del4,share1,share2,share3,share4;
@@ -84,10 +72,6 @@ public class faces extends AppCompatActivity {
         share2 = findViewById(R.id.pic2share);
         share3 = findViewById(R.id.pic3share);
         share4 = findViewById(R.id.pic4share);
-        Uri uri;
-
-        int num = 0;
-
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

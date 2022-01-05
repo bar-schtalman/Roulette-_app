@@ -144,15 +144,12 @@ public class betTable extends AppCompatActivity {
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(dialog.getWindow().getAttributes());
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                 lp.height = WindowManager.LayoutParams.MATCH_PARENT ;
                 int width = (int)(getResources().getDisplayMetrics().widthPixels*0.82);
                 int height = (int)(getResources().getDisplayMetrics().heightPixels*0.65);
-
-
                 dialog.show();
                 dialog.getWindow().setLayout(width,height);
                 dialog.setContentView(R.layout.info_popup);

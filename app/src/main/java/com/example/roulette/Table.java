@@ -16,7 +16,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.provider.MediaStore;
@@ -37,11 +36,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.roulette.Loser_screen;
-import com.example.roulette.R;
-import com.example.roulette.Winner_screen;
-import com.example.roulette.betTable;
-import com.example.roulette.user_bio;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,10 +48,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Properties;
 import java.util.Random;
@@ -74,13 +66,10 @@ public class Table extends AppCompatActivity {
     private float acelVal; //current accelaration value and gravity
     private float acelLast;// last acceleration value and gravity
     private float shake;// acceration value different from gravity
-    private String currntPhotoPath;
-    private int LAST_BET_SUM, CURRENT_SUM;;
+    private int LAST_BET_SUM, CURRENT_SUM;
     private TextView textView,user_amount,bet_view,user_bets_biew;
     private Button spin,bet,profile,cam,last10,mybet,last_bet_btn,reset_last_bet;
     private ImageView roulette_image;
-    private Uri image;
-    public static final int CAMERA_ACTION_CODE = 1;
     private final int CAMERA_CODE = 102;
     private static final float FACTOR = 4.86f;
     private int BET_SUM;
@@ -96,8 +85,7 @@ public class Table extends AppCompatActivity {
     private boolean isSpinning = false;
     private boolean HAS_MONEY = true;
     private static  boolean spinned = false;
-    private StorageReference storageRef,mStorage;
-    private FirebaseStorage storage;
+    private StorageReference storageRef;
     private FirebaseUser user;
     private DatabaseReference reference,boss_reference;
     private String UserID,str_bets,user_email,EMAIL,PASS;
