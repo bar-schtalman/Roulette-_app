@@ -30,7 +30,7 @@ It is time to take your gambling experience to new level!
 <img src ="https://serving.photos.photobox.com/335330409b1d063a51ddbffe1bbf021efb1d057cd5924f6c9d5dfa4c5e5fca5bd37c4088.jpg" width = "180" height="280"> <img src ="https://serving.photos.photobox.com/151826308ffb9ebea88453aa46b3d801b6404a694f49f13350c632117916531871144ef7.jpg" width = "180" height="280">
 
 ## Download the app
-[Press here](https://drive.google.com/u/0/uc?id=1GUFUejBaBXI0GxXKiR5EQZCx7WcxjTob&export=download) 
+[Press here](https://drive.google.com/file/d/1GUFUejBaBXI0GxXKiR5EQZCx7WcxjTob/view?usp=sharing) 
 
 
 
